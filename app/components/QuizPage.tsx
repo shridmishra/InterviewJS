@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { quizData, QuizQuestion } from '../data/quizData';
-import Header from './Header';
 import Button from './ui/Button';
 import Card from './ui/Card';
 import ProgressBar from './ProgressBar';
@@ -100,11 +99,9 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const loadAllProgress = useCallback(async () => {
         setQuizState('loading');
         let allProgress: Record<string, QuizProgress> = {};
-        if (auth.isAuthenticated && auth.token) {
+        if (auth.isAuthenticated) {
             try {
-                const res = await fetch('/api/quiz/progress', {
-                    headers: { 'Authorization': `Bearer ${auth.token}` }
-                });
+                const res = await fetch('/api/quiz/progress');
                 if (res.ok) {
                     allProgress = await res.json();
                 }
@@ -122,7 +119,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         }
         setProgress(allProgress);
         setQuizState('active');
-    }, [auth.isAuthenticated, auth.token, addToast]);
+    }, [auth.isAuthenticated, addToast]);
 
     useEffect(() => {
         loadAllProgress();
@@ -153,13 +150,12 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const saveProgress = useCallback(async () => {
         if (!difficulty || quizState !== 'active') return;
 
-        if (auth.isAuthenticated && auth.token) {
+        if (auth.isAuthenticated) {
             try {
                 await fetch('/api/quiz/progress', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${auth.token}`,
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ difficulty, ...currentProgress }),
                 });
@@ -207,13 +203,12 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     };
     
     const saveQuizToHistory = useCallback(async (score: number) => {
-        if (!auth.isAuthenticated || !auth.token || !difficulty) return;
+        if (!auth.isAuthenticated || !difficulty) return;
         try {
             await fetch('/api/quiz/history', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${auth.token}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     difficulty,
@@ -253,8 +248,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     
     return (
         <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black">
-            <Header onBack={onBack} problemTitle={`JavaScript Quiz`} />
-            <main className="flex-grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col items-center">
+            <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col items-center">
                 <div className="w-full max-w-2xl">
                     <div className="mb-6 flex flex-col items-center gap-4">
                         <label className="text-sm text-gray-500 dark:text-gray-400">

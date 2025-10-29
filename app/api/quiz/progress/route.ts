@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import User from '@/app/models/User';
 import { authMiddleware } from '@/app/lib/auth';
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   await dbConnect();
 
   const user = authMiddleware(req);
@@ -26,14 +26,17 @@ export async function GET(req: Request) {
         }
     }
 
-    return NextResponse.json(plainProgress);
   } catch (error) {
-    console.error(error.message);
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(error);
+    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   await dbConnect();
 
   const user = authMiddleware(req);
@@ -59,7 +62,11 @@ export async function POST(req: Request) {
     
     return NextResponse.json({ message: 'Progress saved' });
   } catch (error) {
-    console.error(error.message);
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(error);
+    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

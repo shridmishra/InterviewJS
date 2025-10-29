@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import Header from './Header';
 import Card from './ui/Card';
 import Button from './ui/Button';
 import ContributionGraph from './ContributionGraph';
 
 interface ProfilePageProps {
-    onNavigate: (page: 'list' | 'hero' | 'profile') => void;
+    onNavigate: (page: 'list' | 'hero' | 'profile' | 'quiz') => void;
     onLogout: () => void;
     onLogin: () => void;
 }
@@ -34,12 +33,10 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, onLogout, onLogin
 
     useEffect(() => {
         const fetchProfile = async () => {
-            if (!auth.token) return;
+            if (!auth.isAuthenticated) return;
             setIsLoading(true);
             try {
-                const res = await fetch('/api/user/profile', {
-                    headers: { 'Authorization': `Bearer ${auth.token}` }
-                });
+                const res = await fetch('/api/user/profile');
                 if (res.ok) {
                     const data = await res.json();
                     setProfileData(data);
@@ -54,7 +51,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, onLogout, onLogin
         };
 
         fetchProfile();
-    }, [auth.token]);
+    }, [auth.isAuthenticated]);
 
     if (!auth.isAuthenticated || !auth.user) {
         return (
@@ -88,15 +85,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, onLogout, onLogin
     const sortedQuizHistory = quizHistory.sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime());
 
     return (
-        <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black text-gray-900 dark:text-white">
-            <Header onNavigate={onNavigate} onLogout={onLogout} onLogin={onLogin} />
-            <main className="flex-grow container mx-auto p-4 md:p-6 lg:p-8">
+        <div className="min-h-screen flex flex-col bg-white dark:bg-black">
+            <main className="grow container mx-auto p-4 md:p-6 lg:p-8">
                 <div className="flex items-center gap-4 mb-8">
                     <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center text-black text-3xl font-bold">
-                        {auth.user.username.charAt(0).toUpperCase()}
+                        {auth.user?.username?.charAt(0)?.toUpperCase() || 'U'}
                     </div>
                     <div>
-                        <h1 className="text-3xl font-bold">{auth.user.username}</h1>
+                        <h1 className="text-3xl font-bold">{auth.user?.username || 'User'}</h1>
                         <p className="text-gray-500 dark:text-gray-400">Joined on {new Date(joinDate).toLocaleDateString()}</p>
                     </div>
                 </div>

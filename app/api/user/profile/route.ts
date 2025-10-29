@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import User from '@/app/models/User';
 import UserProblemData from '@/app/models/UserProblemData';
 import { problemsData } from '@/app/data/assignments';
 import { authMiddleware } from '@/app/lib/auth';
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   await dbConnect();
 
   const user = authMiddleware(req);
@@ -31,7 +31,7 @@ export async function GET(req: Request) {
     today.setHours(0, 0, 0, 0);
 
     userProgress.forEach(problem => {
-        problem.submissionHistory.forEach(submission => {
+        problem.submissionHistory.forEach((submission: { timestamp: Date; status: string }) => {
             const date = new Date(submission.timestamp);
             const dateString = date.toISOString().split('T')[0];
             contributions[dateString] = (contributions[dateString] || 0) + 1;
@@ -64,7 +64,11 @@ export async function GET(req: Request) {
     });
 
   } catch (error) {
-    console.error(error.message);
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(error);
+    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

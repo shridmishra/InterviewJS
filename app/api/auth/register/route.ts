@@ -27,6 +27,9 @@ export async function POST(req: Request) {
     await user.save();
 
     const payload = { user: { id: user.id } };
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET is not defined in the environment variables.');
+    }
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     return NextResponse.json({ 
@@ -35,7 +38,11 @@ export async function POST(req: Request) {
     }, { status: 201 });
 
   } catch (error) {
-    console.error(error.message);
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(error);
+    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

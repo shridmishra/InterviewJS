@@ -889,7 +889,7 @@ const newProblems: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
         solutionCheck: (userCode: string) => {
             try {
                 const userFn = new Function(`return ${userCode}`)();
-                const mockElement = { attributes: {'data-id': '123'}, getAttribute(k: string) { return this.attributes[k] } };
+                const mockElement = { attributes: {'data-id': '123'} as Record<string, string>, getAttribute(k: string) { return this.attributes[k] } };
                 if (userFn(mockElement, 'data-id') === '123') {
                     return [{ input: 'mockElement, "data-id"', expected: '"123"', actual: 'got correct value', passed: true }];
                 }
@@ -948,8 +948,16 @@ const newProblems: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
         solutionCheck: (userCode: string) => {
             try {
                 const userFn = new Function(`return ${userCode}`)();
-                const mockParent = { children: [], appendChild(c: any) { this.children.push(c) } };
-                const mockChild = { id: 'child' };
+                interface MockElement {
+                    id?: string;
+                    children: MockElement[];
+                    appendChild(c: MockElement): void;
+                }
+                const mockParent = {
+                    children: [] as MockElement[],
+                    appendChild(c: MockElement) { this.children.push(c) }
+                };
+                const mockChild = { id: 'child' } as MockElement;
                 userFn(mockParent, mockChild);
                 if (mockParent.children.length > 0 && mockParent.children[0].id === 'child') {
                     return [{ input: 'parent, child', expected: 'child appended', actual: 'child appended correctly', passed: true }];

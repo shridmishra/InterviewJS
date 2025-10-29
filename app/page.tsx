@@ -5,7 +5,6 @@ import { Problem, ProblemStatus } from './types';
 import ProblemListPage from './components/AssignmentList';
 import ProblemSolvingPage from './components/AssignmentDetail';
 import ProfilePage from './components/ProfilePage';
-import LoginModal from './components/LoginModal';
 import { problemsData as staticProblemsData } from './data/assignments';
 import Header from './components/Header';
 import { ToastProvider, useToast } from './components/Toast';
@@ -15,10 +14,11 @@ import { useAuth } from './context/AuthContext';
 
 type Page = 'hero' | 'list' | 'problem' | 'profile' | 'quiz';
 
-const HeroPage = ({ onStart, onLogin, onQuiz }: { onStart: () => void; onLogin: () => void; onQuiz: () => void; }) => {
+const HeroPage = ({ onStart, onQuiz }: { onStart: () => void; onQuiz: () => void; }) => {
+    const auth = useAuth();
     return (
         <div className="my-8 w-full flex flex-col items-center justify-center bg-white dark:bg-black overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white dark:to-black z-0"></div>
+            <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-white dark:to-black z-0"></div>
 
             <main className="z-10 w-full px-4 sm:px-8 md:px-32">
                 <header className="flex justify-between items-center mb-20 py-4">
@@ -28,7 +28,7 @@ const HeroPage = ({ onStart, onLogin, onQuiz }: { onStart: () => void; onLogin: 
                     <div className="flex items-center gap-2 sm:gap-4">
                         <Button variant="ghost" size="sm" className="hidden sm:inline-flex" onClick={onQuiz}>Quiz</Button>
                         <Button variant="ghost" size="sm" onClick={onStart}>Challenges</Button>
-                        <Button variant="secondary" size="sm" onClick={onLogin}>Login</Button>
+                        { !auth.isAuthenticated && <Button variant="secondary" size="sm" onClick={() => window.dispatchEvent(new Event('openLoginModal'))}>Login</Button> }
                     </div>
                 </header>
 
@@ -64,7 +64,6 @@ const HeroPage = ({ onStart, onLogin, onQuiz }: { onStart: () => void; onLogin: 
 
 const AppContent: React.FC = () => {
     const [page, setPage] = useState<Page>('hero');
-    const [showLoginModal, setShowLoginModal] = useState(false);
     const [problems, setProblems] = useState<Problem[]>([]);
     const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
     const [isLoadingProblems, setIsLoadingProblems] = useState(true);
@@ -75,9 +74,7 @@ const AppContent: React.FC = () => {
     const fetchProblems = useCallback(async () => {
         setIsLoadingProblems(true);
         try {
-            const res = await fetch('/api/problems', {
-                headers: auth.token ? { 'Authorization': `Bearer ${auth.token}` } : {}
-            });
+            const res = await fetch('/api/problems');
             if (!res.ok) throw new Error('Failed to fetch problems');
             const data = await res.json();
             setProblems(data);
@@ -90,29 +87,17 @@ const AppContent: React.FC = () => {
         } finally {
             setIsLoadingProblems(false);
         }
-    }, [auth.token]);
+    }, []);
     
     useEffect(() => {
         fetchProblems();
-    }, [fetchProblems]);
+    }, [fetchProblems, auth.isAuthenticated]);
     
-    const handleLoginSuccess = (token: string, user: any) => {
-        auth.login(token, user);
-        setShowLoginModal(false);
-        fetchProblems(); // Re-fetch problems with user data
-    };
-    
-    const handleLogout = () => {
-        auth.logout();
-        setPage('hero');
-        fetchProblems(); // Re-fetch problems as a guest
-    };
-
     const handleUpdateProblemData = async (id: string, updates: Partial<Pick<Problem, 'status' | 'isStarred' | 'notes'>>) => {
-        if (!auth.isAuthenticated || !auth.token) {
-             setShowLoginModal(true);
-             return;
-        }
+       if (!auth.isAuthenticated) {
+           window.dispatchEvent(new Event('openLoginModal'));
+           return;
+       }
 
         // Optimistic update
         const originalProblems = problems;
@@ -123,7 +108,6 @@ const AppContent: React.FC = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${auth.token}`
                 },
                 body: JSON.stringify(updates)
             });
@@ -176,7 +160,7 @@ const AppContent: React.FC = () => {
         
         switch (page) {
             case 'hero':
-                return <HeroPage onStart={() => setPage('list')} onLogin={() => setShowLoginModal(true)} onQuiz={() => setPage('quiz')} />;
+                return <HeroPage onStart={() => setPage('list')} onQuiz={() => setPage('quiz')} />;
             case 'list':
                 return <ProblemListPage
                     problems={problems}
@@ -184,8 +168,8 @@ const AppContent: React.FC = () => {
                     onToggleStar={handleToggleStar}
                     onUpdateNotes={handleUpdateNotes}
                     onNavigate={setPage}
-                    onLogout={handleLogout}
-                    onLogin={() => setShowLoginModal(true)}
+                    onLogin={() => window.dispatchEvent(new Event('openLoginModal'))}
+                    onLogout={auth.logout}
                 />;
             case 'problem':
                 if (selectedProblem) {
@@ -197,8 +181,8 @@ const AppContent: React.FC = () => {
                         onUpdateNotes={handleUpdateNotes}
                         onBack={() => { setSelectedProblemId(null); setPage('list'); }}
                         onNavigate={setPage}
-                        onLogin={() => setShowLoginModal(true)}
-                        onLogout={handleLogout}
+                        onLogin={() => window.dispatchEvent(new Event('openLoginModal'))}
+                        onLogout={auth.logout}
                     />;
                 }
                 setPage('list'); // Go back to list if problem not found
@@ -208,23 +192,26 @@ const AppContent: React.FC = () => {
                     setPage('hero');
                     return null;
                 }
-                return <ProfilePage onNavigate={setPage} onLogout={handleLogout} onLogin={() => setShowLoginModal(true)} />;
+                return <ProfilePage onNavigate={setPage} onLogin={() => window.dispatchEvent(new Event('openLoginModal'))} onLogout={auth.logout} />;
             case 'quiz':
                 return <QuizPage onBack={() => setPage('list')} />;
             default:
-                return <HeroPage onStart={() => setPage('list')} onLogin={() => setShowLoginModal(true)} onQuiz={() => setPage('quiz')} />;
+                return <HeroPage onStart={() => setPage('list')} onQuiz={() => setPage('quiz')} />;
         }
     };
 
     return (
         <div className="min-h-screen">
-            {renderPage()}
-            {showLoginModal && (
-                <LoginModal 
-                    onClose={() => setShowLoginModal(false)}
-                    onLoginSuccess={handleLoginSuccess}
+            {page !== 'hero' && (
+                <Header 
+                    onNavigate={setPage} 
+                    onBack={page === 'problem' || page === 'quiz' ? () => setPage('list') : undefined} 
+                    problemTitle={page === 'problem' ? selectedProblem?.title : page === 'quiz' ? 'JavaScript Quiz' : undefined}
+                    onLogin={() => window.dispatchEvent(new Event('openLoginModal'))}
+                    onLogout={auth.logout}
                 />
             )}
+            {renderPage()}
         </div>
     );
 };

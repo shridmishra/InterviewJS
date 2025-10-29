@@ -7,39 +7,41 @@ import User from '@/app/models/User';
 export async function POST(req: Request) {
   await dbConnect();
 
-  const { email: identifier, password } = await req.json();
+  const { email, password } = await req.json();
 
   try {
-    if (!identifier || !password) {
-      return NextResponse.json({ message: 'Please provide credentials' }, { status: 400 });
-    }
-    
-    const user = await User.findOne({
-        $or: [
-            { email: identifier.toLowerCase() },
-            { username: new RegExp(`^${identifier}$`, 'i') }
-        ]
-    });
-
+    // allow login by email or username
+    const user = await User.findOne({ $or: [{ email }, { username: email }] });
     if (!user) {
-        return NextResponse.json({ message: 'Invalid credentials' }, { status: 400 });
+      return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
+    }
+
+    if (!user.password) {
+      return NextResponse.json({ message: 'Please sign in using Google' }, { status: 400 });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-        return NextResponse.json({ message: 'Invalid credentials' }, { status: 400 });
+      return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
     }
 
     const payload = { user: { id: user.id } };
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET is not defined in the environment variables.');
+    }
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     return NextResponse.json({ 
-        token,
-        user: { id: user.id, username: user.username, email: user.email }
-    });
+      token, 
+      user: { id: user.id, username: user.username, email: user.email } 
+    }, { status: 200 });
 
   } catch (error) {
-    console.error(error.message);
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(error);
+    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

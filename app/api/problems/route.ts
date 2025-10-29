@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import UserProblemData from '@/app/models/UserProblemData';
 import { problemsData } from '@/app/data/assignments';
 import { ProblemStatus } from '@/app/types';
 import { authMiddleware } from '@/app/lib/auth';
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   await dbConnect();
 
   const user = authMiddleware(req);
@@ -35,7 +35,11 @@ export async function GET(req: Request) {
     });
     return NextResponse.json(mergedProblems);
   } catch (error) {
-    console.error(error.message);
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(error);
+    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

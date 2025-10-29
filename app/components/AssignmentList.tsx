@@ -17,7 +17,7 @@ interface ProblemListPageProps {
   onSelectProblem: (id: string) => void;
   onToggleStar: (id: string) => void;
   onUpdateNotes: (id: string, notes: string) => void;
-  onNavigate: (page: 'profile' | 'hero' | 'list') => void;
+  onNavigate: (page: 'profile' | 'hero' | 'list' | 'quiz') => void;
   onLogout: () => void;
   onLogin: () => void;
 }

@@ -3,7 +3,6 @@ import { Problem, ProblemStatus, TestResult } from '../types';
 import Button from './ui/Button';
 import CodeEditor from './CodeEditor';
 import TestResultsDisplay from './TestResultsDisplay';
-import Header from './Header';
 import { Badge } from './ui/Card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/Card';
 import { StarIcon, NoteIcon } from './Icons';
@@ -17,7 +16,7 @@ interface ProblemSolvingPageProps {
   onBack: () => void;
   onToggleStar: (id: string) => void;
   onUpdateNotes: (id: string, notes: string) => void;
-  onNavigate: (page: 'profile' | 'list') => void;
+  onNavigate: (page: 'profile' | 'list' | 'hero' | 'quiz') => void;
   onLogin: () => void;
   onLogout: () => void;
 }
@@ -88,8 +87,7 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-black">
-      {!isFullScreen && <Header onBack={onBack} problemTitle={problem.title} onNavigate={onNavigate} onLogin={onLogin} onLogout={onLogout} />}
-      <main className="flex-grow grid grid-cols-1 lg:grid-cols-5 gap-4 p-4 overflow-hidden">
+      <main className="grow grid grid-cols-1 lg:grid-cols-5 gap-4 p-4 overflow-hidden">
         
         {/* Left Panel: Description */}
         {!isFullScreen && (
@@ -97,7 +95,7 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
             <div className="p-6">
                     <div className="flex justify-between items-start">
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 pr-4">{problem.title}</h2>
-                        <div className="flex items-center gap-2 flex-shrink-0">
+                        <div className="flex items-center gap-2 shrink-0">
                             <button onClick={() => auth.isAuthenticated ? onToggleStar(problem.id) : onLogin()} className="p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
                                 <StarIcon filled={!!problem.isStarred} />
                             </button>
@@ -135,26 +133,26 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
         
         {/* Right Panel: Editor and Results */}
         <div className={`flex flex-col gap-4 overflow-hidden ${isFullScreen ? 'col-span-full' : 'lg:col-span-3'}`}>
-            <div className={isFullScreen ? "fixed inset-0 z-50 flex flex-col bg-white dark:bg-gray-900" : "flex-grow flex flex-col rounded-lg bg-white dark:bg-gray-900 overflow-hidden border border-gray-200 dark:border-gray-800"}>
-                <div className="flex-shrink-0 px-4 py-2 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
+            <div className={isFullScreen ? "fixed inset-0 z-50 flex flex-col bg-white dark:bg-gray-900" : "grow flex flex-col rounded-lg bg-white dark:bg-gray-900 overflow-hidden border border-gray-200 dark:border-gray-800"}>
+                <div className="shrink-0 px-4 py-2 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
                     <span className="text-sm text-gray-500 dark:text-gray-400">JavaScript</span>
                      <Button variant="ghost" size="sm" onClick={() => setIsFullScreen(!isFullScreen)} className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                         {isFullScreen ? <ShrinkIcon /> : <ExpandIcon />}
                     </Button>
                 </div>
-                <div className="flex-grow relative">
+                <div className="grow relative">
                    <CodeEditor value={code} onChange={setCode} />
                 </div>
             </div>
             
             {!isFullScreen && (
                 <>
-                <div className="flex-shrink-0 flex flex-col rounded-lg bg-white dark:bg-gray-900 h-[33%] border border-gray-200 dark:border-gray-800">
+                <div className="shrink-0 flex flex-col rounded-lg bg-white dark:bg-gray-900 h-[33%] border border-gray-200 dark:border-gray-800">
                     <Tabs defaultValue="results">
                         <TabsList>
                             <TabsTrigger value="results">Test Results</TabsTrigger>
                         </TabsList>
-                        <TabsContent value="results" className="flex-grow overflow-y-auto p-4">
+                        <TabsContent value="results" className="grow overflow-y-auto p-4">
                         {testResults.length > 0 ? (
                                 <TestResultsDisplay results={testResults} />
                             ) : (
@@ -165,7 +163,7 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
                         </TabsContent>
                     </Tabs>
                 </div>
-                <div className="flex-shrink-0 p-2 bg-white dark:bg-gray-900 rounded-lg flex justify-end gap-2 border border-gray-200 dark:border-gray-800">
+                <div className="shrink-0 p-2 bg-white dark:bg-gray-900 rounded-lg flex justify-end gap-2 border border-gray-200 dark:border-gray-800">
                     <Button variant="secondary" onClick={handleRunTests} disabled={isRunning}>
                         {isRunning ? 'Running...' : 'Run'}
                     </Button>

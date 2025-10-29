@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import User from '@/app/models/User';
 import { authMiddleware } from '@/app/lib/auth';
 
-export async function DELETE(req: Request, { params }: { params: { difficulty: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ difficulty: string }> }) {
   await dbConnect();
 
   const user = authMiddleware(req);
@@ -18,13 +18,18 @@ export async function DELETE(req: Request, { params }: { params: { difficulty: s
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
     
-    userFromDb.quizProgress.delete(params.difficulty);
+    const { difficulty } = await params;
+    userFromDb.quizProgress.delete(difficulty);
     await userFromDb.save();
     
     return NextResponse.json({ message: 'Progress reset' });
 
   } catch (error) {
-    console.error(error.message);
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error(error);
+    }
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

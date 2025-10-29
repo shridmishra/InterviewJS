@@ -1,14 +1,21 @@
+'use client';
+
 import './globals.css';
 import { Providers } from './providers';
-import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './components/Toast';
-
-export const metadata = {
-  title: 'practiceJS | Forge Your JavaScript Skills',
-  description: 'An interactive platform to practice and master JavaScript skills.',
-};
+import React, { useState, useEffect } from 'react';
+import Header from './components/Header';
+import LoginModal from './components/LoginModal';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+
+  useEffect(() => {
+    const openHandler = () => setLoginModalOpen(true);
+    window.addEventListener('openLoginModal', openHandler as EventListener);
+    return () => window.removeEventListener('openLoginModal', openHandler as EventListener);
+  }, []);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -18,11 +25,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-white dark:bg-black text-gray-900 dark:text-white antialiased">
         <Providers>
-          <AuthProvider>
-            <ToastProvider>
-              {children}
-            </ToastProvider>
-          </AuthProvider>
+          <ToastProvider>
+            {children}
+            {/* Render LoginModal if open */}
+            {isLoginModalOpen && (
+              <LoginModal onClose={() => setLoginModalOpen(false)} />
+            )}
+          </ToastProvider>
         </Providers>
       </body>
     </html>
