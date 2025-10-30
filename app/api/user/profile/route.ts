@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/app/lib/dbConnect';
 import User from '@/app/models/User';
 import UserProblemData from '@/app/models/UserProblemData';
+import UserAnsweredQuestion from '@/app/models/UserAnsweredQuestion'; // Import the new model
 import { problemsData } from '@/app/data/assignments';
 import { authMiddleware } from '@/app/lib/auth';
 
@@ -15,12 +16,15 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const userFromDb = await User.findOne({ email: user.email }).select('_id username createdAt quizHistory');
+    const userFromDb = await User.findOne({ email: user.email }).select('_id username createdAt'); // Removed quizHistory from select
     if (!userFromDb) {
         return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
     const userProgress = await UserProblemData.find({ userId: userFromDb._id });
+    const userQuizHistory = await UserAnsweredQuestion.find({ userId: userFromDb._id }).sort({ answeredAt: -1 }); // Fetch from UserAnsweredQuestion
+
+    console.log("Profile API: Retrieved answered questions for user", userFromDb._id, ":", userQuizHistory.length + " items");
 
     const solvedCount = userProgress.filter(p => p.status === 'Solved').length;
     const totalCount = problemsData.length;
@@ -59,7 +63,7 @@ export async function GET(req: NextRequest) {
         contributions,
         streak,
         joinDate: userFromDb.createdAt,
-        quizHistory: userFromDb.quizHistory || [],
+        quizHistory: userQuizHistory, // Return the fetched quiz history
     });
 
   } catch (error) {

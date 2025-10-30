@@ -7,8 +7,6 @@ export interface IUser extends Document {
   authProvider?: string;
   image?: string;
   createdAt: Date;
-  quizProgress: Map<string, { index: number; answers: Map<string, number> }>;
-  quizHistory: { difficulty: string; score: number; totalQuestions: number; completedAt: Date }[];
 }
 
 const UserSchema: Schema = new Schema({
@@ -39,26 +37,6 @@ const UserSchema: Schema = new Schema({
     type: Date,
     default: Date.now,
   },
-  quizProgress: {
-    type: Map,
-    of: {
-      index: { type: Number, default: 0 },
-      answers: {
-        type: Map,
-        of: Number,
-      },
-    },
-    default: {},
-  },
-  quizHistory: [{
-    difficulty: String,
-    score: Number,
-    totalQuestions: Number,
-    completedAt: {
-      type: Date,
-      default: Date.now
-    }
-  }],
 });
 
 export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema);

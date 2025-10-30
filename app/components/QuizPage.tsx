@@ -28,11 +28,6 @@ const ChevronDownIcon = () => (
 type Difficulty = 'Easy' | 'Medium' | 'Hard' | 'All';
 type QuizState = 'loading' | 'active' | 'results';
 
-interface QuizProgress {
-    index: number;
-    answers: Record<number, number>;
-}
-
 const difficulties: Difficulty[] = ['All', 'Easy', 'Medium', 'Hard'];
 
 const DifficultyDropdown: React.FC<{
@@ -88,42 +83,20 @@ const DifficultyDropdown: React.FC<{
     );
 };
 
+import { useSearchParams } from 'next/navigation';
+
 const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
-    const [quizState, setQuizState] = useState<QuizState>('loading');
+    const searchParams = useSearchParams();
+    const initialQuizView = searchParams.get('view') === 'history' ? 'history' : 'quiz';
+
+    const [quizState, setQuizState] = useState<QuizState>('active'); // Default to active, no loading progress
     const [difficulty, setDifficulty] = useState<Difficulty>('All');
-    const [progress, setProgress] = useState<Record<string, QuizProgress>>({});
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
+    const [isAnswered, setIsAnswered] = useState(false);
     
     const auth = useAuth();
     const { addToast } = useToast();
-
-    const loadAllProgress = useCallback(async () => {
-        setQuizState('loading');
-        let allProgress: Record<string, QuizProgress> = {};
-        if (auth.isAuthenticated) {
-            try {
-                const res = await fetch('/api/quiz/progress');
-                if (res.ok) {
-                    allProgress = await res.json();
-                }
-            } catch (error) {
-                console.error("Failed to load progress from DB", error);
-                addToast("Could not load your saved progress.", "error");
-            }
-        } else {
-            difficulties.forEach(d => {
-                const saved = localStorage.getItem(`quizProgress_${d}`);
-                if (saved) {
-                    allProgress[d] = JSON.parse(saved);
-                }
-            });
-        }
-        setProgress(allProgress);
-        setQuizState('active');
-    }, [auth.isAuthenticated, addToast]);
-
-    useEffect(() => {
-        loadAllProgress();
-    }, [loadAllProgress]);
 
     const questions = useMemo(() => {
         return difficulty === 'All'
@@ -131,79 +104,13 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             : quizData.filter(q => q.difficulty === difficulty);
     }, [difficulty]);
 
-    const currentProgress = useMemo(() => {
-        return progress[difficulty] || { index: 0, answers: {} };
-    }, [progress, difficulty]);
+    const currentQuestion = questions[currentQuestionIndex];
 
-    const { index: currentQuestionIndex, answers: selectedAnswers } = currentProgress;
-    
-    const updateProgress = (newProgress: Partial<QuizProgress>) => {
-        setProgress(prev => ({
-            ...prev,
-            [difficulty]: {
-                ...currentProgress,
-                ...newProgress
-            }
-        }));
-    };
+    const saveAnsweredQuestion = useCallback(async (questionData: QuizQuestion, userAnswerIndex: number) => {
+        if (!auth.isAuthenticated) return;
 
-    const saveProgress = useCallback(async () => {
-        if (!difficulty || quizState !== 'active') return;
+        const isCorrect = userAnswerIndex === questionData.correctAnswerIndex;
 
-        if (auth.isAuthenticated) {
-            try {
-                await fetch('/api/quiz/progress', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ difficulty, ...currentProgress }),
-                });
-            } catch (error) {
-                console.error("Failed to save progress to DB", error);
-                // Silent fail to not annoy user
-            }
-        } else {
-            localStorage.setItem(`quizProgress_${difficulty}`, JSON.stringify(currentProgress));
-        }
-    }, [auth, difficulty, currentProgress, quizState]);
-
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            if (quizState === 'active') saveProgress();
-        }, 1000);
-        return () => clearTimeout(handler);
-    }, [progress, saveProgress, quizState]);
-
-
-    const isCurrentQuestionAnswered = selectedAnswers[currentQuestionIndex] !== undefined;
-
-    const handleAnswerSelect = (optionIndex: number) => {
-        if (isCurrentQuestionAnswered) return;
-        const newAnswers = { ...selectedAnswers, [currentQuestionIndex]: optionIndex };
-        updateProgress({ answers: newAnswers });
-    };
-
-    const handleNext = () => {
-        if (currentQuestionIndex < questions.length - 1) {
-            updateProgress({ index: currentQuestionIndex + 1 });
-        }
-    };
-    
-    const handleSkip = () => {
-        if (currentQuestionIndex < questions.length - 1) {
-            updateProgress({ index: currentQuestionIndex + 1 });
-        }
-    };
-
-    const handlePrev = () => {
-        if (currentQuestionIndex > 0) {
-            updateProgress({ index: currentQuestionIndex - 1 });
-        }
-    };
-    
-    const saveQuizToHistory = useCallback(async (score: number) => {
-        if (!auth.isAuthenticated || !difficulty) return;
         try {
             await fetch('/api/quiz/history', {
                 method: 'POST',
@@ -211,39 +118,40 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    difficulty,
-                    score,
-                    totalQuestions: questions.length,
+                    question: questionData.question,
+                    options: questionData.options,
+                    correctAnswer: questionData.options[questionData.correctAnswerIndex],
+                    userAnswer: questionData.options[userAnswerIndex],
+                    isCorrect,
+                    difficulty: questionData.difficulty,
                 })
             });
-            addToast("Quiz result saved to your profile!", "success");
+            addToast("Answer saved!", "success");
         } catch (error) {
-            console.error("Failed to save quiz history", error);
-            addToast("Could not save your quiz result.", "error");
+            console.error("Failed to save answered question", error);
+            addToast("Could not save your answer.", "error");
         }
-    }, [auth, difficulty, questions.length, addToast]);
+    }, [auth.isAuthenticated, addToast]);
 
-    const score = useMemo(() => {
-        return questions.reduce((acc, question, index) => {
-            if (selectedAnswers[index] === question.correctAnswerIndex) {
-                return acc + 1;
-            }
-            return acc;
-        }, 0);
-    }, [questions, selectedAnswers]);
-
-    const handleSubmit = () => {
-        setQuizState('results');
-        saveQuizToHistory(score);
+    const handleAnswerSelect = (optionIndex: number) => {
+        if (isAnswered) return;
+        setSelectedAnswerIndex(optionIndex);
+        setIsAnswered(true);
+        saveAnsweredQuestion(currentQuestion, optionIndex);
     };
 
-    const handleTakeNewQuiz = () => {
-        // Reset progress for the current difficulty and go back to active state
-        updateProgress({ index: 0, answers: {} });
-        setQuizState('active');
-    }
+    const handleNextQuestion = () => {
+        setSelectedAnswerIndex(null);
+        setIsAnswered(false);
+        if (currentQuestionIndex < questions.length - 1) {
+            setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+        } else {
+            // Optionally loop back to start or show a message
+            setCurrentQuestionIndex(0);
+            addToast("You've gone through all questions in this difficulty! Looping back.", "info");
+        }
+    };
 
-    const currentQuestion = questions[currentQuestionIndex];
     const progressPercent = questions.length > 0 ? ((currentQuestionIndex + 1) / questions.length) * 100 : 0;
     
     return (
@@ -252,23 +160,22 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 <div className="w-full max-w-2xl">
                     <div className="mb-6 flex flex-col items-center gap-4">
                         <label className="text-sm text-gray-500 dark:text-gray-400">
-                           Select Quiz Difficulty
+                        Select Question Difficulty
                         </label>
-                         <DifficultyDropdown 
+                        <DifficultyDropdown 
                             selected={difficulty}
-                            onSelect={setDifficulty}
-                            disabled={quizState !== 'active'}
+                            onSelect={(d) => {
+                                setDifficulty(d);
+                                setCurrentQuestionIndex(0); // Reset to first question on difficulty change
+                                setSelectedAnswerIndex(null);
+                                setIsAnswered(false);
+                            }}
+                            disabled={false}
                         />
                     </div>
 
-                    {quizState === 'loading' && (
-                        <Card className="text-center p-8">
-                           <p>Loading your quiz progress...</p>
-                        </Card>
-                    )}
-                    
-                    {quizState === 'active' && currentQuestion && (
-                         <div className="animate-fade-in-up">
+                    {currentQuestion && (
+                        <div className="animate-fade-in-up">
                             <div className="mb-4">
                                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-2">Question {currentQuestionIndex + 1} of {questions.length}</p>
                                 <ProgressBar value={progressPercent} />
@@ -281,11 +188,11 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                 <Card.Content>
                                     <div className="space-y-3">
                                         {currentQuestion.options.map((option, index) => {
-                                            const isSelected = selectedAnswers[currentQuestionIndex] === index;
+                                            const isSelected = selectedAnswerIndex === index;
                                             const isCorrect = currentQuestion.correctAnswerIndex === index;
                                             let optionClasses = 'w-full text-left p-3 rounded-md border-2 transition-colors text-gray-800 dark:text-gray-200';
                                             
-                                            if(isCurrentQuestionAnswered) {
+                                            if(isAnswered) {
                                                 if (isCorrect) {
                                                     optionClasses += ' bg-green-100 dark:bg-green-900/40 border-green-500 dark:border-green-600';
                                                 } else if (isSelected) {
@@ -303,7 +210,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                                 <button 
                                                     key={index}
                                                     onClick={() => handleAnswerSelect(index)}
-                                                    disabled={isCurrentQuestionAnswered}
+                                                    disabled={isAnswered}
                                                     className={optionClasses}
                                                 >
                                                     {option}
@@ -311,7 +218,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                             );
                                         })}
                                     </div>
-                                    {isCurrentQuestionAnswered && (
+                                    {isAnswered && (
                                         <div className="mt-4 p-3 bg-gray-100 dark:bg-gray-800/50 rounded-md text-gray-700 dark:text-gray-300 animate-fade-in-up">
                                             <p><span className="font-semibold text-yellow-600 dark:text-yellow-500">Explanation: </span>{currentQuestion.explanation}</p>
                                         </div>
@@ -319,85 +226,18 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                 </Card.Content>
                             </Card>
 
-                            <div className="flex justify-between mt-6">
-                                <Button variant="secondary" onClick={handlePrev} disabled={currentQuestionIndex === 0}>
-                                    Previous
+                            <div className="flex justify-end mt-6">
+                                <Button onClick={handleNextQuestion} disabled={!isAnswered}>
+                                    Next Question
                                 </Button>
-                                <div className="flex items-center gap-2">
-                                     {!isCurrentQuestionAnswered && (
-                                        <Button variant="secondary" onClick={handleSkip} disabled={currentQuestionIndex === questions.length - 1}>
-                                            Skip
-                                        </Button>
-                                     )}
-                                    {currentQuestionIndex === questions.length - 1 ? (
-                                        <Button onClick={handleSubmit}>
-                                            Show Results
-                                        </Button>
-                                    ) : (
-                                        <Button onClick={handleNext} disabled={!isCurrentQuestionAnswered}>
-                                            Next
-                                        </Button>
-                                    )}
-                                </div>
                             </div>
                         </div>
                     )}
-                    
-                    {quizState === 'results' && (
-                        <div className="animate-fade-in-up">
-                            <Card className="text-center">
-                                <Card.Header>
-                                    <Card.Title className="text-3xl">Quiz Completed!</Card.Title>
-                                    <p className="text-gray-500 dark:text-gray-400 text-sm">Difficulty: {difficulty}</p>
-                                </Card.Header>
-                                <Card.Content>
-                                    <p className="text-5xl font-bold mb-2 text-yellow-500 dark:text-yellow-400">{score} / {questions.length}</p>
-                                    <p className="text-gray-500 dark:text-gray-400 mb-6">You got {((score / questions.length) * 100 || 0).toFixed(1)}% correct.</p>
-                                    <Button onClick={handleTakeNewQuiz}>Take This Quiz Again</Button>
-                                </Card.Content>
-                            </Card>
 
-                            <div className="mt-8">
-                                <h2 className="text-2xl font-bold mb-4">Review Your Answers</h2>
-                                <div className="space-y-4">
-                                    {questions.map((q, index) => {
-                                        const userAnswerIndex = selectedAnswers[index];
-                                        const isCorrect = userAnswerIndex === q.correctAnswerIndex;
-                                        return (
-                                            <Card key={index} className={`border ${isCorrect ? 'border-green-200 dark:border-green-800/50' : userAnswerIndex !== undefined ? 'border-red-200 dark:border-red-800/50' : 'border-gray-200 dark:border-gray-800'}`}>
-                                                <div className="p-4">
-                                                    <p className="font-semibold mb-3">{index + 1}. {q.question}</p>
-                                                    <div className="space-y-2 text-sm mb-3">
-                                                        {q.options.map((option, optIndex) => {
-                                                            const isUserAnswer = userAnswerIndex === optIndex;
-                                                            const isCorrectAnswer = q.correctAnswerIndex === optIndex;
-                                                            let classes = 'p-2 rounded-md flex items-center gap-2';
-                                                            if (isCorrectAnswer) {
-                                                                classes += ' bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300';
-                                                            } else if (isUserAnswer && !isCorrect) {
-                                                                classes += ' bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300 line-through';
-                                                            } else {
-                                                                classes += ' bg-gray-100 dark:bg-gray-800'
-                                                            }
-                                                            
-                                                            return (
-                                                                <div key={optIndex} className={classes}>
-                                                                    {isCorrectAnswer ? <CheckIcon/> : (isUserAnswer ? <XIcon/> : <div className="w-5 h-5"></div>)}
-                                                                    <span>{option}</span>
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                    <div className="p-3 bg-gray-100 dark:bg-gray-800/50 rounded-md text-gray-700 dark:text-gray-300 text-sm">
-                                                        <span className="font-semibold text-yellow-600 dark:text-yellow-500">Explanation: </span>{q.explanation}
-                                                    </div>
-                                                </div>
-                                            </Card>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                        </div>
+                    {!currentQuestion && quizState === 'active' && (
+                        <Card className="text-center p-8">
+                            <p>No questions found for the selected difficulty.</p>
+                        </Card>
                     )}
                 </div>
             </main>

@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import Card from './ui/Card';
+import Card, { Badge } from './ui/Card';
 import Button from './ui/Button';
 import ContributionGraph from './ContributionGraph';
 
-interface QuizHistoryItem {
-    difficulty: string;
-    score: number;
-    totalQuestions: number;
-    completedAt: string;
-}
+const CheckIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 text-green-500 ${className || ''}`} viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+    </svg>
+);
+
+const XIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 text-red-500 ${className || ''}`} viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.693a1 1 0 010-1.414z" clipRule="evenodd" />
+    </svg>
+);
+
+import { IUserAnsweredQuestion } from '../models/UserAnsweredQuestion';
 
 interface ProfileData {
     solvedCount: number;
@@ -17,13 +24,20 @@ interface ProfileData {
     contributions: { [date: string]: number };
     streak: number;
     joinDate: string;
-    quizHistory: QuizHistoryItem[];
+    quizHistory: IUserAnsweredQuestion[];
 }
+
+import { useRouter } from 'next/navigation';
 
 const ProfilePage: React.FC = () => {
     const auth = useAuth();
     const [profileData, setProfileData] = useState<ProfileData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
+
+    const handleViewQuizHistory = () => {
+        router.push('/quiz-page?view=history');
+    };
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -75,7 +89,7 @@ const ProfilePage: React.FC = () => {
     const progressPercent = totalCount > 0 ? (solvedCount / totalCount) * 100 : 0;
     const totalSubmissions = Object.values(contributions).reduce((a, b) => a + b, 0);
 
-    const sortedQuizHistory = quizHistory.sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime());
+    const sortedQuizHistory = quizHistory.sort((a, b) => new Date(b.answeredAt).getTime() - new Date(a.answeredAt).getTime());
 
     return (
         <div className="min-h-screen flex flex-col bg-white dark:bg-black">
@@ -127,32 +141,42 @@ const ProfilePage: React.FC = () => {
                      <Card>
                         <div className="p-6">
                             <h2 className="text-xl font-semibold mb-4">Quiz History</h2>
-                            {sortedQuizHistory.length > 0 ? (
+                            {profileData.quizHistory.length > 0 ? (
                                 <ul className="space-y-3 max-h-80 overflow-y-auto">
-                                    {sortedQuizHistory.map((item, index) => {
-                                        const percentage = ((item.score / item.totalQuestions) * 100).toFixed(0);
+                                    {profileData.quizHistory.map((item, index) => {
+                                        const isCorrect = item.isCorrect;
                                         return (
-                                            <li key={index} className="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-800/50 rounded-md">
-                                                <div>
-                                                    <p className="font-semibold">{item.difficulty} Quiz</p>
-                                                    <p className="text-xs text-gray-500 dark:text-gray-400">{new Date(item.completedAt).toLocaleDateString()}</p>
+                                            <li key={index} className="flex flex-col p-3 bg-gray-100 dark:bg-gray-800/50 rounded-md">
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <div className='flex p-1'>
+                                                        <Badge difficulty={item.difficulty as any}>{item.difficulty}</Badge>
+                                                        <p className="text-xs text-gray-500 dark:text-gray-400">{new Date(item.answeredAt).toLocaleDateString()}</p>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        {isCorrect ? <CheckIcon className="text-green-500" /> : <XIcon className="text-red-500" />}
+                                                    </div>
                                                 </div>
-                                                <div className="text-right">
-                                                    <p className="font-bold text-lg text-yellow-500 dark:text-yellow-400">{item.score} / {item.totalQuestions}</p>
-                                                    <p className="text-xs text-gray-600 dark:text-gray-300">{percentage}%</p>
+                                                <div className="space-y-2">
+                                                    <p className="font-semibold">Question: {item.question}</p>
+                                                    <p className="text-sm text-gray-700 dark:text-gray-300">Your Answer: <span className={isCorrect ? 'text-green-600' : 'text-red-600'}>{item.userAnswer}</span></p>
+                                                    {!isCorrect && (
+                                                        <p className="text-sm text-gray-700 dark:text-gray-300">Correct Answer: <span className="text-green-600">{item.correctAnswer}</span></p>
+                                                    )}
+                                                    
                                                 </div>
                                             </li>
                                         );
                                     })}
                                 </ul>
                             ) : (
-                                <p className="text-gray-500 dark:text-gray-400 text-center py-8">No quiz history yet. Complete a quiz to see your results here!</p>
+                                <p className="text-gray-500 dark:text-gray-400 text-center py-8">No answered questions yet. Answer some questions to see your history here!</p>
                             )}
                         </div>
                     </Card>
                 </div>
                 
                  <div className="mt-8 text-center">
+                    <Button onClick={handleViewQuizHistory}>View All Answered Questions</Button>
                 </div>
             </main>
         </div>

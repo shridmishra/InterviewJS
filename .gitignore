@@ -30,3 +30,4 @@ dist-ssr
 !.env.example
 !.env.template
 !.env.sample
+.env.local
