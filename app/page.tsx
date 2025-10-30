@@ -76,8 +76,20 @@ const AppContent: React.FC = () => {
         try {
             const res = await fetch('/api/problems');
             if (!res.ok) throw new Error('Failed to fetch problems');
-            const data = await res.json();
-            setProblems(data);
+            const apiProblems = await res.json();
+
+            // Merge API data with static problems data to retain solutionCheck function
+            const mergedProblems = staticProblemsData.map(staticP => {
+                const apiP = apiProblems.find((p: Problem) => p.id === staticP.id);
+                return {
+                    ...staticP,
+                    status: apiP?.status || ProblemStatus.Unsolved,
+                    isStarred: apiP?.isStarred || false,
+                    notes: apiP?.notes || '',
+                    solutionCheck: staticP.solutionCheck // Ensure solutionCheck is retained
+                };
+            });
+            setProblems(mergedProblems);
         } catch (error) {
             console.error(error);
             // Fallback to static data on error
@@ -92,6 +104,24 @@ const AppContent: React.FC = () => {
     useEffect(() => {
         fetchProblems();
     }, [fetchProblems, auth.isAuthenticated]);
+
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hash = window.location.hash.replace('#', '');
+            if (hash === 'profile') {
+                setPage('profile');
+            } else if (hash === 'list') {
+                setPage('list');
+            } else if (hash === 'quiz') {
+                setPage('quiz');
+            } else if (hash === 'hero') {
+                setPage('hero');
+            }
+        };
+        window.addEventListener('hashchange', handleHashChange);
+        handleHashChange(); // Check hash on initial load
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, []);
     
     const handleUpdateProblemData = async (id: string, updates: Partial<Pick<Problem, 'status' | 'isStarred' | 'notes'>>) => {
        if (!auth.isAuthenticated) {
@@ -192,7 +222,7 @@ const AppContent: React.FC = () => {
                     setPage('hero');
                     return null;
                 }
-                return <ProfilePage onNavigate={setPage} onLogin={() => window.dispatchEvent(new Event('openLoginModal'))} onLogout={auth.logout} />;
+                return <ProfilePage />;
             case 'quiz':
                 return <QuizPage onBack={() => setPage('list')} />;
             default:

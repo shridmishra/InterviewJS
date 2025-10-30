@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                             Quiz
                         </button>
                         {auth.isAuthenticated && (
-                            <a href="/profile" className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+                            <a href="#profile" className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
                                 Profile
                             </a>
                         )}
@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
           {auth.isAuthenticated && auth.user ? (
             <>
               <a 
-                href="/profile"
+                href="#profile"
                 className="w-9 h-9 bg-yellow-500 rounded-full flex items-center justify-center text-black text-lg font-bold hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900"
                 aria-label="View Profile"
               >

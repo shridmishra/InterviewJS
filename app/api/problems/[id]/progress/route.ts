@@ -6,7 +6,7 @@ import { authMiddleware } from '@/app/lib/auth';
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await dbConnect();
 
-  const user = authMiddleware(req);
+  const user = await authMiddleware(req);
 
   if (!user) {
     return NextResponse.json({ message: 'No token, authorization denied' }, { status: 401 });

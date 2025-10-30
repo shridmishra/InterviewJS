@@ -8,7 +8,7 @@ import { authMiddleware } from '@/app/lib/auth';
 export async function GET(req: NextRequest) {
   await dbConnect();
 
-  const user = authMiddleware(req);
+  const user = await authMiddleware(req);
 
   if (!user) {
     const staticProblems = problemsData.map(p => ({

@@ -30,9 +30,30 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
     setIsLoading(true);
 
     try {
-      const result = isLoginView
-        ? await auth.login(email, password)
-        : await auth.register(username, email, password);
+      let result;
+      if (isLoginView) {
+        const signInResult = await signIn('credentials', {
+          email,
+          password,
+          redirect: false,
+        });
+
+        if (signInResult?.error) {
+          result = { success: false, message: signInResult.error };
+        } else {
+          result = { success: true };
+        }
+      } else {
+        const registerRes = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, email, password }),
+        });
+        const registerData = await registerRes.json();
+        result = { success: registerRes.ok, message: registerData.message };
+      }
 
       if (!result.success) {
         setError(result.message || 'An error occurred.');

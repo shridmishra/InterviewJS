@@ -6,7 +6,7 @@ import { authMiddleware } from '@/app/lib/auth';
 export async function GET(req: NextRequest) {
   await dbConnect();
 
-  const user = authMiddleware(req);
+  const user = await authMiddleware(req);
 
   if (!user) {
     return NextResponse.json({ message: 'No token, authorization denied' }, { status: 401 });
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
             plainProgress[key].answers = Object.fromEntries(plainProgress[key].answers);
         }
     }
-
+    return NextResponse.json(plainProgress);
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   await dbConnect();
 
-  const user = authMiddleware(req);
+  const user = await authMiddleware(req);
 
   if (!user) {
     return NextResponse.json({ message: 'No token, authorization denied' }, { status: 401 });

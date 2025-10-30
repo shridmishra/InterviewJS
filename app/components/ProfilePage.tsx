@@ -4,12 +4,6 @@ import Card from './ui/Card';
 import Button from './ui/Button';
 import ContributionGraph from './ContributionGraph';
 
-interface ProfilePageProps {
-    onNavigate: (page: 'list' | 'hero' | 'profile' | 'quiz') => void;
-    onLogout: () => void;
-    onLogin: () => void;
-}
-
 interface QuizHistoryItem {
     difficulty: string;
     score: number;
@@ -26,7 +20,7 @@ interface ProfileData {
     quizHistory: QuizHistoryItem[];
 }
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, onLogout, onLogin }) => {
+const ProfilePage: React.FC = () => {
     const auth = useAuth();
     const [profileData, setProfileData] = useState<ProfileData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -73,7 +67,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, onLogout, onLogin
          return (
             <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white flex items-center justify-center">
                 <p>Could not load profile data.</p>
-                 <Button onClick={() => onNavigate('list')} className="ml-4">Back to Problems</Button>
             </div>
         );
     }
@@ -88,11 +81,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, onLogout, onLogin
         <div className="min-h-screen flex flex-col bg-white dark:bg-black">
             <main className="grow container mx-auto p-4 md:p-6 lg:p-8">
                 <div className="flex items-center gap-4 mb-8">
-                    <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center text-black text-3xl font-bold">
-                        {auth.user?.username?.charAt(0)?.toUpperCase() || 'U'}
-                    </div>
+                   
                     <div>
-                        <h1 className="text-3xl font-bold">{auth.user?.username || 'User'}</h1>
                         <p className="text-gray-500 dark:text-gray-400">Joined on {new Date(joinDate).toLocaleDateString()}</p>
                     </div>
                 </div>
@@ -163,9 +153,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, onLogout, onLogin
                 </div>
                 
                  <div className="mt-8 text-center">
-                    <Button onClick={() => onNavigate('list')}>
-                        &larr; Back to Problems
-                    </Button>
                 </div>
             </main>
         </div>
