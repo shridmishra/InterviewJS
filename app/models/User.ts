@@ -4,7 +4,8 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password?: string;
-  googleId?: string;
+  authProvider?: string;
+  image?: string;
   createdAt: Date;
   quizProgress: Map<string, { index: number; answers: Map<string, number> }>;
   quizHistory: { difficulty: string; score: number; totalQuestions: number; completedAt: Date }[];
@@ -28,7 +29,10 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: false, // Not required for Google OAuth
   },
-  googleId: {
+  authProvider: {
+    type: String,
+  },
+  image: {
     type: String,
   },
   createdAt: {

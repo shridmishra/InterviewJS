@@ -5,7 +5,7 @@ import { Input, Checkbox } from './ui/Card';
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from './ui/Card';
 import { Badge, Tabs, TabsList, TabsTrigger, TabsContent } from './ui/Card';
 import Button from './ui/Button';
-import Header from './Header';
+
 import { StarIcon, NoteIcon } from './Icons';
 import NotesModal from './NotesModal';
 import { useAuth } from '../context/AuthContext';
@@ -141,7 +141,6 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
 
     return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black">
-        <Header onNavigate={onNavigate} onLogout={onLogout} onLogin={onLogin} />
         <main className="flex-grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col">
             <ProgressSummary problems={problems} />
 

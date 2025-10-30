@@ -48,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
         </div>
         {problemTitle && <h2 className="text-md font-medium text-gray-600 dark:text-gray-300 truncate hidden md:block">{problemTitle}</h2>}
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')} className="p-2 text-gray-600 dark:text-gray-300" aria-label="Toggle theme" suppressHydrationWarning>
+          <Button variant="secondary" size="sm" onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')} className="p-2 text-gray-600 dark:text-gray-300" aria-label="Toggle theme" suppressHydrationWarning>
             {currentTheme === 'light' ? <MoonIcon /> : <SunIcon />}
           </Button>
 

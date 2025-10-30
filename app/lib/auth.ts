@@ -1,23 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { NextRequest } from 'next/server';
+import { getToken } from "next-auth/jwt";
 
-export function authMiddleware(req: NextRequest) {
-  const authHeader = req.headers.get('authorization');
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+export async function authMiddleware(req: NextRequest) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (!token) {
     return null;
   }
-
-  const token = authHeader.split(' ')[1];
-
-  if (!process.env.JWT_SECRET) {
-    console.error('JWT_SECRET is not defined');
-    return null;
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as { user: any };
-    return decoded.user;
-  } catch (e) {
-    return null;
-  }
+  return token;
 }

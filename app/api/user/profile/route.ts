@@ -8,20 +8,19 @@ import { authMiddleware } from '@/app/lib/auth';
 export async function GET(req: NextRequest) {
   await dbConnect();
 
-  const user = authMiddleware(req);
+  const user = await authMiddleware(req);
 
   if (!user) {
     return NextResponse.json({ message: 'No token, authorization denied' }, { status: 401 });
   }
 
   try {
-    const userId = user.id;
-    const userFromDb = await User.findById(userId).select('username createdAt quizHistory');
+    const userFromDb = await User.findOne({ email: user.email }).select('_id username createdAt quizHistory');
     if (!userFromDb) {
         return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    const userProgress = await UserProblemData.find({ userId });
+    const userProgress = await UserProblemData.find({ userId: userFromDb._id });
 
     const solvedCount = userProgress.filter(p => p.status === 'Solved').length;
     const totalCount = problemsData.length;
