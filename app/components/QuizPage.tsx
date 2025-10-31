@@ -61,7 +61,7 @@ const DifficultyDropdown: React.FC<{
                 disabled={disabled}
                 className="w-48 flex items-center justify-between"
             >
-                <span>{selected}</span>
+                <span>{selected === 'All' ? 'Select Difficulty' : selected}</span>
                 <ChevronDownIcon />
             </Button>
             {isOpen && (
@@ -84,6 +84,7 @@ const DifficultyDropdown: React.FC<{
 };
 
 import { useSearchParams } from 'next/navigation';
+import { IUserAnsweredQuestion } from '../models/UserAnsweredQuestion';
 
 const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     const searchParams = useSearchParams();
@@ -91,9 +92,11 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
     const [quizState, setQuizState] = useState<QuizState>('active'); // Default to active, no loading progress
     const [difficulty, setDifficulty] = useState<Difficulty>('All');
+    const [initialQuestionIndex, setInitialQuestionIndex] = useState(0);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
     const [isAnswered, setIsAnswered] = useState(false);
+    const [userQuizHistory, setUserQuizHistory] = useState<IUserAnsweredQuestion[]>([]);
     
     const auth = useAuth();
     const { addToast } = useToast();
@@ -104,7 +107,85 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             : quizData.filter(q => q.difficulty === difficulty);
     }, [difficulty]);
 
+    useEffect(() => {
+        const fetchQuizHistoryAndSetInitialQuestion = async () => {
+            if (!auth.isAuthenticated) {
+                // If not authenticated, reset history and set to first question
+                setUserQuizHistory([]);
+                setCurrentQuestionIndex(0);
+                return;
+            }
+            try {
+                const res = await fetch('/api/quiz/history');
+                if (res.ok) {
+                    const data: IUserAnsweredQuestion[] = await res.json();
+                    setUserQuizHistory(data);
+
+                    const solvedQuestionTexts = new Set(data.map(item => item.question));
+                    let lastSolvedQuestionIndex = -1;
+
+                    // Find the index of the last solved question within the CURRENTLY FILTERED questions
+                    for (let i = questions.length - 1; i >= 0; i--) {
+                        if (solvedQuestionTexts.has(questions[i].question)) {
+                            lastSolvedQuestionIndex = i;
+                            break;
+                        }
+                    }
+
+                    let nextUnsolvedQuestionIndex = 0;
+                    // If there are solved questions, start searching for the next unsolved one from after the last solved one
+                    if (lastSolvedQuestionIndex !== -1) {
+                        for (let i = lastSolvedQuestionIndex + 1; i < questions.length; i++) {
+                            if (!solvedQuestionTexts.has(questions[i].question)) {
+                                nextUnsolvedQuestionIndex = i;
+                                break;
+                            }
+                        }
+                        // If all questions after the last solved one are also solved, or no more questions, loop back to the beginning
+                        if (nextUnsolvedQuestionIndex === 0 && lastSolvedQuestionIndex === questions.length - 1) {
+                            nextUnsolvedQuestionIndex = 0; // All questions in this difficulty are solved. Start from the beginning.
+                        } else if (nextUnsolvedQuestionIndex === 0 && lastSolvedQuestionIndex < questions.length - 1) {
+                            nextUnsolvedQuestionIndex = 0; // All questions in this difficulty are solved. Start from the beginning.
+                        }
+                    }
+                    
+                    setCurrentQuestionIndex(nextUnsolvedQuestionIndex);
+
+                } else {
+                    console.error("Failed to fetch quiz history");
+                    setCurrentQuestionIndex(0); // Default to first question on error
+                }
+            } catch (error) {
+                console.error("Failed to fetch quiz history", error);
+                setCurrentQuestionIndex(0); // Default to first question on error
+            }
+        };
+        fetchQuizHistoryAndSetInitialQuestion();
+    }, [auth.isAuthenticated, difficulty, questions]); // Depend on auth.isAuthenticated, difficulty, and questions
+
     const currentQuestion = questions[currentQuestionIndex];
+
+    const answeredQuestionTexts = useMemo(() => {
+        return new Set(userQuizHistory.map(item => item.question));
+    }, [userQuizHistory]);
+
+    const hasBeenAnswered = currentQuestion ? answeredQuestionTexts.has(currentQuestion.question) : false;
+    const userAnswerForCurrentQuestion = useMemo(() => {
+        if (!currentQuestion) return null;
+        const historyItem = userQuizHistory.find(item => item.question === currentQuestion.question);
+        return historyItem ? historyItem.userAnswer : null;
+    }, [currentQuestion, userQuizHistory]);
+
+    useEffect(() => {
+        if (hasBeenAnswered) {
+            setIsAnswered(true);
+            const prevAnswerIndex = userAnswerForCurrentQuestion !== null ? currentQuestion.options.indexOf(userAnswerForCurrentQuestion) : -1;
+            setSelectedAnswerIndex(prevAnswerIndex !== -1 ? prevAnswerIndex : null);
+        } else {
+            setIsAnswered(false);
+            setSelectedAnswerIndex(null);
+        }
+    }, [currentQuestion, hasBeenAnswered, userAnswerForCurrentQuestion]);
 
     const saveAnsweredQuestion = useCallback(async (questionData: QuizQuestion, userAnswerIndex: number) => {
         if (!auth.isAuthenticated) return;
@@ -112,7 +193,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         const isCorrect = userAnswerIndex === questionData.correctAnswerIndex;
 
         try {
-            await fetch('/api/quiz/history', {
+            const res = await fetch('/api/quiz/history', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -126,7 +207,14 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     difficulty: questionData.difficulty,
                 })
             });
-            addToast("Answer saved!", "success");
+            if (res.ok) {
+                const newHistoryItem = await res.json();
+                setUserQuizHistory(prev => [...prev, newHistoryItem]); // Update history with new answer
+                addToast("Answer saved!", "success");
+            } else {
+                console.error("Failed to save answered question", res.statusText);
+                addToast("Could not save your answer.", "error");
+            }
         } catch (error) {
             console.error("Failed to save answered question", error);
             addToast("Could not save your answer.", "error");
@@ -134,7 +222,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     }, [auth.isAuthenticated, addToast]);
 
     const handleAnswerSelect = (optionIndex: number) => {
-        if (isAnswered) return;
+        if (isAnswered || hasBeenAnswered) return; // Prevent answering if already answered or in history
         setSelectedAnswerIndex(optionIndex);
         setIsAnswered(true);
         saveAnsweredQuestion(currentQuestion, optionIndex);
@@ -146,9 +234,16 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
         } else {
-            // Optionally loop back to start or show a message
             setCurrentQuestionIndex(0);
             addToast("You've gone through all questions in this difficulty! Looping back.", "info");
+        }
+    };
+
+    const handlePreviousQuestion = () => {
+        setSelectedAnswerIndex(null);
+        setIsAnswered(false);
+        if (currentQuestionIndex > 0) {
+            setCurrentQuestionIndex(prevIndex => prevIndex - 1);
         }
     };
 
@@ -158,15 +253,11 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black">
             <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col items-center">
                 <div className="w-full max-w-2xl">
-                    <div className="mb-6 flex flex-col items-center gap-4">
-                        <label className="text-sm text-gray-500 dark:text-gray-400">
-                        Select Question Difficulty
-                        </label>
+                    <div className="mb-6 flex flex-row items-center justify-end gap-4">
                         <DifficultyDropdown 
                             selected={difficulty}
                             onSelect={(d) => {
                                 setDifficulty(d);
-                                setCurrentQuestionIndex(0); // Reset to first question on difficulty change
                                 setSelectedAnswerIndex(null);
                                 setIsAnswered(false);
                             }}
@@ -192,7 +283,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                             const isCorrect = currentQuestion.correctAnswerIndex === index;
                                             let optionClasses = 'w-full text-left p-3 rounded-md border-2 transition-colors text-gray-800 dark:text-gray-200';
                                             
-                                            if(isAnswered) {
+                                            if(isAnswered || hasBeenAnswered) {
                                                 if (isCorrect) {
                                                     optionClasses += ' bg-green-100 dark:bg-green-900/40 border-green-500 dark:border-green-600';
                                                 } else if (isSelected) {
@@ -210,7 +301,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                                 <button 
                                                     key={index}
                                                     onClick={() => handleAnswerSelect(index)}
-                                                    disabled={isAnswered}
+                                                    disabled={isAnswered || hasBeenAnswered}
                                                     className={optionClasses}
                                                 >
                                                     {option}
@@ -226,9 +317,12 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                                 </Card.Content>
                             </Card>
 
-                            <div className="flex justify-end mt-6">
-                                <Button onClick={handleNextQuestion} disabled={!isAnswered}>
-                                    Next Question
+                            <div className="flex justify-between mt-6">
+                                <Button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>
+                                   Previous
+                                </Button>
+                                <Button onClick={handleNextQuestion} disabled={!isAnswered && !hasBeenAnswered}>
+                                     Next 
                                 </Button>
                             </div>
                         </div>

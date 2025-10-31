@@ -29,6 +29,38 @@ interface ProfileData {
 
 import { useRouter } from 'next/navigation';
 
+const formatDateToRelativeTime = (dateString: string): string => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    let interval = seconds / 31536000; // years
+    if (interval > 1) {
+        return Math.floor(interval) + " years ago";
+    }
+    interval = seconds / 2592000; // months
+    if (interval > 1) {
+        return Math.floor(interval) + " months ago";
+    }
+    interval = seconds / 604800; // weeks
+    if (interval > 1) {
+        return Math.floor(interval) + " weeks ago";
+    }
+    interval = seconds / 86400; // days
+    if (interval > 1) {
+        return Math.floor(interval) + " days ago";
+    }
+    interval = seconds / 3600; // hours
+    if (interval > 1) {
+        return Math.floor(interval) + " hours ago";
+    }
+    interval = seconds / 60; // minutes
+    if (interval > 1) {
+        return Math.floor(interval) + " minutes ago";
+    }
+    return Math.floor(seconds) + " seconds ago";
+};
+
 const ProfilePage: React.FC = () => {
     const auth = useAuth();
     const [profileData, setProfileData] = useState<ProfileData | null>(null);
@@ -94,11 +126,23 @@ const ProfilePage: React.FC = () => {
     return (
         <div className="min-h-screen flex flex-col bg-white dark:bg-black">
             <main className="grow container mx-auto p-4 md:p-6 lg:p-8">
-                <div className="flex items-center gap-4 mb-8">
-                   
-                    <div>
-                        <p className="text-gray-500 dark:text-gray-400">Joined on {new Date(joinDate).toLocaleDateString()}</p>
-                    </div>
+                <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
+                    <Card className="w-full md:w-auto shrink-0">
+                        <div className="p-6 flex items-center gap-4">
+                            <div className="relative w-24 h-24 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-4xl font-bold text-gray-600 dark:text-gray-300 overflow-hidden">
+                                {auth.user.image ? (
+                                    <img src={auth.user.image} alt="User Avatar" className="w-full h-full object-cover" />
+                                ) : (
+                                    <span>{auth.user.name ? auth.user.name.charAt(0).toUpperCase() : 'U'}</span>
+                                )}
+                            </div>
+                            <div>
+                                <h1 className="text-3xl font-bold">{auth.user.name}</h1>
+                                <p className="text-gray-500 dark:text-gray-400">{auth.user.email}</p>
+                                <p className="text-gray-500 dark:text-gray-400">Joined {formatDateToRelativeTime(joinDate)}</p>
+                            </div>
+                        </div>
+                    </Card>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -122,7 +166,7 @@ const ProfilePage: React.FC = () => {
                     </Card>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6">
                     <Card>
                         <div className="p-6">
                             <h2 className="text-xl font-semibold mb-4">{totalSubmissions} problem submissions in the last year</h2>
@@ -142,13 +186,13 @@ const ProfilePage: React.FC = () => {
                         <div className="p-6">
                             <h2 className="text-xl font-semibold mb-4">Quiz History</h2>
                             {profileData.quizHistory.length > 0 ? (
-                                <ul className="space-y-3 max-h-80 overflow-y-auto">
+                                <ul className="space-y-3 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
                                     {profileData.quizHistory.map((item, index) => {
                                         const isCorrect = item.isCorrect;
                                         return (
                                             <li key={index} className="flex flex-col p-3 bg-gray-100 dark:bg-gray-800/50 rounded-md">
                                                 <div className="flex items-center justify-between mb-2">
-                                                    <div className='flex p-1'>
+                                                    <div className='flex items-center gap-2'>
                                                         <Badge difficulty={item.difficulty as any}>{item.difficulty}</Badge>
                                                         <p className="text-xs text-gray-500 dark:text-gray-400">{new Date(item.answeredAt).toLocaleDateString()}</p>
                                                     </div>
@@ -175,9 +219,7 @@ const ProfilePage: React.FC = () => {
                     </Card>
                 </div>
                 
-                 <div className="mt-8 text-center">
-                    <Button onClick={handleViewQuizHistory}>View All Answered Questions</Button>
-                </div>
+
             </main>
         </div>
     );
