@@ -1,33 +1,26 @@
+import NextAuth, { NextAuthOptions, DefaultSession } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import dbConnect from "@/app/lib/dbConnect";
+import User from "@/app/models/User";
+import bcrypt from "bcryptjs";
 
-import NextAuth from "next-auth"
-import { NextAuthOptions, DefaultSession } from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
+export const runtime = "nodejs";
 
-export const runtime = 'nodejs'
-
-declare module 'next-auth' {
+declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-    } & DefaultSession['user'];
+    } & DefaultSession["user"];
   }
 }
-import CredentialsProvider from "next-auth/providers/credentials"
-
-import dbConnect from "@/app/lib/dbConnect"
-import User from "@/app/models/User"
-import bcrypt from "bcryptjs"
 
 const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      authorization: {
-        params: {
-          prompt: "select_account"
-        }
-      }
+      authorization: { params: { prompt: "select_account" } },
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -36,50 +29,50 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials) {
-          return null;
-        }
+        if (!credentials) return null;
         await dbConnect();
         const user = await User.findOne({ email: credentials.email });
-
-        if (user && user.password && await bcrypt.compare(credentials.password as string, user.password)) {
-          return { id: user.id, name: user.username, email: user.email };
-        } else {
-          return null;
-        }
+        if (!user || !user.password) return null;
+        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+        if (!isPasswordValid) return null;
+        return { id: user.id, name: user.username, email: user.email, image: user.image };
       },
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (account?.provider === 'google') {
-        await dbConnect();
+    async signIn({ user, account }) {
+      if (account?.provider === "google") {
         try {
+          await dbConnect();
           let existingUser = await User.findOne({ email: user.email });
-          if (existingUser) {
-            if (existingUser.authProvider !== 'google') {
-              existingUser.authProvider = 'google';
-              existingUser.image = user.image;
-              await existingUser.save();
-            }
-          } else {
+          if (!existingUser) {
             const newUser = new User({
               email: user.email,
               username: user.name,
               image: user.image,
-              authProvider: 'google',
+              authProvider: "google",
             });
             await newUser.save();
+          } else {
+            let updated = false;
+            if (existingUser.image !== user.image) {
+              existingUser.image = user.image;
+              updated = true;
+            }
+            if (existingUser.authProvider !== "google") {
+              existingUser.authProvider = "google";
+              updated = true;
+            }
+            if (updated) await existingUser.save();
           }
-        } catch (err) {
-          console.error("Error in signIn callback:", err);
+        } catch {
           return false;
         }
       }
       return true;
     },
-    async jwt({ token, user, account }) {
-      if (account && user) {
+    async jwt({ token, user }) {
+      if (user) {
         await dbConnect();
         const dbUser = await User.findOne({ email: user.email });
         if (dbUser) {
@@ -87,7 +80,7 @@ const authOptions: NextAuthOptions = {
           token.name = dbUser.username;
           token.email = dbUser.email;
           token.picture = dbUser.image;
-        } 
+        }
       }
       return token;
     },
@@ -101,19 +94,10 @@ const authOptions: NextAuthOptions = {
       return session;
     },
   },
-
-  debug: false,
+  session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
-  session: {
-    strategy: "jwt",
-  },
-
-  pages: {
-    signIn: '/',
-  }
+  pages: { signIn: "/" },
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };
-
