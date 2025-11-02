@@ -203,7 +203,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
 
                     return (
                         <details key={name} className="bg-white dark:bg-gray-900/50 rounded-lg mb-4 border border-gray-200 dark:border-gray-800 group" open={index === 0}>
-                            <summary className="p-4 cursor-pointer font-semibold list-none text-gray-800 dark:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 rounded-t-lg">
+                            <summary className="p-4 cursor-pointer font-semibold list-none text-gray-800 dark:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-800/50 rounded-t-lg relative">
                                 <div className="flex justify-between items-center text-lg">
                                     <div className="flex items-center gap-4">
                                         <span className="group-open:rotate-180 transition-transform duration-200">
@@ -213,7 +213,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                     </div>
                                     <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">{solvedCount} / {totalCount}</span>
                                 </div>
-                                <div className="mt-3">
+                                <div className="absolute bottom-0 left-0 w-full">
                                     <ProgressBar value={progress} />
                                 </div>
                             </summary>
