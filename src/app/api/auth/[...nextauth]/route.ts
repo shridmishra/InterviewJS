@@ -71,7 +71,8 @@ const authOptions: NextAuthOptions = {
             });
             await newUser.save();
           }
-        } catch (_err) {
+        } catch (_error) {
+          console.error(_error);
           return false;
         }
       }

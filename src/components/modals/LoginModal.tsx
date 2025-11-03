@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Modal from './ui/Modal';
-import Button from './ui/Button';
-import { Input } from './ui/Card';
-import { useAuth } from '../context/AuthContext';
+import Modal from '../ui/Modal';
+import Button from '../ui/Button';
+import { Input } from '../ui/Card';
+import { useAuth } from '../../context/AuthContext';
 import { signIn } from 'next-auth/react';
 
 interface LoginModalProps {
@@ -22,7 +22,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   const [isLoginView, setIsLoginView] = useState(true);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const auth = useAuth();
+  const _auth = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,10 +71,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
   const handleGoogleSignIn = async () => {
     try {
       await signIn('google', { callbackUrl: '/' });
-    } catch (error) {
+    } catch (_error) {
+      console.error(_error);
       setError('Failed to sign in with Google');
-    }
-  };
+    }  };
 
   return (
     <Modal title={isLoginView ? 'Welcome Back' : 'Create Account'} onClose={onClose}>

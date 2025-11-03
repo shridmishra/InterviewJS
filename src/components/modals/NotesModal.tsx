@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Problem } from '../types';
-import Modal from './ui/Modal';
-import Button from './ui/Button';
+import { Problem } from '../../types';
+import Modal from '../ui/Modal';
+import Button from '../ui/Button';
 
 interface NotesModalProps {
     problem: Problem;

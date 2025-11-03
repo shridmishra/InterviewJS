@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Problem, ProblemStatus, TestResult } from '../types';
-import Button from './ui/Button';
-import CodeEditor from './CodeEditor';
-import TestResultsDisplay from './TestResultsDisplay';
-import { Badge } from './ui/Card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/Card';
-import { StarIcon, NoteIcon } from './Icons';
-import NotesModal from './NotesModal';
-import { useAuth } from '../context/AuthContext';
-import { useToast } from './Toast';
+import { Problem, ProblemStatus, TestResult } from '../../types';
+import Button from '../ui/Button';
+import CodeEditor from '../common/CodeEditor';
+import TestResultsDisplay from '../quiz/TestResultsDisplay';
+import { Badge } from '../ui/Card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/Card';
+import { StarIcon, NoteIcon } from '../common/Icons';
+import NotesModal from '../modals/NotesModal';
+import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../common/Toast';
 
 interface ProblemSolvingPageProps {
   problem: Problem;
@@ -33,7 +33,7 @@ const ShrinkIcon = () => (
 );
 
 
-const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusChange, onBack, onToggleStar, onUpdateNotes, onNavigate, onLogin, onLogout }) => {
+const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusChange, onToggleStar, onUpdateNotes, onLogin, onBack: _onBack, onNavigate: _onNavigate, onLogout: _onLogout }) => {
   const [code, setCode] = useState(problem.starterCode);
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [isRunning, setIsRunning] = useState(false);

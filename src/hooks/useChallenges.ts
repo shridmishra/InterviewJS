@@ -36,7 +36,8 @@ export const useChallenges = () => {
             notes: '',
           })));
         }
-      } catch (error) {
+      } catch (_error) {
+        console.error(_error);
         setUserProblemMetadata(staticProblems.map(p => ({
           id: p.id,
           status: ProblemStatus.Unsolved,

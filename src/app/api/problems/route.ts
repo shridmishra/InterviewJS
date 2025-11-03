@@ -35,6 +35,7 @@ export async function GET(req: NextRequest) {
     });
     return NextResponse.json(mergedProblems);
   } catch (_error) {
+    console.error(_error);
     return NextResponse.json({ message: 'Server Error' }, { status: 500 });
   }
 }

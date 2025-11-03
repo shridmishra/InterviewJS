@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import ProblemSolvingPage from '../../../../components/AssignmentDetail';
-import Header from '../../../../components/Header';
+import React, { useEffect } from 'react';
+import ProblemSolvingPage from '../../../../components/assignments/AssignmentDetail';
+import Header from '../../../../components/common/Header';
 import { useRouter, useParams } from 'next/navigation';
 import { useChallenges } from '../../../../hooks/useChallenges';
-import { Problem } from '../../../../types';
 import { useAuth } from '../../../../context/AuthContext';
 
 function ChallengeDetailPage() {
@@ -13,7 +12,7 @@ function ChallengeDetailPage() {
   const params = useParams();
   const problemId = params.id as string;
   const { getProblemById, isLoading, isAuthLoading, handleStatusChange, handleToggleStar, handleUpdateNotes } = useChallenges();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated: _isAuthenticated } = useAuth();
 
   const problem = getProblemById(problemId);
 

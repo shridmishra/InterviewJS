@@ -1,15 +1,15 @@
 import React, { useState, useMemo } from 'react';
-import { Problem, ProblemStatus, Difficulty } from '../types';
-import Card from './ui/Card';
-import { Input, Checkbox } from './ui/Card';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from './ui/Card';
-import { Badge } from './ui/Card';
-import Button from './ui/Button';
+import { Problem, ProblemStatus, Difficulty } from '../../types';
+import Card from '../ui/Card';
+import { Input, Checkbox } from '../ui/Card';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../ui/Card';
+import { Badge } from '../ui/Card';
+import Button from '../ui/Button';
 
-import { BookmarkIcon, PenIcon, SearchIcon } from './Icons';
-import NotesModal from './NotesModal';
-import { useAuth } from '../context/AuthContext';
-import ProgressBar from './ProgressBar';
+import { BookmarkIcon, PenIcon, SearchIcon } from '../common/Icons';
+import NotesModal from '../modals/NotesModal';
+import { useAuth } from '../../context/AuthContext';
+import ProgressBar from '../progress/ProgressBar';
 
 
 interface ProblemListPageProps {
@@ -94,7 +94,7 @@ const ChevronDownIcon = () => (
     </svg>
 );
 
-const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem, onToggleStar, onUpdateNotes, onNavigate, onLogout, onLogin }) => {
+const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem, onToggleStar, onUpdateNotes, onLogin, onNavigate: _onNavigate, onLogout: _onLogout }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [difficultyFilter, setDifficultyFilter] = useState<Difficulty | 'all'>('all');
     const [activeTab, setActiveTab] = useState('all');

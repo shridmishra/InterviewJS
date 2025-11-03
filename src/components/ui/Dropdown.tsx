@@ -1,7 +1,5 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { SunIcon, MoonIcon } from '../Icons';
-import { useTheme } from 'next-themes';
 
 interface DropdownProps {
   trigger: React.ReactNode;

@@ -1,22 +1,10 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-import { quizData, QuizQuestion } from '../data/quizData';
-import Button from './ui/Button';
-import Card from './ui/Card';
-import ProgressBar from './ProgressBar';
-import { useAuth } from '../context/AuthContext';
-import { useToast } from './Toast';
-
-const CheckIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-    </svg>
-);
-
-const XIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.693a1 1 0 010-1.414z" clipRule="evenodd" />
-    </svg>
-);
+import { quizData, QuizQuestion } from '../../data/quizData';
+import Button from '../ui/Button';
+import Card from '../ui/Card';
+import ProgressBar from '../progress/ProgressBar';
+import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../common/Toast';
 
 const ChevronDownIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -86,15 +74,15 @@ const DifficultyDropdown: React.FC<{
 };
 
 import { useSearchParams } from 'next/navigation';
-import { IUserAnsweredQuestion } from '../models/UserAnsweredQuestion';
+import { IUserAnsweredQuestion } from '../../models/UserAnsweredQuestion';
 
-const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack: _onBack }) => {
     const searchParams = useSearchParams();
-    const initialQuizView = searchParams.get('view') === 'history' ? 'history' : 'quiz';
+    const _initialQuizView = searchParams.get('view') === 'history' ? 'history' : 'quiz';
 
-    const [quizState, setQuizState] = useState<QuizState>('active'); // Default to active, no loading progress
+    const [quizState, _setQuizState] = useState<QuizState>('active'); // Default to active, no loading progress
     const [difficulty, setDifficulty] = useState<Difficulty>('All');
-    const [initialQuestionIndex, setInitialQuestionIndex] = useState(0);
+    const [_initialQuestionIndex, _setInitialQuestionIndex] = useState(0);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswerIndexState, setSelectedAnswerIndexState] = useState<number | null>(null);
     const [isAnswered, setIsAnswered] = useState(false);
@@ -120,7 +108,7 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             try {
                 const res = await fetch('/api/quiz/history');
                 if (res.ok) {
-                    const { answeredQuestions }: { answeredQuestions: IUserAnsweredQuestion[] } = await res.json();
+                    const { answeredQuestions = [] }: { answeredQuestions?: IUserAnsweredQuestion[] } = await res.json();
                     setUserQuizHistory(answeredQuestions);
 
                     const solvedQuestionTexts = new Set(answeredQuestions.map(item => item.question));
@@ -138,7 +126,8 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 } else {
                     setCurrentQuestionIndex(0); // Default to first question on error
                 }
-            } catch (error) {
+            } catch (_error) {
+                console.error(_error);
                 setCurrentQuestionIndex(0); // Default to first question on error
             }
         };
@@ -196,7 +185,8 @@ const QuizPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             } else {
                 addToast("Could not save your answer.", "error");
             }
-        } catch (error) {
+        } catch (_error) {
+            console.error(_error);
             addToast("Could not save your answer.", "error");
         }
     }, [auth.isAuthenticated, addToast]);

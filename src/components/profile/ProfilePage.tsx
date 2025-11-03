@@ -1,10 +1,9 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import Card, { Badge } from './ui/Card';
-import Button from './ui/Button';
-import ContributionGraph from './ContributionGraph';
-import DifficultyProgressBar from './DifficultyProgressBar';
+import { useAuth } from '../../context/AuthContext';
+import Card, { Badge } from '../ui/Card';
+import ContributionGraph from '../progress/ContributionGraph';
+import DifficultyProgressBar from '../progress/DifficultyProgressBar';
 
 const CheckIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 text-green-500 ${className || ''}`} viewBox="0 0 20 20" fill="currentColor">
@@ -18,7 +17,7 @@ const XIcon: React.FC<{ className?: string }> = ({ className }) => (
     </svg>
 );
 
-import { IUserAnsweredQuestion } from '../models/UserAnsweredQuestion';
+import { IUserAnsweredQuestion } from '../../models/UserAnsweredQuestion';
 
 interface ProfileData {
     solvedCount: number;
@@ -72,7 +71,7 @@ const ProfilePage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
 
-    const handleViewQuizHistory = () => {
+    const _handleViewQuizHistory = () => {
         router.push('/quiz-page?view=history');
     };
 
@@ -88,7 +87,8 @@ const ProfilePage: React.FC = () => {
                 } else {
                     // Intentionally empty: No action needed if response is not ok
                 }
-            } catch (error) {
+            } catch (_error) {
+                console.error(_error);
                 // Intentionally empty: No action needed on error
             } finally {
                 setIsLoading(false);
@@ -123,10 +123,10 @@ const ProfilePage: React.FC = () => {
     }
     
     const { solvedCount, totalCount, easySolved, mediumSolved, hardSolved, contributions, streak, joinDate, quizHistory } = profileData;
-    const progressPercent = totalCount > 0 ? (solvedCount / totalCount) * 100 : 0;
+    const _progressPercent = totalCount > 0 ? (solvedCount / totalCount) * 100 : 0;
     const totalSubmissions = Object.values(contributions).reduce((a, b) => a + b, 0);
 
-    const sortedQuizHistory = quizHistory.sort((a, b) => new Date(b.answeredAt).getTime() - new Date(a.answeredAt).getTime());
+    const _sortedQuizHistory = quizHistory.sort((a, b) => new Date(b.answeredAt).getTime() - new Date(a.answeredAt).getTime());
 
     return (
         <div className="min-h-screen flex flex-col bg-white dark:bg-black">

@@ -2,8 +2,8 @@
 
 import '../styles/globals.css';
 import { Providers } from './providers';
-import { ToastProvider } from '../components/Toast';
-import { ModalProvider } from '../components/ModalProvider';
+import { ToastProvider } from '../components/common/Toast';
+import { ModalProvider } from '../components/modals/ModalProvider';
 import React from 'react';
 import { ThemeProvider } from 'next-theme';
 

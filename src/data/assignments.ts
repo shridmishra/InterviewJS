@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 // Fix: Use a relative path for the `types` import to resolve the module loading error.
-import { Problem, Difficulty, ProblemStatus, TestCase, TestResult } from '../types';
+import { Problem, Difficulty, TestCase, TestResult } from '../types';
 
 const runTests = (userCode: string, testCases: TestCase[]): TestResult[] => {
   try {
@@ -750,9 +750,8 @@ const newProblems: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
         docsUrl: 'https://en.wikipedia.org/wiki/Roman_numerals',
         starterCode: 'function romanToInt(s) {\n  // Your code here\n}',
         testCases: [ { input: ['III'], expectedOutput: 3 }, { input: ['LVIII'], expectedOutput: 58 }, { input: ['MCMXCIV'], expectedOutput: 1994 } ],
-            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        solutionCheck: (userCode: string) => runTests(userCode, [ { input: ['IX'], expectedOutput: 9 }, { input: ['IV'], expectedOutput: 4 }, { input: ['MCMXCIV'], expectedOutput: 1994 } ]),
-    },
+        solutionCheck: (userCode: string) => { return runTests(userCode, [ { input: ['IX'], expectedOutput: 9 }, { input: ['IV'], expectedOutput: 4 }, { input: ['MCMXCIV'], expectedOutput: 1994 } ]); },
+      },
     // Step 5: Object & Function Mastery (3 new)
     {
         id: 'object-from-entries',
@@ -871,6 +870,7 @@ const newProblems: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
             try {
                 const userFn = new Function(`return ${userCode}`)();
                 const mockElement = { classList: { list: ['on'], toggle(c: string) { this.list.includes(c) ? this.list = this.list.filter(i => i !== c) : this.list.push(c) } } };
+
                 userFn(mockElement, 'on');
                 const firstToggle = !mockElement.classList.list.includes('on');
                 userFn(mockElement, 'on');

@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import QuizPage from '../../components/QuizPage';
-import Header from '../../components/Header';
+import QuizPage from '../../components/quiz/QuizPage';
+import Header from '../../components/common/Header';
 import { useRouter } from 'next/navigation';
 
 import { Suspense } from 'react';

@@ -1,10 +1,10 @@
 'use client';
 
-import ProfilePage from '../../components/ProfilePage';
+import ProfilePage from '../../components/profile/ProfilePage';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import Header from '../../components/Header';
+import Header from '../../components/common/Header';
 
 export default function Profile() {
   const { isAuthenticated, isLoading } = useAuth();
