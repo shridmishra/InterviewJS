@@ -5,7 +5,6 @@ import { useAuth } from '../../context/AuthContext';
 import { SunIcon, MoonIcon, ChevronLeftIcon, UserIcon, LogOutIcon } from './Icons';
 import { useTheme } from 'next-themes';
 import Dropdown from '../ui/Dropdown';
-import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   problemTitle?: string;
@@ -17,16 +16,10 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
   const auth = useAuth();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const currentTheme = resolvedTheme || theme;
-  const pathname = usePathname();
 
-  const getLinkClass = (path: string) => {
-    return pathname === path
-      ? 'text-sm font-medium text-yellow-400 transition-colors'
-      : 'text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors';
-  };
 
   return (
-    <header className="bg-white/80 dark:bg-gray-900/70 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-20 h-16 flex items-center">
+    <header className="bg-white/10 dark:bg-gray-900/10 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-20 h-16 flex items-center">
       <div className="container mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between">
         <div className="flex items-center gap-4">
           {onBack ? (

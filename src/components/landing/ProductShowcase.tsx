@@ -34,7 +34,7 @@ export const ProductShowcase = () => {
         <div className=" md:mx-28 lg:mx-44 flex flex-col  items-center text-center">
 
           <div className="tag" >Master JavaScript</div>
-          <h1 className="text-3xl lg:text-7xl bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text font-bold tracking-tighter mt-6 ">Learn by Doing</h1>
+          <h1 className="text-3xl lg:text-7xl bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text font-bold tracking-tighter mt-6 leading-normal">Learn by Doing</h1>
           <p className="sub-heading">The best way to learn JavaScript is by solving challenges and building projects. Our platform provides a curated set of problems to help you master the language.</p>
         </div>
 

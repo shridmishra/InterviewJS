@@ -53,7 +53,7 @@ button,
     @apply bg-transparent text-black dark:text-white;
   }
   .tag {
-    @apply text-sm border border-[#222]/10 dark:border-white/10 inline-flex px-3 py-1 rounded-lg tracking-tight;
+    @apply text-sm border border-[#222]/20 dark:border-white/20 inline-flex px-3 py-1 rounded-lg tracking-tight;
   }
 
   .heading {
@@ -61,7 +61,7 @@ button,
   }
 
   .sub-heading {
-    @apply text-xl text-[#432004] dark:text-gray-300 tracking-tight mt-6;
+    @apply text-lg lg:text-xl text-[#432004] dark:text-gray-300 tracking-tight mt-6;
   }
   .card {
     @apply p-10 rounded-3xl border border-[#F1F1F1] dark:border-[#222] shadow-[0_7px_14px_#EAEAEA] dark:shadow-[0_7px_14px_#1a202c] max-w-xs w-full dark:text-white;
@@ -70,4 +70,10 @@ button,
   .logo-ticker-image {
     @apply h-8 w-auto;
   }
+
+  .gradient-text {
+    @apply font-bold tracking-tighter bg-linear-to-b from-yellow-500 to-[#ecc94b] dark:from-white dark:to-[#fff085]  text-transparent bg-clip-text mt-6 leading-normal;
+  
+  }
+ 
 }
