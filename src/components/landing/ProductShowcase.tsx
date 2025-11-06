@@ -1,7 +1,7 @@
 'use client';
 import Image from "next/image";
-import jsImage from "@/assets/javascript.png";
-import tsImage from "@/assets/typescript.png";
+import pyramidImage from "@/assets/pyramid.png";
+import tubeImage from "@/assets/tube.png";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import ProductImage from '@/assets/product-image.png';
@@ -40,8 +40,8 @@ export const ProductShowcase = () => {
 
         <div className="relative mt-10 sm:mt-20">
           <Image src={src} alt="product-image" className="mx-auto w-full max-w-7xl rounded-lg " />
-          <motion.img src={jsImage.src} alt="js-image" height={220} width={220} className=" hidden md:block md:absolute -top-24 -right-10" style={{ translateY }} />
-          <motion.img src={tsImage.src} alt="ts-image" height={220} width={220} className="hidden md:block md:absolute bottom-40 left-0" style={{ translateY }} />
+          <motion.img src={pyramidImage.src} alt="js-image" height={200} width={200} className=" hidden md:block md:absolute -top-24 -right-10" style={{ translateY }} />
+          <motion.img src={tubeImage.src} alt="ts-image" height={180} width={180} className="hidden md:block md:absolute bottom-40 left-0" style={{ translateY }} />
         </div>
 
       </div>

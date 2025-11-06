@@ -58,22 +58,31 @@ export async function GET(req: NextRequest) {
         });
     });
 
+    const submissionDates = Object.keys(contributions).map(date => new Date(date)).sort((a, b) => a.getTime() - b.getTime());
     let streak = 0;
-    const submissionDates = new Set(Object.keys(contributions));
-    if (submissionDates.has(today.toISOString().split('T')[0])) {
-        streak = 1;
-    // eslint-disable-next-line prefer-const
-        let currentDate = new Date(today);
-        while (true) {
-            currentDate.setDate(currentDate.getDate() - 1);
-            const prevDateString = currentDate.toISOString().split('T')[0];
-            if (submissionDates.has(prevDateString)) {
-                streak++;
-            } else {
-                break;
+    let highestStreak = 0;
+    if (submissionDates.length > 0) {
+        let currentStreak = 1;
+        for (let i = 1; i < submissionDates.length; i++) {
+            const diff = (submissionDates[i].getTime() - submissionDates[i - 1].getTime()) / (1000 * 3600 * 24);
+            if (diff === 1) {
+                currentStreak++;
+            } else if (diff > 1) {
+                currentStreak = 1;
             }
         }
+        highestStreak = Math.max(highestStreak, currentStreak);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const lastSubmissionDate = submissionDates[submissionDates.length - 1];
+        const diffToday = (today.getTime() - lastSubmissionDate.getTime()) / (1000 * 3600 * 24);
+
+        if (diffToday <= 1) {
+            streak = currentStreak;
+        }
     }
+
 
     return NextResponse.json({
         solvedCount,
@@ -83,8 +92,9 @@ export async function GET(req: NextRequest) {
         hardSolved,
         contributions,
         streak,
+        highestStreak,
         joinDate: userFromDb.createdAt,
-        quizHistory: userQuizHistory, // Return the fetched quiz history
+        quizHistory: userQuizHistory,
     });
 
   } catch (_error) {

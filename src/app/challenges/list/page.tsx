@@ -30,7 +30,7 @@ function ChallengesListPage() {
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div className="bg-gray-50 dark:bg-black min-h-screen">
       <Header onNavigate={handleNavigate} />
       <main className="container mx-auto px-4 md:px-6 lg:px-8 py-8 dark:bg-black">
         <ProblemListPage
