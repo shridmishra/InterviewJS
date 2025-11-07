@@ -6,6 +6,9 @@ body {
   overscroll-behavior: none;
   font-family: "Satoshi", sans-serif;
 }
+::-webkit-scrollbar-button {
+  display: none;
+}
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);
@@ -76,4 +79,35 @@ button,
   
   }
  
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1a202c;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #4a5568;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #718096;
 }
