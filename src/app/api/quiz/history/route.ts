@@ -16,8 +16,9 @@ export async function GET(req: NextRequest) {
     // Fetch all answered questions for the user
     const answeredQuestions = await UserAnsweredQuestion.find({ userId: user.id }).sort({ answeredAt: -1 });
     return NextResponse.json({ answeredQuestions }, { status: 200 });
-  } catch (_error) {
-    return NextResponse.json({ message: 'Server Error' }, { status: 500 });
+  } catch (error) {
+    console.error('Error fetching answered questions:', error);
+    return NextResponse.json({ message: 'Server Error', error: (error as Error).message }, { status: 500 });
   }
 }
 
@@ -52,7 +53,8 @@ export async function POST(req: NextRequest) {
     
     return NextResponse.json({ message: 'Answered question saved.', newAnsweredQuestion }, { status: 201 });
   } catch (_error) {
-    return NextResponse.json({ message: 'Server Error' }, { status: 500 });
+    const error = _error as Error;
+    console.error('Error saving answered question:', error);
+    return NextResponse.json({ message: 'Server Error', error: error.message }, { status: 500 });
   }
 }
-

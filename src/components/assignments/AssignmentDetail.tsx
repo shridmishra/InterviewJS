@@ -85,6 +85,16 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
     }, 300);
   }
 
+  const renderDescription = (description: string) => {
+    const parts = description.split('`');
+    return parts.map((part, index) => {
+      if (index % 2 === 1) {
+        return <span key={index} className="text-yellow-500 px-1 py-0.5 rounded-md font-mono text-sm">{part}</span>;
+      }
+      return part;
+    });
+  };
+
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-black">
       <main className="grow grid grid-cols-1 lg:grid-cols-5 gap-4 p-4 overflow-hidden">
@@ -109,7 +119,7 @@ const ProblemSolvingPage: React.FC<ProblemSolvingPageProps> = ({ problem, onStat
                         <Badge difficulty={problem.difficulty}>{problem.difficulty}</Badge>
                         <span className="text-sm text-gray-500 dark:text-gray-400">{problem.category}</span>
                     </div>
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap mb-6">{problem.description}</p>
+                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap mb-6">{renderDescription(problem.description)}</p>
                     
                     <div>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Examples</h3>
