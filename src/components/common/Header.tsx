@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { SunIcon, MoonIcon, ChevronLeftIcon, UserIcon, LogOutIcon } from './Icons';
 import { useTheme } from 'next-themes';
 import Dropdown from '../ui/Dropdown';
+import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
   problemTitle?: string;
@@ -16,7 +17,13 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
   const auth = useAuth();
   const { theme, setTheme, resolvedTheme } = useTheme();
   const currentTheme = resolvedTheme || theme;
+  const pathname = usePathname();
 
+  const getLinkClass = (path: string) => {
+    return pathname.startsWith(path)
+      ? 'text-sm font-medium text-yellow-400 transition-colors'
+      : 'text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors';
+  };
 
   return (
     <header className="bg-white/10 dark:bg-gray-900/10 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-20 h-16 flex items-center">
@@ -32,7 +39,26 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
               <button onClick={() => onNavigate && onNavigate('')} className="text-xl font-bold text-gray-900 dark:text-white tracking-tight cursor-pointer">
                 practice<span className="text-yellow-400">JS</span>
               </button>
-
+              <nav className="hidden md:flex items-center gap-6">
+                <a href="/challenges" className={getLinkClass('/challenges')}>
+                  Challenges
+                </a>
+                <a href="/quiz" className={getLinkClass('/quiz')}>
+                  Quiz
+                </a>
+              </nav>
+              <nav className="md:hidden">
+                {pathname === '/challenges' && (
+                  <a href="/quiz" className={getLinkClass('/quiz')}>
+                    Quiz
+                  </a>
+                )}
+                {pathname === '/quiz' && (
+                  <a href="/challenges" className={getLinkClass('/challenges')}>
+                    Challenges
+                  </a>
+                )}
+              </nav>
             </div>
           )}
         </div>
