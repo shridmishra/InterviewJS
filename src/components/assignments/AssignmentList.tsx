@@ -64,7 +64,7 @@ const ProgressSummary = ({ problems }: { problems: Problem[] }) => {
                 <div className="flex items-center gap-x-8 gap-y-4 flex-wrap">
                     <div className="border-l border-gray-200 dark:border-gray-700 pl-6">
                         <p className="text-sm text-gray-500 dark:text-gray-400">Easy</p>
-                        <p className="font-semibold text-lg">{easy.solved} / {easy.total} <span className="text-xs text-gray-600 dark:text-gray-500">completed</span></p>
+                        <div className="font-semibold text-lg">{easy.solved} / {easy.total} <span className="text-xs text-gray-600 dark:text-gray-500">completed</span></div>
                     </div>
                     <div className="border-l border-gray-200 dark:border-gray-700 pl-6">
                         <p className="text-sm text-gray-500 dark:text-gray-400">Medium</p>
@@ -141,7 +141,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
 
     return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-black">
-        <main className="flex-grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col">
+        <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col">
             <ProgressSummary problems={problems} />
 
             
@@ -221,7 +221,7 @@ const ProblemListPage: React.FC<ProblemListPageProps> = ({ problems, onSelectPro
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="hover:bg-transparent">
-                                            <TableHead className="w-[80px]">Status</TableHead>
+                                            <TableHead className="w-20">Status</TableHead>
                                             <TableHead>Problem</TableHead>
                                             <TableHead>Difficulty</TableHead>
                                             <TableHead className="w-[120px] text-center">Actions</TableHead>

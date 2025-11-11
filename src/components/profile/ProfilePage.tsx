@@ -116,7 +116,7 @@ const ProfilePage: React.FC = () => {
     
         return (
     
-            <div className="min-h-screen bg-black text-white flex flex-col items-center p-4 md:p-6 lg:p-8">
+            <div className="min-h-screen  bg-white dark:bg-black text-white flex flex-col items-center p-4 md:p-6 lg:p-8">
     
                 <main className="w-full max-w-7xl">
     

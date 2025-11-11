@@ -3,25 +3,20 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '../../components/ui/Button';
+import Dropdown from '../ui/Dropdown';
 import { useAuth } from '../../context/AuthContext';
 
 import { easeInOut, motion, } from "framer-motion";
 import { useRef } from "react";
 import ArrowIcon from "@/assets/arrow-right.svg";
 import jsImage from '@/assets/javascript.png';
-import Dropdown from '../ui/Dropdown';
-import { LogOutIcon, MoonIcon, SunIcon, UserIcon } from '../common/Icons';
+import { LogOutIcon, UserIcon } from '../common/Icons';
 import { VscGithubAlt } from "react-icons/vsc";
-import { useTheme } from 'next-themes';
-
-
 
 export const HomePage = () => {
   const router = useRouter();
   const auth = useAuth();
   const heroRef = useRef(null);
-  const { theme, setTheme, resolvedTheme } = useTheme();
-  const currentTheme = resolvedTheme || theme;
   const handleNavigate = (page: string) => {
     router.push(`/${page}`);
   };
@@ -64,15 +59,6 @@ export const HomePage = () => {
                         <span>Profile</span>
                       </Button>
                     </a>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')}
-                      className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white w-full"
-                      aria-label="Toggle theme"
-                    >
-                      {currentTheme === 'light' ? <div className="w-full flex justify-start items-center gap-2"><MoonIcon className="h-5 w-5" /> <span>Dark</span></div> : <div className="w-full flex justify-start items-center gap-2"><SunIcon className="h-5 w-5" /> <span>Light</span></div>}
-                    </Button>
                     <Button variant="ghost" size="sm" onClick={() => auth.logout()} className="w-full flex justify-start items-center gap-2">
                       <LogOutIcon />
                       <span>Sign out</span>

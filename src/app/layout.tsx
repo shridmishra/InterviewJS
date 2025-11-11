@@ -5,7 +5,6 @@ import { Providers } from './providers';
 import { ToastProvider } from '../components/common/Toast';
 import { ModalProvider } from '../components/modals/ModalProvider';
 import React from 'react';
-import { ThemeProvider } from 'next-theme';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -17,7 +16,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="bg-white dark:bg-black text-gray-900 dark:text-white antialiased" suppressHydrationWarning={true}>
-          <ThemeProvider attribute="class" defaultTheme="system">
         <Providers>
           <ToastProvider>
             <ModalProvider>
@@ -25,7 +23,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </ModalProvider>
           </ToastProvider>
         </Providers>
-        </ThemeProvider>
       </body>
     </html>
   );
