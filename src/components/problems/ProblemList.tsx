@@ -98,13 +98,54 @@ const ChevronDownIcon = () => (
     </svg>
 );
 
+const ArrowUpIcon = ({ className }: { className?: string }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+    </svg>
+);
+
+const ArrowDownIcon = ({ className }: { className?: string }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <polyline points="19 12 12 19 5 12"></polyline>
+    </svg>
+);
+
+const SortArrows = ({ sortOrder }: { sortOrder: 'asc' | 'desc' | 'none' }) => {
+    const iconClass = "h-4 w-4";
+    const inactiveClass = "text-muted-foreground/50";
+
+    return (
+        <div className="flex items-center">
+            {sortOrder === 'asc' && <ArrowUpIcon className={iconClass} />}
+            {sortOrder === 'desc' && <ArrowDownIcon className={iconClass} />}
+            {sortOrder === 'none' && (
+                <div className="flex flex-col">
+                    <ArrowUpIcon className={`h-3 w-3 ${inactiveClass}`} />
+                    <ArrowDownIcon className={`h-3 w-3 ${inactiveClass} -mt-1`} />
+                </div>
+            )}
+        </div>
+    );
+};
+
 const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem, onToggleStar, onUpdateNotes, onLogin, onNavigate: _onNavigate, onLogout: _onLogout }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [difficultyFilter, setDifficultyFilter] = useState<Difficulty | 'all'>('all');
     const [activeTab, setActiveTab] = useState('all');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | 'none'>('none');
     const [editingNotesFor, setEditingNotesFor] = useState<Problem | null>(null);
     const auth = useAuth();
+
+    const handleSort = () => {
+        setSortOrder(prev => {
+            if (prev === 'asc') return 'desc';
+            if (prev === 'desc') return 'none';
+            return 'asc';
+        });
+    };
 
     const handleDropdownKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, onClick: () => void) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -199,6 +240,9 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                 </Button>
                             )}
                         </div>
+                        <Button variant="secondary" onClick={handlePickRandom} className="flex items-center gap-2">
+                            <ShuffleIcon />  <p className='hidden lg:flex'>Pick Random</p>
+                        </Button>
                         <div className="flex items-center gap-2">
                             <Dropdown
                                 trigger={
@@ -247,9 +291,7 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                             </Dropdown>
                         </div>
 
-                        <Button variant="secondary" onClick={handlePickRandom} className="flex items-center gap-2">
-                            <ShuffleIcon /> Pick Random
-                        </Button>
+                        
                     </div>
                 </div>
 
@@ -258,12 +300,19 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                     const totalCount = groupProblems.length;
                     const progress = totalCount > 0 ? (solvedCount / totalCount) * 100 : 0;
 
-                    const difficultyOrder = {
-                        [Difficulty.Easy]: 1,
-                        [Difficulty.Medium]: 2,
-                        [Difficulty.Hard]: 3,
-                    };
-                    const sortedProblems = [...groupProblems].sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+                    const sortedProblems = [...groupProblems];
+                    if (sortOrder !== 'none') {
+                        const difficultyOrder = {
+                            [Difficulty.Easy]: 1,
+                            [Difficulty.Medium]: 2,
+                            [Difficulty.Hard]: 3,
+                        };
+                        sortedProblems.sort((a, b) => {
+                            const diffA = difficultyOrder[a.difficulty];
+                            const diffB = difficultyOrder[b.difficulty];
+                            return sortOrder === 'asc' ? diffA - diffB : diffB - diffA;
+                        });
+                    }
 
                     return (
                         <details key={name} className="bg-card rounded-lg mb-4 border border-border group" open={index === 0}>
@@ -287,7 +336,12 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                         <TableRow className="hover:bg-transparent">
                                             <TableHead className="w-20">Status</TableHead>
                                             <TableHead>Problem</TableHead>
-                                            <TableHead>Difficulty</TableHead>
+                                            <TableHead onClick={handleSort} className="cursor-pointer select-none w-[120px]">
+                                                <div className="flex items-center gap-2">
+                                                    Difficulty
+                                                    <SortArrows sortOrder={sortOrder} />
+                                                </div>
+                                            </TableHead>
                                             <TableHead className="w-[120px] text-center">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>

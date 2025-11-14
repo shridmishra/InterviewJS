@@ -8,7 +8,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     description: 'Write a function `sum` that takes two numbers, `a` and `b`, as arguments and returns their sum.',
     difficulty: Difficulty.Easy,
     category: 'Function',
-    group: 'Step 1: Learn the basics',
+    group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition',
     starterCode: `function sum(a, b) {
   // Your code here
@@ -22,7 +22,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     description: 'Write a function `isEven` that takes a number and returns `true` if it is even, and `false` otherwise.',
     difficulty: Difficulty.Easy,
     category: 'Math',
-    group: 'Step 1: Learn the basics',
+    group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder',
     starterCode: `function isEven(n) {
   // Your code here
@@ -36,7 +36,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     description: 'Write a function `stringLength` that returns the length of a given string.',
     difficulty: Difficulty.Easy,
     category: 'String',
-    group: 'Step 1: Learn the basics',
+    group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length',
     starterCode: `function stringLength(str) {
   // Your code here
@@ -50,7 +50,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     description: "Write a function `getKeys` that takes an object and returns an array of its keys.",
     difficulty: Difficulty.Easy,
     category: 'Object',
-    group: 'Step 1: Learn the basics',
+    group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys',
     starterCode: `function getKeys(obj) {
   // Your code here
@@ -64,7 +64,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     description: 'Write a function `countToN` that takes a number `n` and returns an array of numbers from 1 to `n`.',
     difficulty: Difficulty.Easy,
     category: 'Loop',
-    group: 'Step 1: Learn the basics',
+    group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration#for_statement',
     starterCode: `function countToN(n) {
   // Your code here
@@ -78,7 +78,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     description: 'Write a function `getValues` that takes an object and returns an array of its values.',
     difficulty: Difficulty.Easy,
     category: 'Object',
-    group: 'Step 1: Learn the basics',
+    group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values',
     starterCode: `function getValues(obj) {
   // Your code here
@@ -90,7 +90,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
         id: 'concatenate-strings',
         title: 'Concatenate Strings',
         description: 'Write a function `concat` that takes two strings and returns them joined together.',
-        difficulty: Difficulty.Easy, category: 'String', group: 'Step 1: Learn the basics',
+        difficulty: Difficulty.Easy, category: 'String', group: 'Step 1: Basics I',
         docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/concat',
         starterCode: `function concat(str1, str2) {
   // Your code here
@@ -102,7 +102,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
         id: 'is-positive',
         title: 'Check if Positive',
         description: 'Write a function `isPositive` that returns `true` if a number is positive, and `false` otherwise. Consider 0 as not positive.',
-        difficulty: Difficulty.Easy, category: 'Math', group: 'Step 1: Learn the basics',
+        difficulty: Difficulty.Easy, category: 'Math', group: 'Step 1: Basics I',
         docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators',
         starterCode: `function isPositive(n) {
   // Your code here
@@ -114,7 +114,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
         id: 'get-first-element',
         title: 'Get First Element',
         description: 'Write a function `getFirst` that takes an array and returns its first element. If the array is empty, it should return `undefined`.',
-        difficulty: Difficulty.Easy, category: 'Array', group: 'Step 1: Learn the basics',
+        difficulty: Difficulty.Easy, category: 'Array', group: 'Step 1: Basics I',
         docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array',
         starterCode: `function getFirst(arr) {
   // Your code here

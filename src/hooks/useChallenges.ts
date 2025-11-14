@@ -1,21 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Problem, ProblemStatus } from '../types';
-import { learnTheBasics } from '../data/problems/1-learn-the-basics';
-import { arrayManipulation } from '../data/problems/2-array-manipulation';
-import { stringOperations } from '../data/problems/3-string-operations';
-import { algorithms } from '../data/problems/4-algorithms';
-import { objectAndFunctionMastery } from '../data/problems/5-object-and-function-mastery';
-import { asynchronousJavaScript } from '../data/problems/6-asynchronous-javascript';
-import { domManipulation } from '../data/problems/7-dom-manipulation';
-import { advancedDomAndEvents } from '../data/problems/8-advanced-dom-and-events';
-import { typescriptFundamentals } from '../data/problems/9-typescript-fundamentals';
+import { learnTheBasics } from '../data/problems/1-basics-1';
+import { arrayManipulation } from '../data/problems/2-basics-2';
+import { step3Basics3 } from '../data/problems/3-basics-3';
+
+
+import { asynchronousJavaScript } from '../data/problems/4-asynchronous-javascript';
+import { domManipulation } from '../data/problems/5-dom-manipulation';
+import { advancedDomAndEvents } from '../data/problems/6-advanced-dom-and-events';
+import { typescriptFundamentals } from '../data/problems/7-typescript-fundamentals';
 
 const staticProblems = [
     ...learnTheBasics,
     ...arrayManipulation,
-    ...stringOperations,
-    ...algorithms,
-    ...objectAndFunctionMastery,
+    ...step3Basics3,
     ...asynchronousJavaScript,
     ...domManipulation,
     ...advancedDomAndEvents,
