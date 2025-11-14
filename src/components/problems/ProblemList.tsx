@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { BsChevronExpand } from "react-icons/bs";
 
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 
@@ -43,40 +44,42 @@ const ProgressSummary = ({ problems }: { problems: Problem[] }) => {
 
     return (
         <Card className="mb-6">
-            <div className="p-6 flex flex-wrap items-center justify-between gap-x-12 gap-y-6">
-                <div className="flex items-center gap-6">
-                    <div>
-                        <p className="text-muted-foreground text-sm">Total Progress</p>
-                        <p className="text-3xl font-bold mt-1">{solved} / {total}</p>
-                    </div>
-                    <div className="relative h-20 w-20">
-                        <svg className="h-full w-full" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-muted" strokeWidth="3"></circle>
-                            <circle cx="18" cy="18" r="16" fill="none"
-                                className="stroke-current text-primary"
-                                strokeWidth="3"
-                                strokeDasharray={`${progress}, 100`}
-                                strokeLinecap="round"
-                                transform="rotate(-90 18 18)"
-                            ></circle>
-                        </svg>
-                        <div className="absolute inset-0 flex items-center justify-center text-sm font-bold">
-                            {Math.round(progress)}%
+            <div className="p-4 md:p-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6">
+                <div className="flex items-center justify-between md:justify-start gap-6">
+                    <div className="flex items-center gap-4">
+                        <div className="relative h-16 w-16 md:h-20 md:w-20">
+                            <svg className="h-full w-full" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-muted" strokeWidth="3"></circle>
+                                <circle cx="18" cy="18" r="16" fill="none"
+                                    className="stroke-current text-primary"
+                                    strokeWidth="3"
+                                    strokeDasharray={`${progress}, 100`}
+                                    strokeLinecap="round"
+                                    transform="rotate(-90 18 18)"
+                                ></circle>
+                            </svg>
+                            <div className="absolute inset-0 flex items-center justify-center text-sm font-bold">
+                                {Math.round(progress)}%
+                            </div>
+                        </div>
+                        <div>
+                            <p className="text-muted-foreground text-sm">Total Progress</p>
+                            <p className="text-2xl md:text-3xl font-bold mt-1">{solved} / {total}</p>
                         </div>
                     </div>
                 </div>
-                <div className="flex items-center gap-x-8 gap-y-4 flex-wrap">
-                    <div className="border-l border-border pl-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-0 md:flex md:items-center md:gap-x-8 md:gap-y-4">
+                    <div className="border-t border-border pt-4 md:border-t-0 md:border-l md:pt-0 md:pl-6">
                         <p className="text-sm text-muted-foreground">Easy</p>
-                        <div className="font-semibold text-lg">{easy.solved} / {easy.total} <span className="text-xs text-muted-foreground">completed</span></div>
+                        <div className="font-semibold text-lg">{easy.solved} / {easy.total} <span className="text-xs text-muted-foreground hidden sm:inline">completed</span></div>
                     </div>
-                    <div className="border-l border-border pl-6">
+                    <div className="border-t border-border pt-4 md:border-t-0 md:border-l md:pt-0 md:pl-6">
                         <p className="text-sm text-muted-foreground">Medium</p>
-                        <p className="font-semibold text-lg">{medium.solved} / {medium.total} <span className="text-xs text-muted-foreground">completed</span></p>
+                        <p className="font-semibold text-lg">{medium.solved} / {medium.total} <span className="text-xs text-muted-foreground hidden sm:inline">completed</span></p>
                     </div>
-                    <div className="border-l border-border pl-6">
+                    <div className="border-t border-border pt-4 md:border-t-0 md:border-l md:pt-0 md:pl-6">
                         <p className="text-sm text-muted-foreground">Hard</p>
-                        <p className="font-semibold text-lg">{hard.solved} / {hard.total} <span className="text-xs text-muted-foreground">completed</span></p>
+                        <p className="font-semibold text-lg">{hard.solved} / {hard.total} <span className="text-xs text-muted-foreground hidden sm:inline">completed</span></p>
                     </div>
                 </div>
             </div>
@@ -92,40 +95,24 @@ const ShuffleIcon = () => (
     </svg>
 );
 
+const ChevronUpIcon = () => (
+    <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
+    </svg>
+);
+
 const ChevronDownIcon = () => (
     <svg className="h-5 w-5 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
         <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
     </svg>
 );
 
-const ArrowUpIcon = ({ className }: { className?: string }) => (
-    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="12" y1="19" x2="12" y2="5"></line>
-        <polyline points="5 12 12 5 19 12"></polyline>
-    </svg>
-);
-
-const ArrowDownIcon = ({ className }: { className?: string }) => (
-    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <polyline points="19 12 12 19 5 12"></polyline>
-    </svg>
-);
-
 const SortArrows = ({ sortOrder }: { sortOrder: 'asc' | 'desc' | 'none' }) => {
-    const iconClass = "h-4 w-4";
-    const inactiveClass = "text-muted-foreground/50";
-
     return (
         <div className="flex items-center">
-            {sortOrder === 'asc' && <ArrowUpIcon className={iconClass} />}
-            {sortOrder === 'desc' && <ArrowDownIcon className={iconClass} />}
-            {sortOrder === 'none' && (
-                <div className="flex flex-col">
-                    <ArrowUpIcon className={`h-3 w-3 ${inactiveClass}`} />
-                    <ArrowDownIcon className={`h-3 w-3 ${inactiveClass} -mt-1`} />
-                </div>
-            )}
+            {sortOrder === 'asc' && <ChevronUpIcon />}
+            {sortOrder === 'desc' && <ChevronDownIcon />}
+            {sortOrder === 'none' && <BsChevronExpand className="h-4 w-4 text-muted-foreground" />}
         </div>
     );
 };
@@ -218,11 +205,10 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                             For Revision
                         </Button>
                     </div>
-                    <div className="flex items-center gap-4 ">
-
-                        <div className="flex items-center gap-2">
+                    <div className="flex flex-row gap-2 items-center md:gap-4">
+                        <div className="grow">
                             {isSearchVisible ? (
-                                <div className="relative">
+                                <div className="relative w-full">
                                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                         <SearchIcon className="h-5 w-5 text-muted-foreground" />
                                     </div>
@@ -230,68 +216,70 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                         placeholder="Search problems..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        onBlur={() => setIsSearchVisible(false)}
-                                        className="pl-10"
+                                        className="pl-10 w-full"
                                     />
                                 </div>
                             ) : (
-                                <Button variant="secondary" onClick={() => setIsSearchVisible(true)} >
-                                    <SearchIcon className="h-5 w-5 text-foreground" />
+                                <Button variant="secondary" onClick={() => setIsSearchVisible(true)} className="w-full justify-start text-muted-foreground">
+                                    <SearchIcon className="h-5 w-5" />
+                                    <span className="ml-2">Search...</span>
                                 </Button>
                             )}
                         </div>
-                        <Button variant="secondary" onClick={handlePickRandom} className="flex items-center gap-2">
-                            <ShuffleIcon />  <p className='hidden lg:flex'>Pick Random</p>
-                        </Button>
-                        <div className="flex items-center gap-2">
-                            <Dropdown
-                                trigger={
-                                    <div className=" p-2 text-sm font-medium flex rounded-md items-center justify-between w-40 bg-secondary text-secondary-foreground hover:bg-secondary-hover cursor-pointer">    <div>{difficultyFilter === 'all' ? 'Select Difficulty' : difficultyFilter}</div>
-                                        <ChevronDownIcon />
-                                    </div>
-
-                                }
-                            >
-                                {(close) => (
-                                    <div className="py-1">
-                                        <div
-                                            role="button"
-                                            tabIndex={0}
-                                            onClick={() => {
-                                                setDifficultyFilter('all');
-                                                close();
-                                            }}
-                                            onKeyDown={(e) => handleDropdownKeyDown(e, () => {
-                                                setDifficultyFilter('all');
-                                                close();
-                                            })}
-                                            className="block px-4 py-2 text-sm text-foreground hover:bg-accent cursor-pointer"
-                                        >
-                                            All
+                        <div className="flex flex-row items-center gap-2 w-full sm:w-auto">
+                            <Button variant="secondary" onClick={handlePickRandom} className=" flex items-center justify-center gap-2">
+                                <ShuffleIcon />
+                                <span className="hidden md:inline">Pick Random</span>
+                            </Button>
+                            <div className="w-full sm:w-40">
+                                <Dropdown
+                                    trigger={
+                                        <div className="p-2 text-sm font-medium flex rounded-md items-center justify-between w-full sm:w-40 bg-secondary text-secondary-foreground hover:bg-secondary-hover cursor-pointer">
+                                            <div>{difficultyFilter === 'all' ? 'Select Difficulty' : difficultyFilter}</div>
+                                            <ChevronDownIcon />
                                         </div>
-                                        {Object.values(Difficulty).map(diff => (
+                                    }
+                                >
+                                    {(close) => (
+                                        <div className="py-1">
                                             <div
-                                                key={diff}
                                                 role="button"
                                                 tabIndex={0}
                                                 onClick={() => {
-                                                    setDifficultyFilter(diff);
+                                                    setDifficultyFilter('all');
                                                     close();
                                                 }}
                                                 onKeyDown={(e) => handleDropdownKeyDown(e, () => {
-                                                    setDifficultyFilter(diff);
+                                                    setDifficultyFilter('all');
                                                     close();
                                                 })}
-                                                className="block px-4 py-2 text-sm text-foreground hover:bg-accent cursor-pointer"                                            >
-                                                {diff}
+                                                className="block px-4 py-2 text-sm text-foreground hover:bg-accent cursor-pointer"
+                                            >
+                                                All
                                             </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </Dropdown>
+                                            {Object.values(Difficulty).map(diff => (
+                                                <div
+                                                    key={diff}
+                                                    role="button"
+                                                    tabIndex={0}
+                                                    onClick={() => {
+                                                        setDifficultyFilter(diff);
+                                                        close();
+                                                    }}
+                                                    onKeyDown={(e) => handleDropdownKeyDown(e, () => {
+                                                        setDifficultyFilter(diff);
+                                                        close();
+                                                    })}
+                                                    className="block px-4 py-2 text-sm text-foreground hover:bg-accent cursor-pointer"
+                                                >
+                                                    {diff}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </Dropdown>
+                            </div>
                         </div>
-
-                        
                     </div>
                 </div>
 
@@ -317,48 +305,55 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                     return (
                         <details key={name} className="bg-card rounded-lg mb-4 border border-border group" open={index === 0}>
                             <summary className="p-4 cursor-pointer font-semibold list-none text-foreground hover:bg-accent rounded-t-lg relative">
-                                <div className="flex justify-between items-center text-lg">
+                                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-lg">
                                     <div className="flex items-center gap-4">
                                         <span className="group-open:rotate-180 transition-transform duration-200">
                                             <ChevronDownIcon />
                                         </span>
                                         <span>{name}</span>
                                     </div>
-                                    <span className="text-sm text-muted-foreground font-medium">{solvedCount} / {totalCount}</span>
+                                    <span className="text-sm text-muted-foreground font-medium mt-2 sm:mt-0 ml-8 sm:ml-0">{solvedCount} / {totalCount}</span>
                                 </div>
                                 <div className="absolute bottom-0 left-0 w-full">
                                     <ProgressBar value={progress} />
                                 </div>
                             </summary>
-                            <div className="border-t border-border">
+                            <div className="border-t border-border overflow-x-auto">
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="hover:bg-transparent">
-                                            <TableHead className="w-20">Status</TableHead>
+                                            <TableHead className="w-12 hidden sm:table-cell">Status</TableHead>
                                             <TableHead>Problem</TableHead>
+                                            <TableHead className="hidden md:table-cell">Category</TableHead>
                                             <TableHead onClick={handleSort} className="cursor-pointer select-none w-[120px]">
                                                 <div className="flex items-center gap-2">
                                                     Difficulty
                                                     <SortArrows sortOrder={sortOrder} />
                                                 </div>
                                             </TableHead>
-                                            <TableHead className="w-[120px] text-center">Actions</TableHead>
+                                            <TableHead className="w-24 text-center">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {sortedProblems.map((problem) => (
                                             <TableRow key={problem.id} className="group/row">
-                                                <TableCell className="cursor-pointer"><Checkbox checked={problem.status === ProblemStatus.Solved} className="rounded-sm" /></TableCell>
+                                                <TableCell className="hidden sm:table-cell">
+                                                    <Checkbox checked={problem.status === ProblemStatus.Solved} className="rounded-sm" />
+                                                </TableCell>
                                                 <TableCell onClick={() => onSelectProblem(problem)} className="font-medium text-foreground cursor-pointer">{problem.title}</TableCell>
+                                                <TableCell className="hidden md:table-cell">
+                                                    <Badge variant="outline">{problem.category}</Badge>
+                                                </TableCell>
                                                 <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer">
                                                     <Badge variant={problem.difficulty === 'Easy' ? 'default' : problem.difficulty === 'Medium' ? 'secondary' : 'destructive'}>{problem.difficulty}</Badge>
                                                 </TableCell>
                                                 <TableCell className="text-center">
-                                                    <div className="flex items-center justify-center gap-2">
-                                                        <button onClick={() => auth.isAuthenticated ? onToggleStar(problem.id) : onLogin()} className="p-1 rounded-full hover:bg-accent">                                                            <BookmarkIcon filled={!!problem.isStarred} className="text-gray-400" />
+                                                    <div className="flex items-center justify-center gap-1">
+                                                        <button onClick={() => auth.isAuthenticated ? onToggleStar(problem.id) : onLogin()} className="p-1 rounded-full hover:bg-accent">
+                                                            <BookmarkIcon filled={!!problem.isStarred} className="text-muted-foreground h-5 w-5" />
                                                         </button>
                                                         <button onClick={() => auth.isAuthenticated ? setEditingNotesFor(problem) : onLogin()} className="p-1 rounded-full hover:bg-accent">
-                                                            <FaPlus className="text-gray-400" />
+                                                            <FaPlus className="text-muted-foreground h-4 w-4" />
                                                         </button>
                                                     </div>
                                                 </TableCell>

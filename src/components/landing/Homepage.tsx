@@ -11,7 +11,8 @@ import { useRef } from "react";
 import ArrowIcon from "@/assets/arrow-right.svg";
 import jsImage from '@/assets/javascript.png';
 import { LogOutIcon, UserIcon } from '../common/Icons';
-import { VscGithubAlt } from "react-icons/vsc";
+import { VscGithubInverted } from "react-icons/vsc";
+
 
 export const HomePage = () => {
   const router = useRouter();
@@ -22,7 +23,7 @@ export const HomePage = () => {
   };
 
   return (
-    <section ref={heroRef} className="pt-8 pb-20 md:pt-10 md:pb-24 bg-[radial-gradient(ellipse_200%_100%_at_bottom_left,#fefce8,#fff_100%)] dark:bg-[radial-gradient(ellipse_200%_100%_at_bottom_left,#1a202c,#000_100%)] overflow-x-clip px-4 sm:px-6 lg:px-8 h-screen">
+    <section ref={heroRef} className="pt-8 pb-20 md:pt-10 md:pb-24 bg-[radial-gradient(ellipse_200%_100%_at_bottom_left,#fefce8,#fff_100%)] dark:bg-[radial-gradient(ellipse_200%_100%_at_bottom_left,#1a202c,#000_100%)] overflow-x-clip px-4 sm:px-6 lg:px-8 lg:h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <header className="flex justify-between items-center py-4">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
@@ -32,10 +33,10 @@ export const HomePage = () => {
             <div className="flex items-center gap-2">
               <button
                 
-                className="hidden lg:flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                className="hidden lg:flex items-center gap-2 text-foreground hover:text-muted-foreground"
                 onClick={() => window.open("https://github.com/shridmishra/practicejs", "_blank")}
               >
-                Give a star <VscGithubAlt className="w-5 h-5" />
+                Give a star <VscGithubInverted className="w-5 h-5" />
               </button>
               {auth.isAuthenticated && auth.user ? (
                 <Dropdown

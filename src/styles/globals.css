@@ -246,3 +246,8 @@ button,
     @apply bg-background text-foreground;
   }
 }
+
+.gradient-text {
+    @apply font-bold tracking-tighter bg-linear-to-b from-yellow-500 to-[#ecc94b] dark:from-white dark:to-[#fff085]  text-transparent bg-clip-text mt-6 leading-normal;
+  
+  }
