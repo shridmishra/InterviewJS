@@ -28,7 +28,7 @@ export const Footer = () => {
         </div>
         <p className="mt-6">
           Developed By{' '}
-          <a href="https://shrid.in/" target="_blank" rel="noopener noreferrer" className="text-yellow-300 hover:underline">
+          <a href="https://shrid.in/" target="_blank" rel="noopener noreferrer" className="gradient-text hover:underline">
             Shrid Mishra
           </a>
         </p>

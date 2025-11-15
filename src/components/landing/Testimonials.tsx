@@ -118,7 +118,7 @@ const TestimonialColumns = (props: {
 );
 
 export const Testimonials = () => {
-  return <section className="lg:py-24 bg-white dark:bg-black mt-24 lg:mt-0">
+  return <section className="py-24 bg-white dark:bg-black">
     <div className="container">
       <div className="flex flex-col justify-center items-center text-center lg:mx-44">
         <div className="tag">Testimonial</div>

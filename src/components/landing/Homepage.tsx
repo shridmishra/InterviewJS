@@ -26,9 +26,9 @@ export const HomePage = () => {
     <section ref={heroRef} className="pt-8 pb-20 md:pt-10 md:pb-24 bg-[radial-gradient(ellipse_200%_100%_at_bottom_left,#fefce8,#fff_100%)] dark:bg-[radial-gradient(ellipse_200%_100%_at_bottom_left,#1a202c,#000_100%)] overflow-x-clip px-4 sm:px-6 lg:px-8 lg:h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <header className="flex justify-between items-center py-4">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+          <div className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
             practice<span className="gradient-text">JS</span>
-          </h1>
+          </div>
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="flex items-center gap-2">
               <button
@@ -46,7 +46,7 @@ export const HomePage = () => {
                       aria-label="View Profile"
                     >
                       {auth.user?.image ? (
-                        <UserIcon />
+                        <UserIcon className='text-foreground hover:text-muted-foreground'/>
                       ) : (
                         auth.user?.name?.charAt(0)?.toUpperCase() || 'U'
                       )}
@@ -69,7 +69,7 @@ export const HomePage = () => {
                   )}
                 </Dropdown>
               ) : (
-                <Button variant="secondary" size="sm" onClick={() => auth.login()} className="whitespace-nowrap">
+                <Button variant="secondary" size="sm" onClick={() => auth.login()} className="whitespace-nowrap bg-foreground text-background hover:bg-muted-foreground hover:text-muted-background">
                   Sign in
                 </Button>
               )} </div>
@@ -80,7 +80,7 @@ export const HomePage = () => {
                     <div className="md:w-1/2">
                         <div>
                             <h1 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">Master JavaScript,<br />One Challenge at a Time.</h1>
-                            <p className="text-lg lg:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">Celebrate the joy of accomplishment with an app designed to track your progress, motivate your efforts, and celebrate your successes.</p>
+                            <p className="text-lg lg:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">An interactive platform to practice JavaScript, tackle coding challenges, and prepare for technical interviews. Track your progress and master JS. </p>
                         </div>
                         <div className="mt-7 flex gap-1 md:items-center flex-col items-start md:flex-row">
                             <button onClick={() => handleNavigate('challenges')} className="btn btn-primary bg-black text-white dark:bg-white dark:text-black">View Challenges</button>
@@ -90,7 +90,7 @@ export const HomePage = () => {
 
 
           <div className="hidden md:flex md:w-1/2 pt-12 md:mt-0 items-center justify-center">
-            <motion.img src={jsImage.src} alt="js image" className="max-w-sm" animate={{ translateY: [-30, 30], }} transition={{ repeat: Infinity, repeatType: "mirror", duration: 3, ease: easeInOut }} />
+            <motion.img src={jsImage.src} alt="Animated JavaScript Logo" className="max-w-sm" animate={{ translateY: [-30, 30], }} transition={{ repeat: Infinity, repeatType: "mirror", duration: 3, ease: easeInOut }} />
           </div>
         </div>
       </div>
