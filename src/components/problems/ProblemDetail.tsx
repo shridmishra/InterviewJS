@@ -37,47 +37,43 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusCha
     toast.info('Code has been reset.');
   };
 
-  const handleRunTests = () => {
+  const handleRunTests = async () => {
     setIsRunning(true);
     setTestResults([]);
 
-    setTimeout(() => {
-      const results = problem.solutionCheck(code);
-      setTestResults(results);
-      const allPassed = results.every(r => r.passed);
-      
-      if (allPassed) {
-          toast.success('All tests passed!');
-          onStatusChange(problem.id, ProblemStatus.Attempted);
-      } else {
-          const passedCount = results.filter(r => r.passed).length;
-          toast.error(`${passedCount}/${results.length} tests passed. Keep trying!`);
-          onStatusChange(problem.id, ProblemStatus.Attempted);
-      }
-      setIsRunning(false);
-    }, 300);
+    const results = await Promise.resolve(problem.solutionCheck(code));
+    setTestResults(results);
+    const allPassed = results.every(r => r.passed);
+    
+    if (allPassed) {
+        toast.success('All tests passed!');
+        onStatusChange(problem.id, ProblemStatus.Attempted);
+    } else {
+        const passedCount = results.filter(r => r.passed).length;
+        toast.error(`${passedCount}/${results.length} tests passed. Keep trying!`);
+        onStatusChange(problem.id, ProblemStatus.Attempted);
+    }
+    setIsRunning(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
      if (!auth.isAuthenticated) {
         onLogin();
         return;
     }
     setIsRunning(true);
-    setTimeout(() => {
-      const results = problem.solutionCheck(code);
-      setTestResults(results);
-      const allPassed = results.every(r => r.passed);
+    const results = await Promise.resolve(problem.solutionCheck(code));
+    setTestResults(results);
+    const allPassed = results.every(r => r.passed);
 
-      if (allPassed) {
-        onStatusChange(problem.id, ProblemStatus.Solved);
-        toast.success('Solution submitted successfully!');
-      } else {
-        toast.error('Submission failed. Please pass all tests first.');
-        onStatusChange(problem.id, ProblemStatus.Attempted);
-      }
-      setIsRunning(false);
-    }, 300);
+    if (allPassed) {
+      onStatusChange(problem.id, ProblemStatus.Solved);
+      toast.success('Solution submitted successfully!');
+    } else {
+      toast.error('Submission failed. Please pass all tests first.');
+      onStatusChange(problem.id, ProblemStatus.Attempted);
+    }
+    setIsRunning(false);
   }
 
   const renderDescription = (description: string) => {

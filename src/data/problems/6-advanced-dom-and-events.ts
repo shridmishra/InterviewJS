@@ -1,206 +1,355 @@
 import { Problem, Difficulty } from '../../types';
+import { fireEvent } from '@testing-library/dom';
 
 export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
-    {
-        id: 'dom-query-selector',
-        title: 'Query Selector',
-        description: 'Write a function `select` that takes a CSS selector string and returns the first matching element.\n\n**Note:** This is conceptual. It mocks `document.querySelector`.',
-        difficulty: Difficulty.Easy, category: 'DOM', group: 'Step 6: Advanced DOM & Events',
-        docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector',
-        starterCode: 'function select(selector) {\n  // Your code here\n}',
-        testCases: [],
-        solutionCheck: (userCode: string) => {
-            try {
-                const mockElement = { id: 'test' };
-                const document = { querySelector: (s: string) => s === '.test-class' ? mockElement : null };
-                const userFn = new Function('document', `return ${userCode}`)(document);
-                if (userFn('.test-class').id === 'test') {
-                    return [{ input: ".test-class", expected: 'mock element', actual: 'correct element returned', passed: true }];
-                }
-                return [{ input: ".test-class", expected: 'mock element', actual: 'wrong element returned', passed: false }];
-            } catch(e: unknown) { return [{ input: 'N/A', expected: 'Function for querySelector', actual: `Error: ${(e instanceof Error) ? e.message : 'Unknown error'}`, passed: false }]; }
+  {
+    id: 'dom-query-selector',
+    title: 'Query Selector',
+    description: 'Write a function `select` that takes a CSS selector string and returns the first matching DOM element. Assume `document.querySelector` is available.',
+    difficulty: Difficulty.Easy,
+    category: 'DOM',
+    group: 'Step 6: Advanced DOM & Events',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector',
+    starterCode: `function select(selector) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: (userCode: string) => {
+      const mockElement = { id: 'found-element' };
+      const mockDocument = {
+        querySelector: function(selector: string) {
+          return selector === '.test-class' ? mockElement : null;
         }
-    },
-    {
-        id: 'dom-query-selector-all',
-        title: 'Query Selector All',
-        description: 'Write a function `selectAll` that takes a CSS selector string and returns a list of all matching elements.\n\n**Note:** This is conceptual.',
-        difficulty: Difficulty.Medium, category: 'DOM', group: 'Step 6: Advanced DOM & Events',
-        docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll',
-        starterCode: 'function selectAll(selector) {\n  // Your code here\n}',
-        testCases: [],
-        solutionCheck: (userCode: string) => {
-            try {
-                const mockElements = [{id: 1}, {id: 2}];
-                const document = { querySelectorAll: (s: string) => s === '.item' ? mockElements : [] };
-                const userFn = new Function('document', `return ${userCode}`)(document);
-                if (userFn('.item').length === 2) {
-                    return [{ input: ".item", expected: 'array of 2 elements', actual: 'correct array returned', passed: true }];
-                }
-                return [{ input: ".item", expected: 'array of 2 elements', actual: 'wrong array returned', passed: false }];
-            } catch(e: unknown) { return [{ input: 'N/A', expected: 'Function for querySelectorAll', actual: `Error: ${(e instanceof Error) ? e.message : 'Unknown error'}`, passed: false }]; }
+      };
+      try {
+        const userFn = new Function('document', `return ${userCode}`)(mockDocument);
+        const result = userFn('.test-class');
+        return [{ input: ".test-class", expected: 'Element with id "found-element"', actual: result ? `Element with id "${result.id}"` : 'null', passed: result && result.id === 'found-element' }];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Function for querySelector', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    }
+  },
+  {
+    id: 'dom-query-selector-all',
+    title: 'Query Selector All',
+    description: 'Write a function `selectAll` that takes a CSS selector string and returns a NodeList of all matching DOM elements. Assume `document.querySelectorAll` is available.',
+    difficulty: Difficulty.Easy,
+    category: 'DOM',
+    group: 'Step 6: Advanced DOM & Events',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll',
+    starterCode: `function selectAll(selector) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: (userCode: string) => {
+      const mockElements = [{ id: 1 }, { id: 2 }];
+      const mockDocument = {
+        querySelectorAll: function(selector: string) {
+          return selector === '.item' ? mockElements : [];
         }
-    },
-    {
-        id: 'dom-remove-child',
-        title: 'Remove a Child',
-        description: 'Write a function `removeChildEl` that takes a parent and a child element, and removes the child from the parent.\n\n**Note:** This is a conceptual challenge.',
-        difficulty: Difficulty.Medium, category: 'DOM', group: 'Step 6: Advanced DOM & Events',
-        docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/removeChild',
-        starterCode: 'function removeChildEl(parent, child) {\n  // Your code here\n}',
-        testCases: [],
-        solutionCheck: (userCode: string) => {
-            try {
-                const userFn = new Function(`return ${userCode}`)();
-                const mockChild = { id: 'child' };
-                const mockParent = { children: [mockChild], removeChild(c: unknown) { this.children = this.children.filter(i => i !== c) } };
-                userFn(mockParent, mockChild);
-                if (mockParent.children.length === 0) {
-                    return [{ input: 'parent, child', expected: 'child removed', actual: 'child removed correctly', passed: true }];
-                }
-                return [{ input: 'parent, child', expected: 'child removed', actual: 'child not removed', passed: false }];
-            } catch(e: unknown) { return [{ input: 'N/A', expected: 'Function to remove child', actual: `Error: ${(e instanceof Error) ? e.message : 'Unknown error'}`, passed: false }]; }
+      };
+      try {
+        const userFn = new Function('document', `return ${userCode}`)(mockDocument);
+        const result = userFn('.item');
+        return [{ input: ".item", expected: 'NodeList of 2 elements', actual: `Length: ${result.length}`, passed: result.length === 2 }];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Function for querySelectorAll', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    }
+  },
+  {
+    id: 'dom-add-event-listener',
+    title: 'Add Event Listener',
+    description: 'Write a function `addClickListener` that takes an element and a callback function, and attaches a "click" event listener to the element.',
+    difficulty: Difficulty.Easy,
+    category: 'DOM Events',
+    group: 'Step 6: Advanced DOM & Events',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener',
+    starterCode: `function addClickListener(element, callback) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: (userCode: string) => {
+      let eventType = '';
+      let eventCallback: ((event: Event) => void) | null = null;
+      const mockElement = {
+        addEventListener: function(type: string, callback: (event: Event) => void) {
+          eventType = type;
+          eventCallback = callback;
         }
-    },
-    {
-        id: 'dom-create-and-append',
-        title: 'Create and Append',
-        description: 'Write a function `addListItem` that takes a string of text, creates a new `<li>` element with that text, and appends it to a `<ul>` element provided.\n\n**Note:** Conceptual.',
-        difficulty: Difficulty.Medium, category: 'DOM', group: 'Step 6: Advanced DOM & Events',
-        docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild',
-        starterCode: 'function addListItem(ulElement, text) {\n  // Your code here\n}',
-        testCases: [],
-        solutionCheck: (userCode: string) => {
-            try {
-                const document = { createElement: (tag: string) => ({ tagName: tag.toUpperCase(), textContent: '', children: [] as unknown[], appendChild(c: unknown) { this.children.push(c) }}) };
-                const userFn = new Function('document', `return ${userCode}`)(document);
-                const mockUl = { children: [] as unknown[], appendChild(c: unknown) { this.children.push(c) } };
-                userFn(mockUl, 'New Item');
-                if (mockUl.children.length > 0 && (mockUl.children[0] as { tagName: string, textContent: string }).tagName === 'LI' && (mockUl.children[0] as { tagName: string, textContent: string }).textContent === 'New Item') {
-                    return [{ input: 'ul, "New Item"', expected: '<li> created and appended', actual: 'success', passed: true }];
-                }
-                return [{ input: 'ul, "New Item"', expected: '<li> created and appended', actual: 'failed', passed: false }];
-            } catch(e: unknown) { return [{ input: 'N/A', expected: 'Function to create/append', actual: `Error: ${(e instanceof Error) ? e.message : 'Unknown error'}`, passed: false }]; }
+      };
+      const testCallback = () => {};
+      try {
+        const userFn = new Function(`return ${userCode}`)();
+        userFn(mockElement, testCallback);
+        const test1Passed = eventType === 'click';
+        const test2Passed = eventCallback === testCallback;
+        return [
+          { input: 'element, callback', expected: 'Event type "click"', actual: `Event type: "${eventType}"`, passed: test1Passed },
+          { input: 'element, callback', expected: 'Callback attached', actual: `Callback attached: ${eventCallback === testCallback}`, passed: test2Passed },
+        ];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Function to add event listener', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    }
+  },
+  {
+    id: 'dom-remove-event-listener',
+    title: 'Remove Event Listener',
+    description: 'Write a function `removeClickListener` that takes an element and a callback function, and removes the "click" event listener.',
+    difficulty: Difficulty.Medium,
+    category: 'DOM Events',
+    group: 'Step 6: Advanced DOM & Events',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener',
+    starterCode: `function removeClickListener(element, callback) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: (userCode: string) => {
+      let eventType = '';
+      let eventCallback: ((event: Event) => void) | null = null;
+      const mockElement = {
+        removeEventListener: function(type: string, callback: (event: Event) => void) {
+          eventType = type;
+          eventCallback = callback;
         }
-    },
-    {
-        id: 'dom-set-inner-html',
-        title: 'Set Inner HTML',
-        description: 'Write a function `setHtml` that takes an element and a string of HTML, and sets the element\'s inner HTML.\n\n**Note:** Conceptual.',
-        difficulty: Difficulty.Medium, category: 'DOM', group: 'Step 6: Advanced DOM & Events',
-        docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML',
-        starterCode: 'function setHtml(element, htmlString) {\n  // Your code here\n}',
-        testCases: [],
-        solutionCheck: (userCode: string) => {
-             try {
-                const userFn = new Function(`return ${userCode}`)();
-                const mockElement = { innerHTML: '' };
-                userFn(mockElement, '<span>Test</span>');
-                if (mockElement.innerHTML === '<span>Test</span>') {
-                    return [{ input: 'el, "<span>Test</span>"', expected: 'innerHTML set', actual: 'success', passed: true }];
-                }
-                return [{ input: 'el, "<span>Test</span>"', expected: 'innerHTML set', actual: 'failed', passed: false }];
-            } catch(e: unknown) { return [{ input: 'N/A', expected: 'Function to set innerHTML', actual: `Error: ${(e instanceof Error) ? e.message : 'Unknown error'}`, passed: false }]; }
+      };
+      const testCallback = () => {};
+      try {
+        const userFn = new Function(`return ${userCode}`)();
+        userFn(mockElement, testCallback);
+        const test1Passed = eventType === 'click';
+        const test2Passed = eventCallback === testCallback;
+        return [
+          { input: 'element, callback', expected: 'Event type "click"', actual: `Event type: "${eventType}"`, passed: test1Passed },
+          { input: 'element, callback', expected: 'Callback removed', actual: `Callback removed: ${eventCallback === testCallback}`, passed: test2Passed },
+        ];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Function to remove event listener', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    }
+  },
+  {
+    id: 'dom-create-and-append-with-class',
+    title: 'Create and Append Element with Class',
+    description: 'Write a function `createAndAppendDivWithClass` that creates a new `div` element, adds a specified class to it, sets its text content, and appends it to a given parent DOM element. The function should return the newly created div.',
+    difficulty: Difficulty.Easy,
+    category: 'DOM',
+    group: 'Step 6: Advanced DOM & Events',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement',
+    starterCode: `function createAndAppendDivWithClass(parentElement, className, textContent) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: (userCode: string) => {
+      const mockParent = {
+        children: [] as HTMLElement[],
+        appendChild: function(child: HTMLElement) { this.children.push(child); }
+      };
+      const mockDocument = {
+        createElement: function(tagName: string): HTMLElement {
+          return {
+            tagName: tagName.toUpperCase(),
+            textContent: '',
+            classList: { _classes: [] as string[],
+            add: function(_c: string) { if (!this._classes.includes(_c)) this._classes.push(_c); }, contains: function(_c: string) { return this._classes.includes(_c); } },
+            parentNode: null
+          } as unknown as HTMLElement; // Type assertion for mock HTMLElement
         }
-    },
-    {
-        id: 'dom-add-event-listener',
-        title: 'Add Event Listener',
-        description: 'Write a function `onClick` that takes a button element and a callback function, and attaches a "click" event listener to the button.\n\n**Note:** Conceptual.',
-        difficulty: Difficulty.Medium, category: 'DOM', group: 'Step 6: Advanced DOM & Events',
-        docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener',
-        starterCode: 'function onClick(button, callback) {\n  // Your code here\n}',
-        testCases: [],
-        solutionCheck: (userCode: string) => {
-             try {
-                const userFn = new Function(`return ${userCode}`)();
-                const mockButton: { event: string; cb: ((...args: unknown[]) => unknown) | null; addEventListener(e: string, cb: (...args: unknown[]) => unknown): void } = { event: '', cb: null, addEventListener(e: string, cb: (...args: unknown[]) => unknown) { this.event = e; this.cb = cb } };
-                const myCallback = () => {};
-                userFn(mockButton, myCallback);
-                if (mockButton.event === 'click' && mockButton.cb === myCallback) {
-                    return [{ input: 'button, callback', expected: 'click listener added', actual: 'success', passed: true }];
-                }
-                return [{ input: 'button, callback', expected: 'click listener added', actual: 'failed', passed: false }];
-            } catch(e: unknown) { return [{ input: 'N/A', expected: 'Function to add event', actual: `Error: ${(e instanceof Error) ? e.message : 'Unknown error'}`, passed: false }]; }
+      };
+
+      try {
+        const userFn = new Function('document', `return ${userCode}`)(mockDocument);
+        const newDiv = userFn(mockParent, 'my-class', 'Hello World');
+
+        const test1Passed = newDiv && newDiv.tagName === 'DIV' && newDiv.textContent === 'Hello World';
+        const test2Passed = newDiv && newDiv.classList.contains('my-class');
+        const test3Passed = mockParent.children.includes(newDiv);
+
+        return [
+          { input: 'parent, "my-class", "Hello World"', expected: 'Div created with text and class', actual: newDiv ? `Div: ${newDiv.tagName}, text: "${newDiv.textContent}", class: ${newDiv.classList._classes[0]}` : 'No div created', passed: test1Passed && test2Passed },
+          { input: 'parent, "my-class", "Hello World"', expected: 'Div appended to parent', actual: `Appended: ${test3Passed}`, passed: test3Passed },
+        ];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Function to create and append div with class', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    }
+  },
+  {
+    id: 'dom-set-inner-html',
+    title: 'Set Inner HTML',
+    description: 'Write a function `setHtml` that takes an element and a string of HTML, and sets the element\'s inner HTML.',
+    difficulty: Difficulty.Medium,
+    category: 'DOM',
+    group: 'Step 6: Advanced DOM & Events',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML',
+    starterCode: `function setHtml(element, htmlString) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: (userCode: string) => {
+      const mockElement = { innerHTML: '' };
+      try {
+        const userFn = new Function(`return ${userCode}`)();
+        userFn(mockElement, '<span>Test Content</span>');
+        return [{ input: 'element, "<span>Test Content</span>"', expected: 'innerHTML to be "<span>Test Content</span>"', actual: `innerHTML is "${mockElement.innerHTML}"`, passed: mockElement.innerHTML === '<span>Test Content</span>' }];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Function to set innerHTML', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    }
+  },
+  {
+    id: 'dom-get-computed-style',
+    title: 'Get Computed Style',
+    description: 'Write a function `getBgColor` that takes an element and returns its computed background color. Assume `window.getComputedStyle` is available.',
+    difficulty: Difficulty.Medium,
+    category: 'DOM',
+    group: 'Step 6: Advanced DOM & Events',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle',
+    starterCode: `function getBgColor(element) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: (userCode: string) => {
+      const mockWindow = {
+        getComputedStyle: function(el: { id?: string }) {
+          return {
+            getPropertyValue: function(prop: string) {
+              if (el.id === 'styled-element' && prop === 'background-color') {
+                return 'rgb(255, 0, 0)';
+              }
+              return '';
+            }
+          };
         }
-    },
-    {
-        id: 'dom-remove-event-listener',
-        title: 'Remove Event Listener',
-        description: 'Write a function `removeOnClick` that takes a button element and the callback function, and removes the "click" event listener.\n\n**Note:** Conceptual.',
-        difficulty: Difficulty.Medium, category: 'DOM', group: 'Step 6: Advanced DOM & Events',
-        docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener',
-        starterCode: 'function removeOnClick(button, callback) {\n  // Your code here\n}',
-        testCases: [],
-        solutionCheck: (userCode: string) => {
-            try {
-                const userFn = new Function(`return ${userCode}`)();
-                const mockButton: { event: string; cb: ((...args: unknown[]) => unknown) | null; removeEventListener(e: string, cb: (...args: unknown[]) => unknown): void } = { event: '', cb: null, removeEventListener(e: string, cb: (...args: unknown[]) => unknown) { this.event = e; this.cb = cb } };
-                const myCallback = () => {};
-                userFn(mockButton, myCallback);
-                if (mockButton.event === 'click' && mockButton.cb === myCallback) {
-                    return [{ input: 'button, callback', expected: 'click listener removed', actual: 'success', passed: true }];
-                }
-                return [{ input: 'button, callback', expected: 'click listener removed', actual: 'failed', passed: false }];
-            } catch(e: unknown) { return [{ input: 'N/A', expected: 'Function to remove event', actual: `Error: ${(e instanceof Error) ? e.message : 'Unknown error'}`, passed: false }]; }
+      };
+      const mockElement = { id: 'styled-element' };
+      try {
+        const userFn = new Function('window', `return ${userCode}`)(mockWindow);
+        const result = userFn(mockElement);
+        return [{ input: 'element', expected: 'rgb(255, 0, 0)', actual: result, passed: result === 'rgb(255, 0, 0)' }];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Function to get computed style', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    }
+  },
+  {
+    id: 'dom-traverse-up',
+    title: 'Traverse DOM Up',
+    description: 'Write a function `findParentWithClass` that takes an element and a class name, and returns the closest parent element that has that class. If no such parent is found, return `null`.',
+    difficulty: Difficulty.Medium,
+    category: 'DOM',
+    group: 'Step 6: Advanced DOM & Events',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/parentElement',
+    starterCode: `function findParentWithClass(element, className) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: (userCode: string) => {
+      const grandParent = { classList: { contains: (_c: string) => _c === 'container' }, parentElement: null, id: 'grandparent' };
+      const parent = { classList: { contains: (_c: string) => _c === 'wrapper' }, parentElement: grandParent, id: 'parent' };
+      const child = { classList: { contains: (_c: string) => false }, parentElement: parent, id: 'child' };
+
+      try {
+        const userFn = new Function(`return ${userCode}`)();
+        const result1 = userFn(child, 'wrapper');
+        const result2 = userFn(child, 'container');
+        const result3 = userFn(child, 'non-existent');
+
+        const test1Passed = result1 && result1.id === 'parent';
+        const test2Passed = result2 && result2.id === 'grandparent';
+        const test3Passed = result3 === null;
+
+        return [
+          { input: 'child, "wrapper"', expected: 'Parent with id "parent"', actual: result1 ? `Parent with id "${result1.id}"` : 'null', passed: test1Passed },
+          { input: 'child, "container"', expected: 'Parent with id "grandparent"', actual: result2 ? `Parent with id "${result2.id}"` : 'null', passed: test2Passed },
+          { input: 'child, "non-existent"', expected: 'null', actual: result3, passed: test3Passed },
+        ];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Function to traverse DOM up', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    }
+  },
+  {
+    id: 'dom-form-read-value',
+    title: 'Read Form Input Value',
+    description: 'Write a function `getInputValue` that takes a form input element and returns its current value.',
+    difficulty: Difficulty.Medium,
+    category: 'DOM Forms',
+    group: 'Step 6: Advanced DOM & Events',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input',
+    starterCode: `function getInputValue(inputElement) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: (userCode: string) => {
+      const mockInput = { value: 'User Input Text' };
+      try {
+        const userFn = new Function(`return ${userCode}`)();
+        const result = userFn(mockInput);
+        return [{ input: 'inputElement', expected: 'User Input Text', actual: result, passed: result === 'User Input Text' }];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Function to read input value', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    }
+  },
+  {
+    id: 'event-delegation',
+    title: 'Event Delegation',
+    description: 'Write a function `setupListClickListener` that takes a parent `ul` element and a callback. It should attach a single click listener to the `ul` that, when an `li` child is clicked, calls the callback with the text content of the clicked `li`.',
+    difficulty: Difficulty.Hard,
+    category: 'DOM Events',
+    group: 'Step 6: Advanced DOM & Events',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Building_blocks/Events#event_delegation',
+    starterCode: `function setupListClickListener(ulElement, callback) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: (userCode: string) => {
+      let clickedText = '';
+      const mockCallback = (text: string) => { clickedText = text; };
+      let attachedEventType = '';
+      let attachedCallback: ((event: Event) => void) | null = null;
+
+      const mockLi1 = document.createElement('li');
+      mockLi1.textContent = 'Item 1';
+      const mockLi2 = document.createElement('li');
+      mockLi2.textContent = 'Item 2';
+      const mockUl = document.createElement('ul');
+      mockUl.appendChild(mockLi1);
+      mockUl.appendChild(mockLi2);
+
+      mockUl.addEventListener = (type: string, callback: (event: Event) => void) => {
+        attachedEventType = type;
+        attachedCallback = callback;
+      };
+
+      try {
+        const userFn = new Function(`return ${userCode}`)();
+        userFn(mockUl, mockCallback);
+
+        // Simulate a click on mockLi1
+        if (attachedCallback) {
+          fireEvent.click(mockLi1);
         }
-    },
-    {
-        id: 'dom-get-computed-style',
-        title: 'Get Computed Style',
-        description: 'Write a function `getBgColor` that takes an element and returns its computed background color.\n\n**Note:** Conceptual.',
-        difficulty: Difficulty.Medium, category: 'DOM', group: 'Step 6: Advanced DOM & Events',
-        docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle',
-        starterCode: 'function getBgColor(element) {\n  // Your code here\n}',
-        testCases: [],
-        solutionCheck: (userCode: string) => {
-            try {
-                const window = { getComputedStyle: () => ({ getPropertyValue: (p: string) => p === 'background-color' ? 'rgb(255, 0, 0)' : null })};
-                const userFn = new Function('window', `return ${userCode}`)(window);
-                if (userFn({}) === 'rgb(255, 0, 0)') {
-                    return [{ input: 'element', expected: 'rgb(255, 0, 0)', actual: 'success', passed: true }];
-                }
-                return [{ input: 'element', expected: 'rgb(255, 0, 0)', actual: 'failed', passed: false }];
-            } catch(e: unknown) { return [{ input: 'N/A', expected: 'Function to get style', actual: `Error: ${(e instanceof Error) ? e.message : 'Unknown error'}`, passed: false }]; }
+        const test1Passed = clickedText === 'Item 1';
+
+        // Reset and simulate a click on mockLi2
+        clickedText = '';
+        if (attachedCallback) {
+          fireEvent.click(mockLi2);
         }
-    },
-    {
-        id: 'dom-traverse-up',
-        title: 'Traverse DOM Up',
-        description: 'Write a function `findParent` that takes an element and finds the closest parent with a specific class name.\n\n**Note:** Conceptual.',
-        difficulty: Difficulty.Hard, category: 'DOM', group: 'Step 6: Advanced DOM & Events',
-        docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/parentElement',
-        starterCode: 'function findParent(element, className) {\n  // Your code here\n}',
-        testCases: [],
-        solutionCheck: (userCode: string) => {
-            try {
-                const userFn = new Function(`return ${userCode}`)();
-                const parent = { className: 'target', parentElement: null };
-                const child = { parentElement: parent };
-                if (userFn(child, 'target') === parent) {
-                    return [{ input: 'child, "target"', expected: 'parent element', actual: 'success', passed: true }];
-                }
-                return [{ input: 'child, "target"', expected: 'parent element', actual: 'failed', passed: false }];
-            } catch(e: unknown) { return [{ input: 'N/A', expected: 'Function to traverse up', actual: `Error: ${(e instanceof Error) ? e.message : 'Unknown error'}`, passed: false }]; }
-        }
-    },
-    {
-        id: 'dom-form-read-value',
-        title: 'Read Form Input Value',
-        description: 'Write a function `getInputValue` that takes a form input element and returns its current value.\n\n**Note:** Conceptual.',
-        difficulty: Difficulty.Hard, category: 'DOM', group: 'Step 6: Advanced DOM & Events',
-        docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input',
-        starterCode: 'function getInputValue(inputElement) {\n  // Your code here\n}',
-        testCases: [],
-        solutionCheck: (userCode: string) => {
-             try {
-                const userFn = new Function(`return ${userCode}`)();
-                const mockInput = { value: 'User Text' };
-                if (userFn(mockInput) === 'User Text') {
-                    return [{ input: 'input', expected: 'User Text', actual: 'success', passed: true }];
-                }
-                return [{ input: 'input', expected: 'User Text', actual: 'failed', passed: false }];
-            } catch(e: unknown) { return [{ input: 'N/A', expected: 'Function to read value', actual: `Error: ${(e instanceof Error) ? e.message : 'Unknown error'}`, passed: false }]; }
-        }
-    },
+        const test2Passed = clickedText === 'Item 2';
+
+        return [
+          { input: 'ul, callback (click Item 1)', expected: 'Callback called with "Item 1"', actual: `Called with: "${clickedText}"`, passed: test1Passed },
+          { input: 'ul, callback (click Item 2)', expected: 'Callback called with "Item 2"', actual: `Called with: "${clickedText}"`, passed: test2Passed },
+          { input: 'ul, callback', expected: 'Listener attached to ul', actual: `Attached to: ${attachedEventType}`, passed: attachedEventType === 'click' },
+        ];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Function for event delegation', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    }
+  },
 ];

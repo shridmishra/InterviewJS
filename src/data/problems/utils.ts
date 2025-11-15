@@ -17,8 +17,13 @@ export const runTests = (userCode: string, testCases: TestCase[]): TestResult[] 
       let actualOutput: unknown;
       let passed = false;
       try {
-        actualOutput = userFn(...tc.input);
-        passed = JSON.stringify(actualOutput) === JSON.stringify(tc.expectedOutput);
+        if (tc.customTest) {
+          passed = tc.customTest(userCode);
+          actualOutput = passed ? tc.expectedOutput : 'Custom test failed';
+        } else {
+          actualOutput = userFn(...tc.input);
+          passed = JSON.stringify(actualOutput) === JSON.stringify(tc.expectedOutput);
+        }
       } catch (error: unknown) {
         actualOutput = `Error: ${(error instanceof Error) ? error.message : 'Unknown error'}`;
         passed = false;

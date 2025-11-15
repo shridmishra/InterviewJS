@@ -13,6 +13,7 @@ export enum ProblemStatus {
 export interface TestCase {
   input: unknown[];
   expectedOutput: unknown;
+  customTest?: (userCode: string) => boolean;
 }
 
 export interface TestResult {
@@ -32,7 +33,7 @@ export interface Problem {
   docsUrl: string;
   starterCode: string;
   testCases: TestCase[];
-  solutionCheck: (userCode: string) => TestResult[];
+  solutionCheck: (userCode: string) => TestResult[] | Promise<TestResult[]>;
   status: ProblemStatus;
   isStarred?: boolean;
   notes?: string;
