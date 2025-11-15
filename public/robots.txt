@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://practicejs.shrid.in/sitemap.xml
