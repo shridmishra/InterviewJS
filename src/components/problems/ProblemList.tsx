@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Problem, ProblemStatus, Difficulty } from '../../types';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/input';
@@ -125,6 +125,7 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | 'none'>('none');
     const [editingNotesFor, setEditingNotesFor] = useState<Problem | null>(null);
     const auth = useAuth();
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const handleSort = () => {
         setSortOrder(prev => {
@@ -178,26 +179,26 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
         return Object.entries(groups).sort((a, b) => a[0].localeCompare(b[0])).map(([name, problems]) => ({ name, problems }));
     }, [filteredProblems]);
 
-    // Ensure only one group is open at a time
-    const [openGroup, setOpenGroup] = useState<string | null>(null);
+    // Track which groups are open (allow multiple)
+    const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
 
-    // Initialize or correct open group when groups change
+    // Initialize with first group open when groups change
     useEffect(() => {
         if (groupedProblems.length === 0) {
-            setOpenGroup(null);
+            setOpenGroups(new Set());
             return;
         }
-        // If no group selected or current selection is gone, open the first group
-        if (!openGroup || !groupedProblems.some(g => g.name === openGroup)) {
-            setOpenGroup(groupedProblems[0].name);
+        // Open the first group by default if none are open
+        if (openGroups.size === 0) {
+            setOpenGroups(new Set([groupedProblems[0].name]));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [groupedProblems]);
 
 
     return (
-        <div className="min-h-screen flex flex-col bg-background">
-            <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col">
+        <div className="min-h-screen flex flex-col bg-background" style={{ scrollBehavior: 'auto' }}>
+            <main ref={containerRef} className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col">
                 <ProgressSummary problems={problems} />
 
 
@@ -228,7 +229,7 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                             variant="secondary"
                             onClick={handlePickRandom}
                             aria-label="Pick Random"
-                            className="md:hidden flex items-center justify-center p-2 rounded-full"
+                            className="md:hidden flex items-center justify-center p-2 rounded-md hover:bg-muted-foreground"
                             title="Pick Random"
                         >
                             <ShuffleIcon />
@@ -337,14 +338,18 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                         <details
                             key={name}
                             className="bg-card rounded-lg mb-4 border border-border group"
-                            open={openGroup === name}
+                            open={openGroups.has(name)}
                             onToggle={(e) => {
                                 const isOpen = (e.currentTarget as HTMLDetailsElement).open;
-                                if (isOpen) {
-                                    setOpenGroup(name);
-                                } else if (openGroup === name) {
-                                    setOpenGroup(null);
-                                }
+                                setOpenGroups(prev => {
+                                    const newSet = new Set(prev);
+                                    if (isOpen) {
+                                        newSet.add(name);
+                                    } else {
+                                        newSet.delete(name);
+                                    }
+                                    return newSet;
+                                });
                             }}
                         >
                             <summary className="p-4 cursor-pointer font-semibold list-none text-foreground hover:bg-accent rounded-t-lg relative">
@@ -367,14 +372,14 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                         <TableRow className="hover:bg-transparent">
                                             <TableHead className="w-12">Status</TableHead>
                                             <TableHead>Problem</TableHead>
-                                            <TableHead className="hidden md:table-cell w-32 text-center">Category</TableHead>
-                                            <TableHead onClick={handleSort} className="cursor-pointer select-none w-32 text-center">
+                                            <TableHead className="hidden md:table-cell w-36 text-center">Category</TableHead>
+                                            <TableHead onClick={handleSort} className="cursor-pointer select-none w-36 text-center">
                                                 <div className="flex items-center justify-center gap-2">
                                                     Difficulty
                                                     <SortArrows sortOrder={sortOrder} />
                                                 </div>
                                             </TableHead>
-                                            <TableHead className="w-32 text-center">Actions</TableHead>
+                                            <TableHead className="w-36 text-center">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -384,13 +389,13 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                                     <Checkbox checked={problem.status === ProblemStatus.Solved} className="rounded-sm" />
                                                 </TableCell>
                                                 <TableCell onClick={() => onSelectProblem(problem)} className="font-medium text-foreground cursor-pointer">{problem.title}</TableCell>
-                                                <TableCell className="hidden md:table-cell w-32 text-center">
+                                                <TableCell className="hidden md:table-cell w-36 text-center">
                                                     <Badge variant="outline" className="w-24 justify-center">{problem.category.split(' ')[0]}</Badge>
                                                 </TableCell>
-                                                <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer w-32 text-center">
+                                                <TableCell onClick={() => onSelectProblem(problem)} className="cursor-pointer w-36 text-center">
                                                     <Badge variant={problem.difficulty === 'Easy' ? 'default' : problem.difficulty === 'Medium' ? 'secondary' : 'destructive'}>{problem.difficulty}</Badge>
                                                 </TableCell>
-                                                <TableCell className="w-32 text-center">
+                                                <TableCell className="w-36 text-center">
                                                     <div className="flex items-center justify-center gap-1">
                                                         <button onClick={() => auth.isAuthenticated ? onToggleStar(problem.id) : onLogin()} className="p-1 rounded-full hover:bg-accent">
                                                             <BookmarkIcon filled={!!problem.isStarred} className="text-muted-foreground h-5 w-5" />

@@ -194,4 +194,79 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
       }
     },
   },
+  {
+    id: 'promise-race',
+    title: 'Promise.race',
+    description: 'Write an async function `racePromises` that takes an array of Promises and returns the result of the first promise that settles (either resolves or rejects).',
+    difficulty: Difficulty.Hard,
+    category: 'Promises',
+    group: 'Step 4: Asynchronous JavaScript',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race',
+    starterCode: `async function racePromises(promises) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: async (userCode: string) => {
+      const p1 = new Promise(resolve => setTimeout(resolve, 50, 'one'));
+      const p2 = new Promise(resolve => setTimeout(resolve, 10, 'two'));
+      try {
+        const userFn = new Function(`return ${userCode}`)();
+        const result = await userFn([p1, p2]);
+        return [{ input: 'Promise array', expected: 'two', actual: result, passed: result === 'two' }];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'two', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    },
+  },
+  {
+    id: 'fetch-and-parse-json',
+    title: 'Fetch and Parse JSON',
+    description: 'Write an async function `fetchJson` that takes a URL, fetches data from it, and returns the parsed JSON. You can assume `fetch` is available and the response is valid JSON.',
+    difficulty: Difficulty.Hard,
+    category: 'Async/Await',
+    group: 'Step 4: Asynchronous JavaScript',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API',
+    starterCode: `async function fetchJson(url) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: async (userCode: string) => {
+      const mockData = { message: 'success' };
+      const mockFetch = async () => ({
+        json: async () => mockData,
+      });
+      try {
+        const userFn = new Function('fetch', `return ${userCode}`)(mockFetch);
+        const result = await userFn('https://fake.url/data');
+        return [{ input: 'URL', expected: JSON.stringify(mockData), actual: JSON.stringify(result), passed: JSON.stringify(result) === JSON.stringify(mockData) }];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Parsed JSON object', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    },
+  },
+  {
+    id: 'sequential-vs-parallel',
+    title: 'Sequential vs Parallel Execution',
+    description: 'Write a function `executeInParallel` that takes two async functions, `asyncFn1` and `asyncFn2`, and executes them in parallel, returning an array with their results. Use `Promise.all`.',
+    difficulty: Difficulty.Hard,
+    category: 'Promises',
+    group: 'Step 4: Asynchronous JavaScript',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all',
+    starterCode: `async function executeInParallel(asyncFn1, asyncFn2) {
+  // Your code here
+}`,
+    testCases: [],
+    solutionCheck: async (userCode: string) => {
+      const fn1 = async () => { await new Promise(r => setTimeout(r, 20)); return 'Result 1'; };
+      const fn2 = async () => { await new Promise(r => setTimeout(r, 20)); return 'Result 2'; };
+      try {
+        const userFn = new Function(`return ${userCode}`)();
+        const result = await userFn(fn1, fn2);
+        const passed = Array.isArray(result) && result[0] === 'Result 1' && result[1] === 'Result 2';
+        return [{ input: 'async functions', expected: '["Result 1", "Result 2"]', actual: JSON.stringify(result), passed }];
+      } catch (e: unknown) {
+        return [{ input: 'N/A', expected: 'Array of results', actual: `Error: ${e instanceof Error ? e.message : String(e)}`, passed: false }];
+      }
+    },
+  },
 ];

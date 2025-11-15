@@ -130,4 +130,32 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     testCases: [ { input: [[1, [2, [3, 4]]]], expectedOutput: [1, 2, 3, 4] } ],
     solutionCheck: (userCode: string) => runTests(userCode, [ { input: [[1, [2, 3], 4]], expectedOutput: [1, 2, 3, 4] }, { input: [['a'], ['b', ['c']]], expectedOutput: ['a', 'b', 'c'] } ]),
   },
+  {
+    id: 'map-to-squares',
+    title: 'Map Array to Squares',
+    description: 'Write a function `mapToSquares` that takes an array of numbers and returns a new array with each number squared.',
+    difficulty: Difficulty.Medium,
+    category: 'Array',
+    group: 'Step 3: Basics III',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map',
+    starterCode: `function mapToSquares(numbers) {
+  // Your code here
+}`,
+    testCases: [ { input: [[1, 2, 3]], expectedOutput: [1, 4, 9] } ],
+    solutionCheck: (userCode: string) => runTests(userCode, [ { input: [[1, 2, 3]], expectedOutput: [1, 4, 9] }, { input: [[-1, -2, 0]], expectedOutput: [1, 4, 0] }, { input: [[]], expectedOutput: [] } ]),
+  },
+  {
+    id: 'capitalize-words',
+    title: 'Capitalize Words',
+    description: 'Write a function `capitalizeWords` that takes a sentence (string) and returns a new sentence where the first letter of each word is capitalized.',
+    difficulty: Difficulty.Medium,
+    category: 'String',
+    group: 'Step 3: Basics III',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase',
+    starterCode: `function capitalizeWords(sentence) {
+  // Your code here
+}`,
+    testCases: [ { input: ['hello world'], expectedOutput: 'Hello World' } ],
+    solutionCheck: (userCode: string) => runTests(userCode, [ { input: ['hello world'], expectedOutput: 'Hello World' }, { input: ['a short sentence'], expectedOutput: 'A Short Sentence' }, { input: ['javascript is fun'], expectedOutput: 'Javascript Is Fun' } ]),
+  },
 ];

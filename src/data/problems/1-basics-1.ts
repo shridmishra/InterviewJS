@@ -110,4 +110,32 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     testCases: [ { input: [3, 4], expectedOutput: 12 }, { input: [-2, 5], expectedOutput: -10 } ],
     solutionCheck: (userCode: string) => runTests(userCode, [ { input: [3, 4], expectedOutput: 12 }, { input: [-2, 5], expectedOutput: -10 }, { input: [0, 100], expectedOutput: 0 } ]),
   },
+  {
+    id: 'can-vote',
+    title: 'Can Vote',
+    description: 'Write a function `canVote` that takes an age and a citizenship status (boolean `isCitizen`). The function should return `true` if the person is 18 or older and is a citizen, and `false` otherwise.',
+    difficulty: Difficulty.Easy,
+    category: 'Control Flow',
+    group: 'Step 1: Basics I',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND',
+    starterCode: `function canVote(age, isCitizen) {
+  // Your code here
+}`,
+    testCases: [ { input: [20, true], expectedOutput: true }, { input: [17, true], expectedOutput: false }, { input: [25, false], expectedOutput: false } ],
+    solutionCheck: (userCode: string) => runTests(userCode, [ { input: [18, true], expectedOutput: true }, { input: [17, true], expectedOutput: false }, { input: [20, false], expectedOutput: false } ]),
+  },
+  {
+    id: 'get-type',
+    title: 'Get Data Type',
+    description: 'Write a function `getType` that takes any variable and returns its data type as a string (e.g., "string", "number", "boolean").',
+    difficulty: Difficulty.Easy,
+    category: 'Variables',
+    group: 'Step 1: Basics I',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof',
+    starterCode: `function getType(value) {
+  // Your code here
+}`,
+    testCases: [ { input: ["hello"], expectedOutput: "string" }, { input: [123], expectedOutput: "number" }, { input: [true], expectedOutput: "boolean" } ],
+    solutionCheck: (userCode: string) => runTests(userCode, [ { input: ["world"], expectedOutput: "string" }, { input: [42], expectedOutput: "number" }, { input: [false], expectedOutput: "boolean" }, { input: [[]], expectedOutput: "object" } ]),
+  },
 ];

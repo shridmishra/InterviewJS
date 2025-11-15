@@ -114,4 +114,32 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     testCases: [ { input: [[1, 2, 3, 2], 2], expectedOutput: 1 }, { input: [[1, 2, 3], 4], expectedOutput: -1 } ],
     solutionCheck: (userCode: string) => runTests(userCode, [ { input: [[1, 2, 3, 2], 2], expectedOutput: 1 }, { input: [[1, 2, 3], 4], expectedOutput: -1 }, { input: [['a', 'b', 'c'], 'c'], expectedOutput: 2 } ]),
   },
+  {
+    id: 'get-last-element',
+    title: 'Get Last Element of an Array',
+    description: 'Write a function `getLast` that takes an array and returns its last element. If the array is empty, it should return `undefined`.',
+    difficulty: Difficulty.Easy,
+    category: 'Array',
+    group: 'Step 2: Basics II',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice',
+    starterCode: `function getLast(arr) {
+  // Your code here
+}`,
+    testCases: [ { input: [[1, 2, 3]], expectedOutput: 3 }, { input: [[]], expectedOutput: undefined } ],
+    solutionCheck: (userCode: string) => runTests(userCode, [ { input: [[1, 2, 3]], expectedOutput: 3 }, { input: [['a', 'b']], expectedOutput: 'b' }, { input: [[]], expectedOutput: undefined } ]),
+  },
+  {
+    id: 'get-object-value',
+    title: 'Get Object Value by Key',
+    description: "Write a function `getValue` that takes an object and a key (string), and returns the value for that key. If the key doesn't exist, return `undefined`.",
+    difficulty: Difficulty.Easy,
+    category: 'Object',
+    group: 'Step 2: Basics II',
+    docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors',
+    starterCode: `function getValue(obj, key) {
+  // Your code here
+}`,
+    testCases: [ { input: [{ name: 'Alice', age: 25 }, 'age'], expectedOutput: 25 }, { input: [{ city: 'New York' }, 'country'], expectedOutput: undefined } ],
+    solutionCheck: (userCode: string) => runTests(userCode, [ { input: [{ a: 1, b: 2 }, 'b'], expectedOutput: 2 }, { input: [{ name: 'Bob' }, 'name'], expectedOutput: 'Bob' }, { input: [{}, 'a'], expectedOutput: undefined } ]),
+  },
 ];
