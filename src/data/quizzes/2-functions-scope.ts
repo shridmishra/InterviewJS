@@ -3,63 +3,66 @@ import { QuizQuestion } from './types';
 export const functionsAndScopeQuiz: QuizQuestion[] = [
   {
     question: "What does 'this' keyword refer to in an arrow function?",
-    options: ["The object that called the function", "The global window object", "The lexical scope's 'this'", "It is always undefined"],
+    options: ["The calling object", "The global window object", "Lexical this", "It is always undefined"],
     correctAnswerIndex: 2,
     difficulty: 'Medium',
     explanation: "Arrow functions do not have their own `this` context. They inherit `this` from the parent scope at the time they are defined (lexical scoping)."
   },
   {
     question: "What is a closure in JavaScript?",
-    options: ["Function retains access to parent scope", "Locks variables", "Special loop", "Date helper"],
+    options: ["Function capturing outer scope.", "A way to lock variables from change.", "A special type of loop.", "A built-in object for dates."],
     correctAnswerIndex: 0,
     difficulty: 'Hard',
     explanation: "A closure gives you access to an outer function's scope from an inner function. This is a fundamental and powerful concept in JavaScript."
   },
   {
     question: "What is hoisting in JavaScript?",
-    options: ["Declarations moved to top of scope", "Engine optimization", "Module import", "Object pattern"],
+    options: ["Declarations are hoisted.", "Optimization by the engine.", "A way to import modules.", "A pattern for object creation."],
     correctAnswerIndex: 0,
     difficulty: 'Medium',
     explanation: "Hoisting means that `var` variable and function declarations are processed before any code is executed, but assignments are not. `let` and `const` are hoisted but not initialized, creating a 'temporal dead zone'."
   },
   {
     question: "What does the `bind()` method do?",
-    options: ["Immediately calls a function with a given 'this' value.", "Creates a new function that, when called, has its 'this' keyword set to the provided value.", "Attaches a function to an event.", "Connects two objects."],
+    options: ["Calls a function immediately with this.", "Returns a function bound to this.", "Attaches a function to an event.", "Connects two objects."],
     correctAnswerIndex: 1,
     difficulty: 'Medium',
     explanation: "`bind()` creates a new function with a permanently bound `this` value. It's useful for passing methods as callbacks."
   },
   {
     question: "What is the purpose of a constructor function?",
-    options: ["To construct HTML elements.", "To create and initialize objects of a certain type.", "To connect to a database.", "To handle user input."],
+    options: ["Construct HTML elements.", "Create and initialize objects.", "Connect to a database.", "Handle user input."],
     correctAnswerIndex: 1,
     difficulty: 'Medium',
     explanation: "A constructor function is a blueprint for creating objects. The `new` keyword is used to create new instances from a constructor."
   },
   {
     question: "What is a higher-order function?",
-    options: ["A function that is more complex than others.", "A function that operates on other functions, either by taking them as arguments or by returning them.", "A function that is declared at the top of the scope.", "A function that returns an object."],
+    options: ["A more complex function.", "Takes or returns functions.", "Declared at the top of scope.", "Returns an object."],
     correctAnswerIndex: 1,
     difficulty: 'Medium',
     explanation: "Functions like `map`, `filter`, and `reduce` are higher-order functions because they take a function as an argument."
   },
   {
     question: "What is a pure function?",
-    options: ["A function that only uses primitive types.", "A function that has no side effects and its return value is the same for the same arguments.", "A function written in vanilla JavaScript.", "A function with no arguments."],
+    options: ["Uses only primitives.", "No side effects; same input → same output.", "Written in vanilla JavaScript.", "Has no arguments."],
     correctAnswerIndex: 1,
     difficulty: 'Medium',
     explanation: "Pure functions are predictable. Given the same input, they always return the same output and don't modify any external state. This makes them easier to test and reason about."
   },
   {
     question: "What is the `arguments` object in a function?",
-    options: ["Array of passed arguments", "Array-like arguments object", "Special keyword", "Deprecated"],
+    options: ["An array of all arguments.", "Array-like object of arguments.", "A special keyword for parameters.", "Deprecated and removed from JS."],
     correctAnswerIndex: 1,
     difficulty: 'Medium',
     explanation: "`arguments` is an array-like object, not a true array. It doesn't have methods like `map` or `forEach`. It is not available in arrow functions."
   },
   {
     question: "Arrow functions can be used as constructor functions.",
-    options: ["True", "False"],
+    options: [
+      "This statement is true.",
+      "This statement is false."
+    ],
     correctAnswerIndex: 1,
     difficulty: 'Medium',
     explanation: "Arrow functions cannot be used as constructors and will throw an error when used with `new`. They also don't have a `prototype` property."
@@ -73,7 +76,7 @@ export const functionsAndScopeQuiz: QuizQuestion[] = [
   },
   {
     question: "What does the `...` rest parameter do in a function signature?",
-    options: ["It allows a function to accept an indefinite number of arguments as an array.", "It spreads the arguments into individual variables.", "It indicates that the function is recursive.", "It's a syntax error."],
+    options: ["Collects remaining args into an array.", "Spreads arguments into variables.", "Indicates recursion.", "A syntax error."],
     correctAnswerIndex: 0,
     difficulty: 'Easy',
     explanation: "The rest parameter syntax `...` collects all remaining arguments passed to a function into a single array."
@@ -94,7 +97,7 @@ export const functionsAndScopeQuiz: QuizQuestion[] = [
   },
   {
     question: "What does the `new` keyword do?",
-    options: ["Creates a new scope.", "Creates a new instance of an object from a constructor function or class.", "Declares a new variable.", "Initializes a new Promise."],
+    options: ["Creates a new scope.", "Creates an instance from a constructor/class.", "Declares a new variable.", "Initializes a new Promise."],
     correctAnswerIndex: 1,
     difficulty: 'Medium',
     explanation: "The `new` keyword creates a blank, plain JavaScript object, sets its `[[Prototype]]`, binds `this` to the new object, and returns it."
@@ -108,7 +111,7 @@ export const functionsAndScopeQuiz: QuizQuestion[] = [
   },
   {
     question: "What does 'use strict' directive do?",
-    options: ["Enforces stricter parsing and error handling in your code.", "Allows the use of newer JavaScript features.", "Makes the code run faster.", "Prevents the use of external libraries."],
+    options: ["Enforces strict parsing and errors.", "Allows newer JavaScript features.", "Makes the code run faster.", "Prevents use of external libraries."],
     correctAnswerIndex: 0,
     difficulty: 'Medium',
     explanation: "'use strict' enables Strict Mode, which changes previously accepted 'bad syntax' into real errors and makes JavaScript more secure."

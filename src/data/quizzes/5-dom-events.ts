@@ -3,7 +3,12 @@ import { QuizQuestion } from './types';
 export const domAndEventsQuiz: QuizQuestion[] = [
   {
     question: "What is event delegation?",
-    options: ["Attach handler to child", "Attach one handler to parent", "Create custom events", "Delay handler execution"],
+    options: [
+      "Assign a handler on the child element only.",
+      "One parent listener handles children.",
+      "Create and dispatch custom events.",
+      "Delay the handler using a timeout."
+    ],
     correctAnswerIndex: 1,
     difficulty: 'Hard',
     explanation: "Event delegation is a powerful technique that leverages event bubbling. You listen for events on a parent element instead of on every child, improving performance and simplifying code."
@@ -17,28 +22,43 @@ export const domAndEventsQuiz: QuizQuestion[] = [
   },
   {
     question: "How do you select an element by its ID in JavaScript?",
-    options: ["`document.querySelector('#id')`", "`document.getElementById('id')`", "`document.getElement('id')`", "Both A and B"],
+    options: [
+      "Use document.querySelector('#id').",
+      "Use document.getElementById('id').",
+      "Use document.getElement('id').",
+      "Either querySelector or getElementById."
+    ],
     correctAnswerIndex: 3,
     difficulty: 'Easy',
     explanation: "`getElementById` is specifically for IDs and is often faster. `querySelector` is more versatile and can use any CSS selector."
   },
   {
     question: "What is the difference between `event.stopPropagation()` and `event.preventDefault()`?",
-    options: ["They are the same", "stopPropagation stops bubbling; preventDefault stops default action", "preventDefault stops bubbling; stopPropagation stops default", "No stopPropagation method"],
+    options: [
+      "They do the same thing.",
+      "stop bubbling vs stop default.",
+      "preventDefault stops bubbling; stopPropagation stops default.",
+      "There is no stopPropagation method."
+    ],
     correctAnswerIndex: 1,
     difficulty: 'Medium',
     explanation: "`preventDefault()` stops the browser's default behavior (e.g., a link navigating). `stopPropagation()` prevents parent elements from seeing the event (event bubbling)."
   },
   {
     question: "How do you prevent a form from submitting in JavaScript?",
-    options: ["Return false", "Call event.preventDefault()", "Call event.stopPropagation()", "Both A and B"],
+    options: [
+      "Return false from the submit handler.",
+      "Call event.preventDefault() in the handler.",
+      "Call event.stopPropagation() in the handler.",
+      "Return false or call preventDefault()."
+    ],
     correctAnswerIndex: 3,
     difficulty: 'Easy',
     explanation: "Calling `event.preventDefault()` is the modern and standard way. Returning `false` from a handler also works in many cases but `preventDefault` is more explicit."
   },
   {
     question: "What method is used to add an event listener to an element?",
-    options: ["`element.addEventListener()`", "`element.on()`", "`element.listen()`", "`element.bind()`"],
+  options: ["`element.addEventListener()`", "`element.on()`", "`element.listen()`", "`element.bind()`"],
     correctAnswerIndex: 0,
     difficulty: 'Easy',
     explanation: "`addEventListener()` is the standard way to register an event handler. It allows multiple handlers for the same event and provides more control than inline handlers."
@@ -52,21 +72,31 @@ export const domAndEventsQuiz: QuizQuestion[] = [
   },
   {
     question: "How do you select all elements with a specific class?",
-    options: ["`document.getElementsByClassName('class')`", "`document.querySelectorAll('.class')`", "`document.getClass('class')`", "Both A and B"],
+    options: [
+      "Use getElementsByClassName('class').",
+      "Use querySelectorAll('.class').",
+      "Use document.getClass('class').",
+      "Both methods work."
+    ],
     correctAnswerIndex: 3,
     difficulty: 'Easy',
     explanation: "Both methods work. `getElementsByClassName` returns a live HTMLCollection, while `querySelectorAll` returns a static NodeList."
   },
   {
     question: "What does `event.target` refer to?",
-    options: ["Element that triggered event", "Element listener attached to", "Parent element", "Document object"],
+    options: ["The triggering element.", "The element the listener is attached to.", "The parent element in the tree.", "The document object."],
     correctAnswerIndex: 0,
     difficulty: 'Easy',
     explanation: "`event.target` is the element that actually triggered the event, while `event.currentTarget` is the element the listener is attached to."
   },
   {
     question: "What is the difference between `textContent` and `innerHTML`?",
-    options: ["textContent = text only; innerHTML = HTML markup", "They are the same", "innerHTML is faster", "textContent parses HTML"],
+    options: [
+      "text only vs HTML markup.",
+      "They behave identically.",
+      "innerHTML is always faster.",
+      "textContent parses and renders HTML."
+    ],
     correctAnswerIndex: 0,
     difficulty: 'Medium',
     explanation: "`textContent` returns just the text content, while `innerHTML` returns the HTML markup. Using `textContent` is safer as it doesn't parse HTML and prevents XSS attacks."
@@ -80,14 +110,14 @@ export const domAndEventsQuiz: QuizQuestion[] = [
   },
   {
     question: "What does `element.classList.toggle('class')` do?",
-    options: ["Adds class if missing; removes if present", "Always adds class", "Always removes class", "Checks existence"],
+    options: ["Adds if missing; removes if present.", "Always adds the class.", "Always removes the class.", "Only checks if the class exists."],
     correctAnswerIndex: 0,
     difficulty: 'Easy',
     explanation: "`classList.toggle()` is a convenient method that adds a class if it's not present and removes it if it is, returning a boolean indicating the final state."
   },
   {
     question: "What is event bubbling?",
-    options: ["Event propagates up through ancestors", "Events queued", "Events delayed", "Multiple events fire"],
+    options: ["Event travels up ancestors.", "Events are queued in memory.", "Events are delayed to later.", "Multiple events fire at once."],
     correctAnswerIndex: 0,
     difficulty: 'Medium',
     explanation: "Event bubbling means that when an event occurs on an element, it first runs handlers on that element, then on its parent, then all the way up to the root."
@@ -101,14 +131,19 @@ export const domAndEventsQuiz: QuizQuestion[] = [
   },
   {
     question: "What does `event.stopImmediatePropagation()` do?",
-    options: ["Stops propagation and prevents other listeners on same element", "Same as stopPropagation()", "Stops all events on page", "Removes listener"],
+    options: [
+      "Stops bubbling and other listeners.",
+      "Same as stopPropagation().",
+      "Stops all events on the page.",
+      "Removes the event listener."
+    ],
     correctAnswerIndex: 0,
     difficulty: 'Hard',
     explanation: "`stopImmediatePropagation()` not only stops the event from bubbling up, but also prevents other event listeners on the same element from being called."
   },
   {
     question: "What is the purpose of `data-*` attributes?",
-    options: ["Store custom data on elements", "Define DB connections", "Create animations", "Style elements"],
+    options: ["Store custom data on elements.", "Define database connections.", "Create and run animations.", "Style the elements via CSS."],
     correctAnswerIndex: 0,
     difficulty: 'Medium',
     explanation: "Custom data attributes (`data-*`) allow you to store extra information on HTML elements. Access them via `element.dataset` in JavaScript."

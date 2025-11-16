@@ -266,18 +266,14 @@ const QuizPage: React.FC<{ onBack?: () => void }> = ({ onBack: _onBack }) => {
                                                     : ' bg-secondary border-border hover:border-accent';
                                             }
 
-                                            const maxLabelLength = 60;
-                                            const displayLabel = option.length > maxLabelLength ? option.slice(0, maxLabelLength - 3) + '...' : option;
-
                                             return (
                                                 <button 
                                                     key={index}
                                                     onClick={() => handleAnswerSelect(index)}
                                                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleAnswerSelect(index); }}
                                                     className={optionClasses}
-                                                    title={option}
                                                 >
-                                                    {displayLabel}
+                                                    {option}
                                                 </button>
                                             );
                                         })}
