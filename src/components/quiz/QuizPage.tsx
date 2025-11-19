@@ -1,311 +1,103 @@
-import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-import { quizData, QuizQuestion } from '../../data/quizzes';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import ProgressBar from '../progress/ProgressBar';
-import { useAuth } from '../../context/AuthContext';
-import { toast } from 'sonner';
+'use client';
 
-const ChevronDownIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="m6 9 6 6 6-6"/>
-    </svg>
-);
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { quizModules } from '../../data/quizzes';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
+import { Button } from '@/components/ui/button';
+import QuizModal from './QuizModal';
+import { QuizQuestion } from '@/data/quizzes/types';
+import Header from '@/components/common/Header';
+import {
+    FaCode,
+    FaBrain,
+    FaLayerGroup,
+    FaClock,
+    FaMousePointer,
+    FaRocket,
+    FaGlobe,
+    FaStar
+} from 'react-icons/fa';
+import { SiJavascript, SiTypescript } from 'react-icons/si';
 
-
-type Difficulty = 'Easy' | 'Medium' | 'Hard' | 'All';
-type QuizState = 'loading' | 'active' | 'results';
-
-const difficulties: Difficulty[] = ['All', 'Easy', 'Medium', 'Hard'];
-
-const DifficultyDropdown: React.FC<{
-    selected: Difficulty;
-    onSelect: (difficulty: Difficulty) => void;
-    disabled: boolean;
-}> = ({ selected, onSelect, disabled }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    const handleSelect = (difficulty: Difficulty) => {
-        onSelect(difficulty);
-        setIsOpen(false);
-    };
-
-    return (
-        <div className="relative" ref={dropdownRef}>
-            <Button
-                variant="secondary"
-                onClick={() => setIsOpen(!isOpen)}
-                disabled={disabled}
-                className="w-48 flex items-center justify-between"
-            >
-                <span>{selected === 'All' ? 'Select Difficulty' : selected}</span>
-                <ChevronDownIcon />
-            </Button>
-            {isOpen && (
-                <div className="absolute z-10 mt-2 w-48 rounded-md bg-card border border-border shadow-lg">
-                    <ul className="py-1">
-                        {difficulties.map(d => (
-                                                            <li
-                                                                key={d}
-                                                                onClick={() => handleSelect(d)}
-                                                                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleSelect(d); }}
-                                                                className="px-4 py-2 text-sm text-foreground hover:bg-accent cursor-pointer"
-                                                                tabIndex={0}
-                                                                role="menuitem"
-                                                            >
-                                                                {d}
-                                                            </li>                        ))}
-                    </ul>
-                </div>
-            )}
-        </div>
-    );
+// Map IDs to Icons
+const iconMap: Record<string, React.ElementType> = {
+    'basics': SiJavascript,
+    'functions-scope': FaBrain,
+    'arrays-objects': FaLayerGroup,
+    'asynchronous': FaClock,
+    'dom-events': FaMousePointer,
+    'advanced-concepts': FaRocket,
+    'es6-features': FaStar,
+    'web-apis-browser': FaGlobe,
+    'typescript': SiTypescript,
 };
 
-import { useSearchParams } from 'next/navigation';
-import { IUserAnsweredQuestion } from '../../models/UserAnsweredQuestion';
+export default function QuizPage() {
+    const router = useRouter();
+    const [selectedQuiz, setSelectedQuiz] = useState<{ title: string, questions: QuizQuestion[] } | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [sessionId, setSessionId] = useState(0);
 
-const QuizPage: React.FC<{ onBack?: () => void }> = ({ onBack: _onBack }) => {
-    const searchParams = useSearchParams();
-    const _initialQuizView = searchParams.get('view') === 'history' ? 'history' : 'quiz';
-
-    const [quizState, _setQuizState] = useState<QuizState>('active'); // Default to active, no loading progress
-    const [difficulty, setDifficulty] = useState<Difficulty>('All');
-    const [_initialQuestionIndex, _setInitialQuestionIndex] = useState(0);
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [selectedAnswerIndexState, setSelectedAnswerIndexState] = useState<number | null>(null);
-    const [isAnswered, setIsAnswered] = useState(false);
-    const [userQuizHistory, setUserQuizHistory] = useState<IUserAnsweredQuestion[]>([]);
-    
-    const auth = useAuth();
-
-    const questions = useMemo(() => {
-        return difficulty === 'All'
-            ? quizData
-            : quizData.filter((q: QuizQuestion) => q.difficulty === difficulty);
-    }, [difficulty]);
-
-    useEffect(() => {
-        const fetchQuizHistoryAndSetInitialQuestion = async () => {
-            if (!auth.isAuthenticated) {
-                // If not authenticated, reset history and set to first question
-                setUserQuizHistory([]);
-                setCurrentQuestionIndex(0);
-                return;
-            }
-            try {
-                const res = await fetch('/api/quiz/history');
-                if (res.ok) {
-                    const { answeredQuestions = [] }: { answeredQuestions?: IUserAnsweredQuestion[] } = await res.json();
-                    setUserQuizHistory(answeredQuestions);
-
-                    const solvedQuestionTexts = new Set(answeredQuestions.map(item => item.question));
-
-                    let nextUnsolvedQuestionIndex = 0;
-                    for (let i = 0; i < questions.length; i++) {
-                        if (!solvedQuestionTexts.has(questions[i].question)) {
-                            nextUnsolvedQuestionIndex = i;
-                            break;
-                        }
-                    }
-                    
-                    setCurrentQuestionIndex(nextUnsolvedQuestionIndex);
-
-                } else {
-                    setCurrentQuestionIndex(0); // Default to first question on error
-                }
-            } catch (_error) {
-                console.error(_error);
-                setCurrentQuestionIndex(0); // Default to first question on error
-            }
-        };
-        fetchQuizHistoryAndSetInitialQuestion();
-    }, [auth.isAuthenticated, difficulty, questions]); // Depend on auth.isAuthenticated, difficulty, and questions
-
-    const currentQuestion = questions[currentQuestionIndex];
-
-    const answeredQuestionTexts = useMemo(() => {
-        return new Set(userQuizHistory.map(item => item.question));
-    }, [userQuizHistory]);
-
-    const hasBeenAnswered = currentQuestion ? answeredQuestionTexts.has(currentQuestion.question) : false;
-    const userAnswerForCurrentQuestion = useMemo(() => {
-        if (!currentQuestion) return null;
-        const historyItem = userQuizHistory.find(item => item.question === currentQuestion.question);
-        return historyItem ? historyItem.userAnswer : null;
-    }, [currentQuestion, userQuizHistory]);
-
-    const finalSelectedAnswerIndex = useMemo(() => {
-        if (hasBeenAnswered) {
-            const prevAnswerIndex = userAnswerForCurrentQuestion !== null ? currentQuestion.options.indexOf(userAnswerForCurrentQuestion) : -1;
-            return prevAnswerIndex !== -1 ? prevAnswerIndex : null;
-        } else {
-            return selectedAnswerIndexState;
-        }
-    }, [hasBeenAnswered, userAnswerForCurrentQuestion, currentQuestion, selectedAnswerIndexState]);
-
-
-
-    const saveAnsweredQuestion = useCallback(async (questionData: QuizQuestion, userAnswerIndex: number) => {
-        if (!auth.isAuthenticated) return;
-
-        const isCorrect = userAnswerIndex === questionData.correctAnswerIndex;
-
-        try {
-            const res = await fetch('/api/quiz/history', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    question: questionData.question,
-                    options: questionData.options,
-                    correctAnswer: questionData.options[questionData.correctAnswerIndex],
-                    userAnswer: questionData.options[userAnswerIndex],
-                    isCorrect,
-                    difficulty: questionData.difficulty,
-                })
-            });
-            if (res.ok) {
-                const newHistoryItem = await res.json();
-                setUserQuizHistory(prev => [...prev, newHistoryItem]); // Update history with new answer
-                toast.success("Answer saved!");
-            } else {
-                toast.error("Could not save your answer.");
-            }
-        } catch (_error) {
-            console.error(_error);
-            toast.error("Could not save your answer.");
-        }
-    }, [auth.isAuthenticated]);
-
-    const handleAnswerSelect = (optionIndex: number) => {
-        if (isAnswered || hasBeenAnswered) return; // Prevent answering if already answered or in history
-        setSelectedAnswerIndexState(optionIndex);
-        setIsAnswered(true);
-        saveAnsweredQuestion(currentQuestion, optionIndex);
+    const handleStartQuiz = (module: typeof quizModules[0]) => {
+        setSelectedQuiz({
+            title: module.title,
+            questions: module.questions
+        });
+        setSessionId(prev => prev + 1);
+        setIsModalOpen(true);
     };
 
-    const handleNextQuestion = () => {
-        setSelectedAnswerIndexState(null);
-        setIsAnswered(false);
-        if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(prevIndex => prevIndex + 1);
-        } else {
-            setCurrentQuestionIndex(0);
-            toast.info("You've gone through all questions in this difficulty! Looping back.");
-        }
-    };
-
-    const handlePreviousQuestion = () => {
-        setSelectedAnswerIndexState(null);
-        setIsAnswered(false);
-        if (currentQuestionIndex > 0) {
-            setCurrentQuestionIndex(prevIndex => prevIndex - 1);
-        }
-    };
-
-    const progressPercent = questions.length > 0 ? ((currentQuestionIndex + 1) / questions.length) * 100 : 0;
-    
     return (
-        <div className="min-h-screen flex flex-col bg-background">
-            <main className="grow container mx-auto p-4 md:p-6 lg:p-8 flex flex-col items-center">
-                <div className="w-full max-w-2xl">
-                    <div className="mb-6 flex flex-row items-center justify-end gap-4">
-                        <DifficultyDropdown 
-                            selected={difficulty}
-                            onSelect={(d) => {
-                                setDifficulty(d);
-                                setSelectedAnswerIndexState(null);
-                                setIsAnswered(false);
-                            }}
-                            disabled={false}
-                        />
-                    </div>
+        <div className="min-h-screen bg-background">
+            <Header
+                onBack={() => router.push('/challenges')}
+                problemTitle="JavaScript Quizzes"
+            />
 
-                    {currentQuestion && (
-                        <div className="animate-fade-in-up">
-                            <div className="mb-4">
-                                <p className="text-sm text-muted-foreground text-center mb-2">Question {currentQuestionIndex + 1} of {questions.length}</p>
-                                <ProgressBar value={progressPercent} />
-                            </div>
+            <div className="container mx-auto px-4 py-8 max-w-7xl">
+                <div className="mb-8 space-y-2">
+                    <h1 className="text-3xl font-bold tracking-tight">JavaScript Quizzes</h1>
+                    <p className="text-muted-foreground text-lg">Test your knowledge across various JavaScript topics.</p>
+                </div>
 
-                            <Card>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {quizModules.map((module) => {
+                        const Icon = iconMap[module.id] || FaCode;
+                        return (
+                            <Card key={module.id} className="hover:border-primary/50 transition-all hover:shadow-md flex flex-col group">
                                 <CardHeader>
-                                    <CardTitle className="text-xl leading-relaxed">{currentQuestion.question}</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-3">
-                                        {currentQuestion.options.map((option: string, index: number) => {
-                                            const isSelected = finalSelectedAnswerIndex === index;
-                                            const isCorrect = currentQuestion.correctAnswerIndex === index;
-                                            let optionClasses = 'w-full text-left p-3 rounded-md border-2 transition-colors text-foreground';
-                                            
-                                            if(isAnswered || hasBeenAnswered) {
-                                                if (isCorrect) {
-                                                    optionClasses += ' bg-success/10 border-success';
-                                                } else if (isSelected) {
-                                                    optionClasses += ' bg-destructive/10 border-destructive line-through';
-                                                } else {
-                                                    optionClasses += ' bg-secondary border-border opacity-70';
-                                                }
-                                            } else {
-                                                optionClasses += isSelected 
-                                                    ? ' bg-primary/20 border-primary' 
-                                                    : ' bg-secondary border-border hover:border-accent';
-                                            }
-
-                                            return (
-                                                <button 
-                                                    key={index}
-                                                    onClick={() => handleAnswerSelect(index)}
-                                                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleAnswerSelect(index); }}
-                                                    className={optionClasses}
-                                                >
-                                                    {option}
-                                                </button>
-                                            );
-                                        })}
+                                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform duration-300">
+                                        <Icon className="w-6 h-6" />
                                     </div>
-                                    {(isAnswered || hasBeenAnswered) && (
-                                        <div className="mt-4 p-3 bg-secondary rounded-md text-foreground animate-fade-in-up">
-                                            <p><span className="font-semibold text-primary">Explanation: </span>{currentQuestion.explanation}</p>
-                                        </div>
-                                    )}
+                                    <CardTitle className="text-xl">{module.title}</CardTitle>
+                                    <CardDescription className="line-clamp-2 text-sm mt-2">{module.description}</CardDescription>
+                                </CardHeader>
+                                <CardContent className="mt-auto pt-0">
+                                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/50">
+                                        <span className="text-sm text-muted-foreground font-medium bg-secondary/50 px-2 py-1 rounded">
+                                            {module.questions.length} Questions
+                                        </span>
+                                        <Button onClick={() => handleStartQuiz(module)} variant="default" size="sm">
+                                            Start Quiz
+                                        </Button>
+                                    </div>
                                 </CardContent>
                             </Card>
-
-                            <div className="flex justify-between mt-6">
-                                <Button onClick={handlePreviousQuestion} disabled={currentQuestionIndex === 0}>
-                                   Previous
-                                </Button>
-                                <Button onClick={handleNextQuestion} disabled={!isAnswered && !hasBeenAnswered}>
-                                     Next 
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-
-                    {!currentQuestion && quizState === 'active' && (
-                        <Card className="text-center p-8">
-                            <p>No questions found for the selected difficulty.</p>
-                        </Card>
-                    )}
+                        );
+                    })}
                 </div>
-            </main>
+
+                {selectedQuiz && (
+                    <QuizModal
+                        key={sessionId}
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        questions={selectedQuiz.questions}
+                        title={selectedQuiz.title}
+                    />
+                )}
+            </div>
         </div>
     );
-};
-
-export default QuizPage;
+}

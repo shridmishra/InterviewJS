@@ -43,20 +43,43 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                 <a href="/challenges" className={getLinkClass('/challenges')}>
                   Challenges
                 </a>
+                <a href="/interview" className={getLinkClass('/interview')}>
+                  Interview
+                </a>
                 <a href="/quiz" className={getLinkClass('/quiz')}>
                   Quiz
                 </a>
               </nav>
               <nav className="md:hidden">
                 {pathname === '/challenges' && (
-                  <a href="/quiz" className={getLinkClass('/quiz')}>
-                    Quiz
-                  </a>
+                  <div className="flex gap-4">
+                    <a href="/interview" className={getLinkClass('/interview')}>
+                      Interview
+                    </a>
+                    <a href="/quiz" className={getLinkClass('/quiz')}>
+                      Quiz
+                    </a>
+                  </div>
                 )}
                 {pathname === '/quiz' && (
-                  <a href="/challenges" className={getLinkClass('/challenges')}>
-                    Challenges
-                  </a>
+                  <div className="flex gap-4">
+                    <a href="/challenges" className={getLinkClass('/challenges')}>
+                      Challenges
+                    </a>
+                    <a href="/interview" className={getLinkClass('/interview')}>
+                      Interview
+                    </a>
+                  </div>
+                )}
+                {pathname === '/interview' && (
+                  <div className="flex gap-4">
+                    <a href="/challenges" className={getLinkClass('/challenges')}>
+                      Challenges
+                    </a>
+                    <a href="/quiz" className={getLinkClass('/quiz')}>
+                      Quiz
+                    </a>
+                  </div>
                 )}
               </nav>
             </div>
@@ -64,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
         </div>
         {problemTitle && <h2 className="text-md font-medium text-muted-foreground truncate hidden md:block">{problemTitle}</h2>}
         <div className="flex items-center gap-2">
-         
+
           {auth.isAuthenticated && auth.user ? (
             <Dropdown
               trigger={
@@ -81,29 +104,29 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
               }
             >
               {(close) => (
-              <div className="p-2">
-                <a href="/profile" className="block w-full" onClick={close}>
-                  <Button variant="ghost" size="sm" className="w-full flex justify-start items-center gap-2">
-                    <UserIcon />
-                    <span>Profile</span>
+                <div className="p-2">
+                  <a href="/profile" className="block w-full" onClick={close}>
+                    <Button variant="ghost" size="sm" className="w-full flex justify-start items-center gap-2">
+                      <UserIcon />
+                      <span>Profile</span>
+                    </Button>
+                  </a>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setTheme(currentTheme === 'light' ? 'dark' : 'light');
+                    }}
+                    className="w-full flex justify-start items-center gap-2"
+                  >
+                    {currentTheme === 'light' ? <MoonIcon className="h-4 w-4" /> : <SunIcon className="h-4 w-4" />}
+                    <span>{currentTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
                   </Button>
-                </a>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={() => { 
-                    setTheme(currentTheme === 'light' ? 'dark' : 'light');
-                  }} 
-                  className="w-full flex justify-start items-center gap-2"
-                >
-                  {currentTheme === 'light' ? <MoonIcon className="h-4 w-4" /> : <SunIcon className="h-4 w-4" />}
-                  <span>{currentTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => { auth.logout(); close(); }} className="w-full flex justify-start items-center gap-2">
-                  <LogOutIcon />
-                  <span>Sign out</span>
-                </Button>
-              </div>
+                  <Button variant="ghost" size="sm" onClick={() => { auth.logout(); close(); }} className="w-full flex justify-start items-center gap-2">
+                    <LogOutIcon />
+                    <span>Sign out</span>
+                  </Button>
+                </div>
               )}
             </Dropdown>
           ) : (

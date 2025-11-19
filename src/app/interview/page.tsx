@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft } from 'lucide-react';
 import { SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiMongodb, SiExpress, SiNodedotjs, SiPrisma, SiHtml5 } from 'react-icons/si';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { InterviewModal } from '@/components/interview/InterviewModal';
 import type { InterviewQuestion } from '@/data/interviews/types';
+import Header from '@/components/common/Header';
 
 // Import questions from each file
 import { jsQuestions } from '@/data/interviews/javascript';
@@ -95,24 +95,10 @@ export default function InterviewPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="sticky top-0 z-10 backdrop-blur supports-backdrop-filter:bg-background/60">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Button
-              variant="secondary"
-              onClick={() => router.push('/challenges')}
-              className="rounded-full gap-2"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Back to Challenges
-            </Button>
-            <div className="rounded-full bg-card border border-border px-4 py-2 text-sm font-medium">
-              Interview Prep
-            </div>
-          </div>
-        </div>
-      </div>
+      <Header
+        onBack={() => router.push('/challenges')}
+        problemTitle="Interview Questions"
+      />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
@@ -135,33 +121,30 @@ export default function InterviewPage() {
                 return (
                   <Card
                     key={topic.name}
-                    className="hover:border-primary/50 transition-all hover:shadow-md group"
+                    className="hover:border-primary/50 transition-all hover:shadow-md flex flex-col group"
                   >
                     <CardHeader>
-                      <CardTitle className="flex items-center gap-3 text-xl">
-                        <Icon className={`text-2xl ${topic.color}`} />
-                        {topic.name}
-                      </CardTitle>
-                      <CardDescription>
-                        {topic.questions.length} Questions
+                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform duration-300">
+                        <Icon className={`w-6 h-6 ${topic.color.replace('text-', 'text-')}`} />
+                      </div>
+                      <CardTitle className="text-xl">{topic.name}</CardTitle>
+                      <CardDescription className="line-clamp-2 text-sm mt-2">
+                        Practice {topic.name} interview questions
                       </CardDescription>
                     </CardHeader>
-                    <CardContent>
-                      <div className="flex gap-2">
+                    <CardContent className="mt-auto pt-0">
+                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/50">
+                        <span className="text-sm text-muted-foreground font-medium bg-secondary/50 px-2 py-1 rounded">
+                          {topic.questions.length} Questions
+                        </span>
                         <Button
                           variant="default"
-                          className="flex-1"
+                          size="sm"
                           onClick={() => handleTopicClick(topic.questions)}
                         >
-                          Questions
+                          Start Practice
                         </Button>
-                        <Button
-                          variant="outline"
-                          className="flex-1"
-                          onClick={() => handleChallengesClick(topic.name)}
-                        >
-                          Challenges
-                        </Button>
+
                       </div>
                     </CardContent>
                   </Card>
@@ -182,6 +165,7 @@ export default function InterviewPage() {
           onSelectTopic={(topicName) => {
             // Find the topic and its questions
             const allQuestions = [
+              ...htmlCssQuestions,
               ...jsQuestions,
               ...tsQuestions,
               ...reactQuestions,
@@ -190,7 +174,7 @@ export default function InterviewPage() {
               ...expressQuestions,
               ...backendQuestions,
               ...prismaPostgresQuestions,
-              ...htmlCssQuestions
+
             ];
             const topicQuestions = allQuestions.filter(q => q.topic === topicName);
             if (topicQuestions.length > 0) {
