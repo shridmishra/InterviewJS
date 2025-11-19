@@ -13,6 +13,7 @@ import { FaPlus } from 'react-icons/fa';
 import Dropdown from '../ui/Dropdown';
 import { BookmarkIcon, SearchIcon } from '../common/Icons';
 import NotesModal from '../modals/NotesModal';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
 import ProgressBar from '../progress/ProgressBar';
 
@@ -124,6 +125,7 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
     const [activeTab, setActiveTab] = useState('all');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | 'none'>('none');
     const [editingNotesFor, setEditingNotesFor] = useState<Problem | null>(null);
+    const router = useRouter();
     const auth = useAuth();
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -206,24 +208,37 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                     {/* Tabs + mobile shuffle */}
                     <div className="flex items-center gap-2">
                         <div className="flex items-center gap-2 p-1 bg-secondary rounded-full">
-                        <Button
-                            variant={activeTab === 'all' ? 'secondary' : 'ghost'}
-                            size="sm"
-                            onClick={() => handleTabChange('all')}
-                            className={activeTab === 'all' ? 'bg-background hover:bg-background rounded-full' : 'text-muted-foreground hover:bg-accent rounded-full'}
+                            <Button
+                                variant={activeTab === 'all' ? 'secondary' : 'ghost'}
+                                size="sm"
+                                onClick={() => handleTabChange('all')}
+                                className={activeTab === 'all' ? 'bg-background hover:bg-background rounded-full' : 'text-muted-foreground hover:bg-accent rounded-full'}
 
-                        >
-                            All Problems
-                        </Button>
-                        <Button
-                            variant={activeTab === 'revision' ? 'secondary' : 'ghost'}
-                            size="sm"
-                            onClick={() => handleTabChange('revision')}
-                            className={`${activeTab === 'revision' ? 'bg-background hover:bg-background' : 'text-muted-foreground hover:bg-accent'} rounded-full`}
-                        >
-                            For Revision
-                        </Button>
+                            >
+                                All Problems
+                            </Button>
+                            <Button
+                                variant={activeTab === 'revision' ? 'secondary' : 'ghost'}
+                                size="sm"
+                                onClick={() => handleTabChange('revision')}
+                                className={`${activeTab === 'revision' ? 'bg-background hover:bg-background' : 'text-muted-foreground hover:bg-accent'} rounded-full`}
+                            >
+                                <span className="sm:hidden"><BookmarkIcon filled={false} className="h-4 w-4" /></span>
+                                <span className="hidden sm:inline">For Revision</span>
+                            </Button>
                         </div>
+                        {/* Interview Button (navigates to page) */}
+                        <Button
+                            variant="default"
+                            size="sm"
+                            onClick={() => router.push('/interview')}
+                            className="rounded-full gap-2 bg-foreground text-background hover:bg-foreground/90"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            </svg>
+                            <span className="hidden sm:inline">Interview</span>
+                        </Button>
                         {/* Mobile-only random icon next to tabs */}
                         <Button
                             variant="secondary"
