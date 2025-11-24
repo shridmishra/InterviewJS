@@ -91,7 +91,7 @@ export default function InterviewPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header
-        onBack={() => router.push('/challenges')}
+        onBack={() => router.push('/practice/js')}
         problemTitle="Interview Questions"
       />
 

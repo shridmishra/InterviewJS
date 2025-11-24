@@ -1,5 +1,5 @@
 
-import { TestCase, TestResult } from '../../types';
+import { TestCase, TestResult } from '../../../types';
 
 export const runTests = (userCode: string, testCases: TestCase[]): TestResult[] => {
   try {

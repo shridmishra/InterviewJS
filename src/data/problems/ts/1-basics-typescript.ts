@@ -1,7 +1,7 @@
-import { Problem, Difficulty } from "../../types";
+import { Problem, Difficulty } from "../../../types";
 import { runTests } from "./utils";
 
-export const typescriptFundamentals: Omit<
+export const typescriptBasics: Omit<
   Problem,
   "status" | "isStarred" | "notes"
 >[] = [
@@ -12,12 +12,12 @@ export const typescriptFundamentals: Omit<
       "Declare a variable `age` of type `number`, a variable `name` of type `string`, and a variable `isStudent` of type `boolean`.",
     difficulty: Difficulty.Easy,
     category: "Primitives",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl: "https://www.typescriptlang.org/docs/handbook/2/basic-types.html",
     starterCode: `// Declare variables here
-let age: number;
-let name: string;
-let isStudent: boolean;
+// let age: ...
+// let name: ...
+// let isStudent: ...
 `,
     solutionCheck: (userCode: string) => {
       try {
@@ -65,18 +65,16 @@ let isStudent: boolean;
       "Define an interface `User` with properties `id` (number) and `name` (string). Then create an object `myUser` that conforms to this interface.",
     difficulty: Difficulty.Easy,
     category: "Interfaces",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl: "https://www.typescriptlang.org/docs/handbook/2/interfaces.html",
     starterCode: `// Define interface here
 interface User {
-  id: number;
-  name: string;
+  // ...
 }
 
 // Create an object conforming to the interface
 const myUser: User = {
-  id: 1,
-  name: "John Doe"
+  // ...
 };
 `,
     solutionCheck: (userCode: string) => {
@@ -119,10 +117,10 @@ const myUser: User = {
       "Write a function `add` that takes two numbers and returns a number. Use TypeScript types for the parameters and return value.",
     difficulty: Difficulty.Easy,
     category: "Functions",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl: "https://www.typescriptlang.org/docs/handbook/2/functions.html",
     starterCode: `function add(a: number, b: number): number {
-  return a + b;
+  // Your code here
 }`,
     testCases: [
       { input: [1, 2], expectedOutput: 3 },
@@ -136,29 +134,7 @@ const myUser: User = {
         { input: [-1, -1], expectedOutput: -2 },
       ]),
   },
-  {
-    id: "typescript-generics",
-    title: "TypeScript Generics",
-    description:
-      "Write a generic function `identity` that takes an argument of type `T` and returns it.",
-    difficulty: Difficulty.Medium,
-    category: "Generics",
-    group: "Step 7: TypeScript Fundamentals",
-    docsUrl: "https://www.typescriptlang.org/docs/handbook/2/generics.html",
-    starterCode: `function identity<T>(arg: T): T {
-  return arg;
-}`,
-    testCases: [
-      { input: [1], expectedOutput: 1 },
-      { input: ["a"], expectedOutput: "a" },
-    ],
-    solutionCheck: (userCode: string) =>
-      runTests(userCode, [
-        { input: [1], expectedOutput: 1 },
-        { input: ["a"], expectedOutput: "a" },
-        { input: [true], expectedOutput: true },
-      ]),
-  },
+
   {
     id: "ts-declare-string",
     title: "Declare a String Type",
@@ -166,10 +142,10 @@ const myUser: User = {
       'Declare a variable `greeting` and explicitly assign it the type `string`. Initialize it with "Hello, TypeScript!".',
     difficulty: Difficulty.Easy,
     category: "Primitives",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/docs/handbook/2/everyday-types.html#the-primitives-string-number-and-boolean",
-    starterCode: `let greeting: string = "Hello, TypeScript!";`,
+    starterCode: `let greeting: string; // Initialize this variable`,
     testCases: [{ input: [], expectedOutput: "Hello, TypeScript!" }],
     solutionCheck: (userCode: string) => {
       try {
@@ -207,10 +183,10 @@ const myUser: User = {
       "Declare a variable `age` and explicitly assign it the type `number`. Initialize it with `30`.",
     difficulty: Difficulty.Easy,
     category: "Primitives",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#the-primitives-string-number-and-boolean",
-    starterCode: `let age: number = 30;`,
+    starterCode: `let age: number; // Initialize this variable`,
     testCases: [{ input: [], expectedOutput: 30 }],
     solutionCheck: (userCode: string) => {
       try {
@@ -248,10 +224,10 @@ const myUser: User = {
       "Declare a variable `isActive` and explicitly assign it the type `boolean`. Initialize it with `true`.",
     difficulty: Difficulty.Easy,
     category: "Primitives",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#the-primitives-string-number-and-boolean",
-    starterCode: `let isActive: boolean = true;`,
+    starterCode: `let isActive: boolean; // Initialize this variable`,
     testCases: [{ input: [], expectedOutput: true }],
     solutionCheck: (userCode: string) => {
       try {
@@ -289,10 +265,10 @@ const myUser: User = {
       "Declare a variable `numbers` and explicitly assign it the type `number[]`. Initialize it with `[1, 2, 3]`.",
     difficulty: Difficulty.Easy,
     category: "Arrays",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#arrays",
-    starterCode: `let numbers: number[] = [1, 2, 3];`,
+    starterCode: `let numbers: number[]; // Initialize this variable`,
     testCases: [{ input: [], expectedOutput: [1, 2, 3] }],
     solutionCheck: (userCode: string) => {
       try {
@@ -330,10 +306,10 @@ const myUser: User = {
       'Declare a variable `userInfo` and explicitly assign it the type `[string, number]`. Initialize it with `["Alice", 25]`.',
     difficulty: Difficulty.Medium,
     category: "Tuples",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#tuple-types",
-    starterCode: `let userInfo: [string, number] = ["Alice", 25];`,
+    starterCode: `let userInfo: [string, number]; // Initialize this variable`,
     testCases: [{ input: [], expectedOutput: ["Alice", 25] }],
     solutionCheck: (userCode: string) => {
       try {
@@ -371,14 +347,15 @@ const myUser: User = {
       "Define an interface `Person` with properties `name` (string) and `age` (number). Create an object `user` of type `Person`.",
     difficulty: Difficulty.Medium,
     category: "Interfaces",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#interfaces",
     starterCode: `interface Person {
-  name: string;
-  age: number;
+  // Define properties
 }
-const user: Person = { name: "Bob", age: 30 };`,
+const user: Person = {
+  // Initialize object
+};`,
     testCases: [{ input: [], expectedOutput: { name: "Bob", age: 30 } }],
     solutionCheck: (userCode: string) => {
       try {
@@ -418,11 +395,15 @@ const user: Person = { name: "Bob", age: 30 };`,
       "Define a type alias `Point` for an object with properties `x` (number) and `y` (number). Create an object `origin` of type `Point`.",
     difficulty: Difficulty.Medium,
     category: "Aliases",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-aliases",
-    starterCode: `type Point = { x: number; y: number; };
-const origin: Point = { x: 0, y: 0 };`,
+    starterCode: `type Point = {
+  // Define properties
+};
+const origin: Point = {
+  // Initialize object
+};`,
     testCases: [{ input: [], expectedOutput: { x: 0, y: 0 } }],
     solutionCheck: (userCode: string) => {
       try {
@@ -462,11 +443,16 @@ const origin: Point = { x: 0, y: 0 };`,
       "Modify the `Person` interface to make the `age` property optional. Create a `Person` object without `age`.",
     difficulty: Difficulty.Medium,
     category: "Interfaces",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#optional-properties",
-    starterCode: `interface Person { name: string; age?: number; }
-const userWithoutAge: Person = { name: "Charlie" };`,
+    starterCode: `interface Person {
+  name: string;
+  // Add optional age property
+}
+const userWithoutAge: Person = {
+  // Initialize object
+};`,
     testCases: [{ input: [], expectedOutput: { name: "Charlie" } }],
     solutionCheck: (userCode: string) => {
       try {
@@ -506,11 +492,15 @@ const userWithoutAge: Person = { name: "Charlie" };`,
       "Define an interface `Config` with a `readonly` property `apiKey` (string). Create a `Config` object.",
     difficulty: Difficulty.Medium,
     category: "Interfaces",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#readonly-properties",
-    starterCode: `interface Config { readonly apiKey: string; }
-const appConfig: Config = { apiKey: "mysecretkey" };`,
+    starterCode: `interface Config {
+  // Add readonly property
+}
+const appConfig: Config = {
+  // Initialize object
+};`,
     testCases: [{ input: [], expectedOutput: { apiKey: "mysecretkey" } }],
     solutionCheck: (userCode: string) => {
       try {
@@ -550,11 +540,11 @@ const appConfig: Config = { apiKey: "mysecretkey" };`,
       "Define a type alias `ID` that can be either `string` or `number`. Declare a variable `userId` of type `ID`.",
     difficulty: Difficulty.Medium,
     category: "Unions",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types",
-    starterCode: `type ID = string | number;
-let userId: ID = "abc-123";`,
+    starterCode: `type ID = // Define union type
+let userId: ID = // Initialize variable`,
     testCases: [{ input: [], expectedOutput: "abc-123" }],
     solutionCheck: (userCode: string) => {
       try {
@@ -598,10 +588,12 @@ let userId: ID = "abc-123";`,
       "Write a function `add` that takes two `number` arguments and returns their `number` sum.",
     difficulty: Difficulty.Easy,
     category: "Functions",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/functions.html#functions",
-    starterCode: `function add(a: number, b: number): number { return a + b; }`,
+    starterCode: `function add(a: number, b: number): number {
+  // Your code here
+}`,
     testCases: [{ input: [1, 2], expectedOutput: 3 }],
     solutionCheck: (userCode: string) =>
       runTests(userCode, [{ input: [5, 10], expectedOutput: 15 }]),
@@ -613,10 +605,12 @@ let userId: ID = "abc-123";`,
       "Write a function `logMessage` that takes a `string` argument and logs it to the console. It should have a `void` return type.",
     difficulty: Difficulty.Easy,
     category: "Functions",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#void",
-    starterCode: `function logMessage(message: string): void { console.log(message); }`,
+    starterCode: `function logMessage(message: string): void {
+  // Your code here
+}`,
     testCases: [{ input: ["Test"], expectedOutput: undefined }], // Expect undefined for void functions
     solutionCheck: (userCode: string) =>
       runTests(userCode, [{ input: ["Hello"], expectedOutput: undefined }]),
@@ -628,12 +622,11 @@ let userId: ID = "abc-123";`,
       'Write a function `greet` that takes a `name` (string) and an optional `greetingMessage` (string). If `greetingMessage` is not provided, it should default to "Hello".',
     difficulty: Difficulty.Medium,
     category: "Functions",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/functions.html#optional-and-default-parameters",
     starterCode: `function greet(name: string, greetingMessage?: string): string {
-  const finalGreeting = greetingMessage || "Hello";
-  return finalGreeting + ", " + name + "!";
+  // Your code here
 }`,
     testCases: [
       { input: ["Alice"], expectedOutput: "Hello, Alice!" },
@@ -652,10 +645,12 @@ let userId: ID = "abc-123";`,
       "Write a function `multiply` that takes two `number` arguments, `a` and `b`. `b` should have a default value of `1`.",
     difficulty: Difficulty.Medium,
     category: "Functions",
-    group: "Step 7: TypeScript Fundamentals",
+    group: "Step 1: TypeScript Basics",
     docsUrl:
       "https://www.typescriptlang.org/docs/handbook/2/functions.html#optional-and-default-parameters",
-    starterCode: `function multiply(a: number, b: number = 1): number { return a * b; }`,
+    starterCode: `function multiply(a: number, b: number = 1): number {
+  // Your code here
+}`,
     testCases: [
       { input: [5], expectedOutput: 5 },
       { input: [5, 2], expectedOutput: 10 },

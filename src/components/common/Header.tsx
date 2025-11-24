@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
           {onBack ? (
             <Button variant="ghost" size="sm" onClick={onBack} className="text-muted-foreground hover:text-foreground">
               <ChevronLeftIcon className="h-4 w-4" />
-              Challenges
+              Practice
             </Button>
           ) : (
             <div className="flex items-center gap-8">
@@ -39,8 +39,8 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                 practice<span className="text-primary">JS</span>
               </button>
               <nav className="hidden md:flex items-center gap-6">
-                <a href="/challenges" className={getLinkClass('/challenges')}>
-                  Challenges
+                <a href="/practice/js" className={getLinkClass('/practice')}>
+                  Practice
                 </a>
                 <a href="/interview" className={getLinkClass('/interview')}>
                   Interview
@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                 </a>
               </nav>
               <nav className="md:hidden">
-                {(pathname === '/' || pathname.startsWith('/challenges')) && (
+                {(pathname === '/' || pathname.startsWith('/practice')) && (
                   <div className="flex gap-4">
                     <a href="/quiz" className={getLinkClass('/quiz')}>
                       Quiz
@@ -59,8 +59,8 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                 )}
                 {pathname.startsWith('/quiz') && (
                   <div className="flex gap-4">
-                    <a href="/challenges" className={getLinkClass('/challenges')}>
-                      Challenges
+                    <a href="/practice/js" className={getLinkClass('/practice')}>
+                      Practice
                     </a>
                     <a href="/interview" className={getLinkClass('/interview')}>
                       Interview
@@ -69,8 +69,8 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
                 )}
                 {pathname.startsWith('/interview') && (
                   <div className="flex gap-4">
-                    <a href="/challenges" className={getLinkClass('/challenges')}>
-                      Challenges
+                    <a href="/practice/js" className={getLinkClass('/practice')}>
+                      Practice
                     </a>
                     <a href="/quiz" className={getLinkClass('/quiz')}>
                       Quiz

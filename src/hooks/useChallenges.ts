@@ -1,15 +1,20 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Problem, ProblemStatus } from '../types';
-import { learnTheBasics } from '../data/problems/1-basics-1';
-import { arrayManipulation } from '../data/problems/2-basics-2';
-import { step3Basics3 } from '../data/problems/3-basics-3';
+// JavaScript problems
+import { learnTheBasics } from '../data/problems/js/1-basics-1';
+import { arrayManipulation } from '../data/problems/js/2-basics-2';
+import { step3Basics3 } from '../data/problems/js/3-basics-3';
+import { asynchronousJavaScript } from '../data/problems/js/4-asynchronous-javascript';
+import { domManipulation } from '../data/problems/js/5-dom-manipulation';
+import { advancedDomAndEvents } from '../data/problems/js/6-advanced-dom-and-events';
 
-
-import { asynchronousJavaScript } from '../data/problems/4-asynchronous-javascript';
-import { domManipulation } from '../data/problems/5-dom-manipulation';
-import { advancedDomAndEvents } from '../data/problems/6-advanced-dom-and-events';
-import { typescriptFundamentals } from '../data/problems/7-typescript-fundamentals';
-import { typescriptAdvanced } from '../data/problems/8-typescript-advanced';
+// TypeScript problems
+import { typescriptBasics } from '../data/problems/ts/1-basics-typescript';
+import { typescriptClassesInterfacesEnums } from '../data/problems/ts/2-classes-interfaces-enums-typescript';
+import { typescriptGenericsUtilityTypes } from '../data/problems/ts/3-generics-utility-types-typescript';
+import { typescriptAdvancedTypesPatterns } from '../data/problems/ts/4-advanced-types-patterns-typescript';
+import { typescriptModulesAsync } from '../data/problems/ts/5-modules-async-typescript';
+import { typescriptRealWorld } from '../data/problems/ts/6-real-world-typescript';
 
 const staticProblems = [
     ...learnTheBasics,
@@ -18,8 +23,12 @@ const staticProblems = [
     ...asynchronousJavaScript,
     ...domManipulation,
     ...advancedDomAndEvents,
-    ...typescriptFundamentals,
-    ...typescriptAdvanced
+    ...typescriptBasics,
+    ...typescriptClassesInterfacesEnums,
+    ...typescriptGenericsUtilityTypes,
+    ...typescriptAdvancedTypesPatterns,
+    ...typescriptModulesAsync,
+    ...typescriptRealWorld
 ];
 import { useAuth } from '../context/AuthContext';
 
@@ -30,7 +39,7 @@ interface UserProblemMetadata {
   notes: string;
 }
 
-export const useChallenges = () => {
+export const useChallenges = (filter?: 'js' | 'ts') => {
   const [userProblemMetadata, setUserProblemMetadata] = useState<UserProblemMetadata[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
@@ -74,15 +83,21 @@ export const useChallenges = () => {
     }
   }, [isAuthenticated, isAuthLoading]);
 
-  const problemsForList: Problem[] = staticProblems.map(staticP => {
-    const userMeta = userProblemMetadata.find(userP => userP.id === staticP.id);
-    return {
-      ...staticP,
-      status: userMeta?.status || ProblemStatus.Unsolved,
-      isStarred: userMeta?.isStarred || false,
-      notes: userMeta?.notes || '',
-    };
-  });
+  const problemsForList: Problem[] = staticProblems
+    .filter((staticP) => {
+      if (!filter) return true;
+      const isTypescript = staticP.group?.toLowerCase().includes('typescript') ?? false;
+      return filter === 'ts' ? isTypescript : !isTypescript;
+    })
+    .map(staticP => {
+      const userMeta = userProblemMetadata.find(userP => userP.id === staticP.id);
+      return {
+        ...staticP,
+        status: userMeta?.status || ProblemStatus.Unsolved,
+        isStarred: userMeta?.isStarred || false,
+        notes: userMeta?.notes || '',
+      };
+    });
 
   const getProblemById = useCallback((id: string): Problem | undefined => {
     const staticProblem = staticProblems.find(p => p.id === id);

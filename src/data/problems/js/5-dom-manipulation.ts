@@ -1,4 +1,4 @@
-import { Problem, Difficulty } from '../../types';
+import { Problem, Difficulty } from '../../../types';
 
 interface MockHTMLElement {
   id?: string;

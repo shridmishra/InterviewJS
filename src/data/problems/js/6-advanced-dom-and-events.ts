@@ -1,4 +1,4 @@
-import { Problem, Difficulty } from '../../types';
+import { Problem, Difficulty } from '../../../types';
 import { fireEvent } from '@testing-library/dom';
 
 export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [

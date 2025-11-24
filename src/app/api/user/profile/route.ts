@@ -6,13 +6,22 @@ import UserAnsweredQuestion from '@/models/UserAnsweredQuestion'; // Import the 
 import { authMiddleware } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
-  const { learnTheBasics } = await import('@/data/problems/1-basics-1');
-  const { arrayManipulation } = await import('@/data/problems/2-basics-2');
-  const { step3Basics3 } = await import('@/data/problems/3-basics-3');
-  const { asynchronousJavaScript } = await import('@/data/problems/4-asynchronous-javascript');
-  const { domManipulation } = await import('@/data/problems/5-dom-manipulation');
-  const { advancedDomAndEvents } = await import('@/data/problems/6-advanced-dom-and-events');
-  const { typescriptFundamentals } = await import('@/data/problems/7-typescript-fundamentals');
+  // JavaScript problems
+  const { learnTheBasics } = await import('@/data/problems/js/1-basics-1');
+  const { arrayManipulation } = await import('@/data/problems/js/2-basics-2');
+  const { step3Basics3 } = await import('@/data/problems/js/3-basics-3');
+  const { asynchronousJavaScript } = await import('@/data/problems/js/4-asynchronous-javascript');
+  const { domManipulation } = await import('@/data/problems/js/5-dom-manipulation');
+  const { advancedDomAndEvents } = await import('@/data/problems/js/6-advanced-dom-and-events');
+  
+  // TypeScript problems
+  const { typescriptBasics } = await import('@/data/problems/ts/1-basics-typescript');
+  const { typescriptClassesInterfacesEnums } = await import('@/data/problems/ts/2-classes-interfaces-enums-typescript');
+  const { typescriptGenericsUtilityTypes } = await import('@/data/problems/ts/3-generics-utility-types-typescript');
+  const { typescriptAdvancedTypesPatterns } = await import('@/data/problems/ts/4-advanced-types-patterns-typescript');
+  const { typescriptModulesAsync } = await import('@/data/problems/ts/5-modules-async-typescript');
+  const { typescriptRealWorld } = await import('@/data/problems/ts/6-real-world-typescript');
+  
   const problemsData = [
     ...learnTheBasics,
     ...arrayManipulation,
@@ -20,7 +29,12 @@ export async function GET(req: NextRequest) {
     ...asynchronousJavaScript,
     ...domManipulation,
     ...advancedDomAndEvents,
-    ...typescriptFundamentals
+    ...typescriptBasics,
+    ...typescriptClassesInterfacesEnums,
+    ...typescriptGenericsUtilityTypes,
+    ...typescriptAdvancedTypesPatterns,
+    ...typescriptModulesAsync,
+    ...typescriptRealWorld
   ];
   await dbConnect();
 

@@ -8,10 +8,10 @@ import { useRef } from "react";
 
 export const CallToAction = () => {
   const ctaRef = useRef(null);
-    const router = useRouter();
-    const handleNavigate = (page: string) => {
-      router.push(`/${page}`);
-    };
+  const router = useRouter();
+  const handleNavigate = (page: string) => {
+    router.push(`/${page}`);
+  };
 
   const { scrollYProgress } = useScroll({
     target: ctaRef,
@@ -27,12 +27,12 @@ export const CallToAction = () => {
         <h2 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">Sign up for free today</h2>
         <p className="sub-heading">Start your journey to JavaScript mastery. Sign up for free and get instant access to our challenges and quizzes.</p>
         <div className="mt-10">
-          <button className="btn btn-primary bg-foreground text-background" onClick={() => handleNavigate('challenges')}>Get started</button>
-          <button className="btn btn-text gap-2" onClick={() => handleNavigate('challenges')}><span>Learn more</span><ArrowIcon className="h-5 w-5" /></button>
+          <button className="btn btn-primary bg-foreground text-background" onClick={() => handleNavigate('practice/js')}>Get started</button>
+          <button className="btn btn-text gap-2" onClick={() => handleNavigate('practice/js')}><span>Learn more</span><ArrowIcon className="h-5 w-5" /></button>
         </div>
       </div>
     </div>
-    <motion.img src={springImage.src} width={360} alt="Spring Shape" className=" hidden lg:block  absolute top-20 right-20" style={{translateY}} />
-    <motion.img src={starImage.src} width={360} alt="Star Shape" className="hidden lg:block absolute top-0 left-8" style={{translateY}}/>
+    <motion.img src={springImage.src} width={360} alt="Spring Shape" className=" hidden lg:block  absolute top-20 right-20" style={{ translateY }} />
+    <motion.img src={starImage.src} width={360} alt="Star Shape" className="hidden lg:block absolute top-0 left-8" style={{ translateY }} />
   </section>;
 };

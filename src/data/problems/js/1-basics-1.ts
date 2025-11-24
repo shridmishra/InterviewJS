@@ -1,4 +1,4 @@
-import { Problem, Difficulty } from '../../types';
+import { Problem, Difficulty } from '../../../types';
 import { runTests } from './utils';
 
 export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [

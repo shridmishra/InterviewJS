@@ -35,7 +35,7 @@ export const HomePage = () => {
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="flex items-center gap-2">
               <button
-                
+
                 className="hidden lg:flex items-center gap-2 text-foreground hover:text-muted-foreground"
                 onClick={() => window.open("https://github.com/shridmishra/practicejs", "_blank")}
               >
@@ -49,7 +49,7 @@ export const HomePage = () => {
                       aria-label="View Profile"
                     >
                       {auth.user?.image ? (
-                        <UserIcon className='text-foreground hover:text-muted-foreground'/>
+                        <UserIcon className='text-foreground hover:text-muted-foreground' />
                       ) : (
                         auth.user?.name?.charAt(0)?.toUpperCase() || 'U'
                       )}
@@ -57,29 +57,29 @@ export const HomePage = () => {
                   }
                 >
                   {(close) => (
-                  <div className="p-2 flex flex-col items-start">
-                    <a href="/profile" className="block w-full" onClick={close}>
-                      <Button variant="ghost" size="sm" className="w-full flex justify-start items-center gap-2">
-                        <UserIcon className='text-foreground hover:text-muted-foreground'/>
-                        <span>Profile</span>
+                    <div className="p-2 flex flex-col items-start">
+                      <a href="/profile" className="block w-full" onClick={close}>
+                        <Button variant="ghost" size="sm" className="w-full flex justify-start items-center gap-2">
+                          <UserIcon className='text-foreground hover:text-muted-foreground' />
+                          <span>Profile</span>
+                        </Button>
+                      </a>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setTheme(currentTheme === 'light' ? 'dark' : 'light');
+                        }}
+                        className="w-full flex justify-start items-center gap-2"
+                      >
+                        {currentTheme === 'light' ? <MoonIcon className="h-4 w-4" /> : <SunIcon className="h-4 w-4" />}
+                        <span>{currentTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
                       </Button>
-                    </a>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={() => { 
-                        setTheme(currentTheme === 'light' ? 'dark' : 'light');
-                      }} 
-                      className="w-full flex justify-start items-center gap-2"
-                    >
-                      {currentTheme === 'light' ? <MoonIcon className="h-4 w-4" /> : <SunIcon className="h-4 w-4" />}
-                      <span>{currentTheme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => { auth.logout(); close(); }} className="w-full flex justify-start items-center gap-2">
-                      <LogOutIcon />
-                      <span>Sign out</span>
-                    </Button>
-                  </div>
+                      <Button variant="ghost" size="sm" onClick={() => { auth.logout(); close(); }} className="w-full flex justify-start items-center gap-2">
+                        <LogOutIcon />
+                        <span>Sign out</span>
+                      </Button>
+                    </div>
                   )}
                 </Dropdown>
               ) : (
@@ -90,17 +90,17 @@ export const HomePage = () => {
           </div>
         </header>
 
-                <div className="md:flex items-center justify-center gap-8 md:gap-16 mt-16 md:mt-20">
-                    <div className="md:w-1/2">
-                        <div>
-                            <h1 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">Master JavaScript,<br />One Challenge at a Time.</h1>
-                            <p className="text-lg lg:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">An interactive platform to practice JavaScript, tackle coding challenges, and prepare for technical interviews. Track your progress and master JS. </p>
-                        </div>
-                        <div className="mt-7 flex gap-1 md:items-center items-start flex-row">
-                            <button onClick={() => handleNavigate('challenges')} className="btn btn-primary bg-black text-white dark:bg-white dark:text-black">View Challenges</button>
-                            <button onClick={() => handleNavigate('quiz')} className="btn btn-text gap-1 inline-flex"><span>Take quiz</span><ArrowIcon className="h-5 w-5" /></button>
-                        </div>
-                    </div>
+        <div className="md:flex items-center justify-center gap-8 md:gap-16 mt-16 md:mt-20">
+          <div className="md:w-1/2">
+            <div>
+              <h1 className="text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-black to-[#733e0a] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text mt-6">Master JavaScript,<br />One Challenge at a Time.</h1>
+              <p className="text-lg lg:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">An interactive platform to practice JavaScript, tackle coding challenges, and prepare for technical interviews. Track your progress and master JS. </p>
+            </div>
+            <div className="mt-7 flex gap-1 md:items-center items-start flex-row">
+              <button onClick={() => handleNavigate('practice/js')} className="btn btn-primary bg-black text-white dark:bg-white dark:text-black">View Challenges</button>
+              <button onClick={() => handleNavigate('quiz')} className="btn btn-text gap-1 inline-flex"><span>Take quiz</span><ArrowIcon className="h-5 w-5" /></button>
+            </div>
+          </div>
 
 
           <div className="hidden md:flex md:w-1/2 pt-12 md:mt-0 items-center justify-center">

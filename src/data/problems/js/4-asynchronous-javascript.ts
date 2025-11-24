@@ -1,4 +1,4 @@
-import { Problem, Difficulty } from '../../types';
+import { Problem, Difficulty } from '../../../types';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { runTests } from './utils';
 
