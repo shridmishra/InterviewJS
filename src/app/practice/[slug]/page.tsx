@@ -7,8 +7,6 @@ import { useRouter, useParams } from 'next/navigation';
 import { useChallenges } from '../../../hooks/useChallenges';
 import { Problem } from '../../../types';
 import { useAuth } from '../../../context/AuthContext';
-// import { Button } from '@/components/ui/button';
-// import { ChevronRight } from 'lucide-react';
 
 import ProblemListSkeleton from '../../../components/problems/ProblemListSkeleton';
 

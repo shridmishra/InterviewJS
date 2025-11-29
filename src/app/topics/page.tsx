@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiMongodb, SiExpress, SiNodedotjs, SiPrisma, SiHtml5, SiPostgresql } from 'react-icons/si';
+import { SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiMongodb, SiExpress, SiNodedotjs, SiPrisma, SiHtml5, SiPostgresql, SiCss3 } from 'react-icons/si';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { TopicModal } from '@/components/topics/TopicModal';
@@ -39,9 +39,9 @@ import { expressQuestions } from '@/data/topics/express';
 import { backendQuestions } from '@/data/topics/nodejs';
 import { prismaQuestions } from '@/data/topics/prisma';
 import { postgresQuestions } from '@/data/topics/postgres';
-import { htmlCssQuestions } from '@/data/topics/html-css';
+import { htmlQuestions, cssQuestions } from '@/data/topics';
 
-// Define the 9 topics with React Icons
+// Define the 11 topics with React Icons
 const topics = [
   { name: 'JavaScript', questions: jsQuestions, icon: SiJavascript, color: 'text-yellow-500', slug: 'js' },
   { name: 'TypeScript', questions: tsQuestions, icon: SiTypescript, color: 'text-blue-600', slug: 'ts' },
@@ -52,7 +52,8 @@ const topics = [
   { name: 'Node.js', questions: backendQuestions, icon: SiNodedotjs, color: 'text-green-500', slug: 'nodejs' },
   { name: 'Prisma', questions: prismaQuestions, icon: SiPrisma, color: 'text-indigo-600', slug: 'prisma' },
   { name: 'PostgreSQL', questions: postgresQuestions, icon: SiPostgresql, color: 'text-blue-500', slug: 'postgres' },
-  { name: 'HTML & CSS', questions: htmlCssQuestions, icon: SiHtml5, color: 'text-orange-600', slug: 'html-css' }
+  { name: 'HTML', questions: htmlQuestions, icon: SiHtml5, color: 'text-orange-600', slug: 'html' },
+  { name: 'CSS', questions: cssQuestions, icon: SiCss3, color: 'text-blue-500', slug: 'css' }
 ];
 
 // Skeleton Card Component
@@ -103,7 +104,8 @@ export default function TopicsPage() {
       ...backendQuestions.map(q => q.topic),
       ...prismaQuestions.map(q => q.topic),
       ...postgresQuestions.map(q => q.topic),
-      ...htmlCssQuestions.map(q => q.topic)
+      ...htmlQuestions.map(q => q.topic),
+      ...cssQuestions.map(q => q.topic)
     ])
   );
 
@@ -200,7 +202,8 @@ export default function TopicsPage() {
           onSelectTopic={(topicName) => {
             // Find the topic and its questions
             const allQuestions = [
-              ...htmlCssQuestions,
+              ...htmlQuestions,
+              ...cssQuestions,
               ...jsQuestions,
               ...tsQuestions,
               ...reactQuestions,

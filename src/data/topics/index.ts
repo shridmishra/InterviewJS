@@ -8,8 +8,10 @@ import { nextjsQuestions } from './nextjs';
 import { mongoQuestions } from './mongo';
 import { expressQuestions } from './express';
 import { backendQuestions } from './nodejs';
-import { prismaPostgresQuestions } from './prisma-postgres';
-import { htmlCssQuestions } from './html-css';
+import { prismaQuestions } from './prisma';
+import { postgresQuestions } from './postgres';
+import { htmlQuestions } from './html';
+import { cssQuestions } from './css';
 
 // Combine all questions
 const allQuestions: TopicQuestion[] = [
@@ -20,8 +22,10 @@ const allQuestions: TopicQuestion[] = [
   ...mongoQuestions,
   ...expressQuestions,
   ...backendQuestions,
-  ...prismaPostgresQuestions,
-  ...htmlCssQuestions
+  ...prismaQuestions,
+  ...postgresQuestions,
+  ...htmlQuestions,
+  ...cssQuestions
 ];
 
 /**
@@ -42,6 +46,8 @@ export {
   mongoQuestions,
   expressQuestions,
   backendQuestions,
-  prismaPostgresQuestions,
-  htmlCssQuestions
+  prismaQuestions,
+  postgresQuestions,
+  htmlQuestions,
+  cssQuestions
 };
