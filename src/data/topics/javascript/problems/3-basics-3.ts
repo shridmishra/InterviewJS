@@ -10,6 +10,7 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'String',
     group: 'Step 3: Basics III',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function reverseString(str) {
   // Your code here
 }`,
@@ -24,6 +25,7 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Array',
     group: 'Step 3: Basics III',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function removeDuplicates(arr) {
   // Your code here
 }`,
@@ -38,6 +40,7 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'String',
     group: 'Step 3: Basics III',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function isPalindrome(str) {
   // Your code here
 }`,
@@ -52,6 +55,7 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Array',
     group: 'Step 3: Basics III',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function sortByAge(arr) {
   // Your code here
 }`,
@@ -66,6 +70,7 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Object',
     group: 'Step 3: Basics III',
     docsUrl: 'https://developer.mozilla.org/en/US/docs/Web/JavaScript/Reference/Operators/Spread_syntax',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function mergeObjects(obj1, obj2) {
   // Your code here
 }`,
@@ -80,6 +85,7 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Function',
     group: 'Step 3: Basics III',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function createMultiplier(x) {
   // Your code here
 }`,
@@ -110,6 +116,7 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'String',
     group: 'Step 3: Basics III',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function countVowels(str) {
   // Your code here
 }`,
@@ -124,6 +131,7 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Array',
     group: 'Step 3: Basics III',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function flatten(arr) {
   // Your code here
 }`,
@@ -138,6 +146,7 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Array',
     group: 'Step 3: Basics III',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function mapToSquares(numbers) {
   // Your code here
 }`,
@@ -152,6 +161,7 @@ export const step3Basics3: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'String',
     group: 'Step 3: Basics III',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function capitalizeWords(sentence) {
   // Your code here
 }`,

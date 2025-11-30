@@ -11,6 +11,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function createResolvingPromise() {
   // Your code here
 }`,
@@ -33,6 +34,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function createRejectingPromise() {
   // Your code here
 }`,
@@ -55,6 +57,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/setTimeout',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `async function delay(ms) {
   // Your code here
 }`,
@@ -88,6 +91,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises#chaining',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function chainPromises() {
   // Your code here
 }`,
@@ -110,6 +114,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     category: 'Async/Await',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/AsyncFunction',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `async function getData() {
   // Simulate an async operation
   const fetchData = () => new Promise(resolve => setTimeout(() => resolve("Data fetched!"), 50));
@@ -137,6 +142,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `async function fetchMultipleData(delays) {
   // Your code here
 }`,
@@ -160,6 +166,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     category: 'Async/Await',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `async function handleError(shouldFail) {
   const operation = (fail) => new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -202,6 +209,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `async function racePromises(promises) {
   // Your code here
 }`,
@@ -226,6 +234,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     category: 'Async/Await',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `async function fetchJson(url) {
   // Your code here
 }`,
@@ -252,6 +261,7 @@ export const asynchronousJavaScript: Omit<Problem, 'status' | 'isStarred' | 'not
     category: 'Promises',
     group: 'Step 4: Asynchronous JavaScript',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `async function executeInParallel(asyncFn1, asyncFn2) {
   // Your code here
 }`,

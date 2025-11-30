@@ -144,7 +144,7 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusCha
 
                             {problem.videoUrl && getYouTubeEmbedUrl(problem.videoUrl) && (
                                 <div className="mt-6">
-                                    <h3 className="text-lg font-semibold text-foreground mb-3">📺 Video Tutorial</h3>
+                                    <h3 className="text-lg font-semibold text-foreground mb-3">Video Tutorial</h3>
                                     <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                                         <iframe
                                             className="absolute top-0 left-0 w-full h-full rounded-lg"
@@ -160,11 +160,11 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusCha
 
                             <div className="flex flex-wrap gap-3 mt-6">
                                 <a href={problem.docsUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover inline-block text-sm">
-                                    📚 Documentation &rarr;
+                                     Documentation &rarr;
                                 </a>
                                 {problem.videoUrl && (
                                     <a href={problem.videoUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover inline-block text-sm">
-                                        🎥 Open in YouTube &rarr;
+                                        Open in YouTube &rarr;
                                     </a>
                                 )}
                             </div>

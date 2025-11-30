@@ -9,6 +9,7 @@ export const javascriptAlgorithms: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Algorithms',
     group: 'Step 7: Algorithms',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function binarySearch(arr, target) {
   // Your code here
 }`,
@@ -31,6 +32,7 @@ export const javascriptAlgorithms: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Algorithms',
     group: 'Step 7: Algorithms',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/setTimeout',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function debounce(func, delay) {
   // Your code here
 }`,
@@ -53,6 +55,7 @@ export const javascriptAlgorithms: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Algorithms',
     group: 'Step 7: Algorithms',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/setTimeout',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function throttle(func, limit) {
   // Your code here
 }`,
@@ -75,6 +78,7 @@ export const javascriptAlgorithms: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Algorithms',
     group: 'Step 7: Algorithms',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function deepClone(obj) {
   // Your code here
 }`,
@@ -97,6 +101,7 @@ export const javascriptAlgorithms: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Algorithms',
     group: 'Step 7: Algorithms',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function flatten(arr) {
   // Your code here
 }`,

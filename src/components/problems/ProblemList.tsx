@@ -9,7 +9,7 @@ import { BsChevronExpand } from "react-icons/bs";
 
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaRandom, FaChevronUp, FaChevronDown, FaYoutube } from 'react-icons/fa';
 import Dropdown from '../ui/Dropdown';
 import { BookmarkIcon, SearchIcon } from '../common/Icons';
 import NotesModal from '../modals/NotesModal';
@@ -90,23 +90,15 @@ const ProgressSummary = ({ problems }: { problems: Problem[] }) => {
 };
 
 const ShuffleIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line>
-        <polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line>
-        <line x1="4" y1="4" x2="9" y2="9"></line>
-    </svg>
+    <FaRandom className="h-4 w-4" />
 );
 
 const ChevronUpIcon = () => (
-    <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-        <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
-    </svg>
+    <FaChevronUp className="h-5 w-5" />
 );
 
 const ChevronDownIcon = () => (
-    <svg className="h-5 w-5 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-    </svg>
+    <FaChevronDown className="h-5 w-5 transition-transform duration-200" />
 );
 
 const SortArrows = ({ sortOrder }: { sortOrder: 'asc' | 'desc' | 'none' }) => {
@@ -233,7 +225,7 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                             variant="default"
                             size="sm"
                             onClick={() => router.push('/topics')}
-                            className="rounded-full gap-2 bg-foreground text-background hover:bg-foreground/90"
+                            className="rounded-full gap-2 bg-foreground/90 text-background hover:bg-foreground/90"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -410,9 +402,7 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                                     <TableCell className="hidden lg:table-cell w-20 text-center">
                                                         {problem.videoUrl ? (
                                                             <a href={problem.videoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center p-1 rounded-full hover:bg-accent" title="Watch Video Tutorial">
-                                                                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                                                                </svg>
+                                                                <FaYoutube className="h-5 w-5 text-red-600" />
                                                             </a>
                                                         ) : (
                                                             <span className="text-muted-foreground text-xs">-</span>
@@ -433,13 +423,6 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                                         <button onClick={() => auth.isAuthenticated ? setEditingNotesFor(problem) : onLogin()} className="p-1 rounded-full hover:bg-accent">
                                                             <FaPlus className="text-muted-foreground h-4 w-4" />
                                                         </button>
-                                                        {problem.videoUrl && (
-                                                            <a href={problem.videoUrl} target="_blank" rel="noopener noreferrer" className="p-1 rounded-full hover:bg-accent" title="Watch Video Tutorial">
-                                                                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                                                                </svg>
-                                                            </a>
-                                                        )}
                                                     </div>
                                                 </TableCell>
                                             </TableRow>

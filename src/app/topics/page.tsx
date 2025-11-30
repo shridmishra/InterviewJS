@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiMongodb, SiExpress, SiNodedotjs, SiPrisma, SiHtml5, SiPostgresql, SiCss3 } from 'react-icons/si';
+import { FaYoutube } from 'react-icons/fa';
 import { LayoutGrid, LayoutList } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
@@ -55,7 +56,8 @@ const topics = [
     icon: SiHtml5,
     color: 'text-orange-600',
     slug: 'html',
-    playlistUrl: 'https://www.youtube.com/playlist?list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI'
+    playlistUrl: 'https://www.youtube.com/playlist?list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI',
+    backupPlaylistUrl: 'https://www.youtube.com/playlist?list=PL0b6OzIxLPbz1cgxiH5KCBsyQij1HsPtG'
   },
   {
     name: 'CSS',
@@ -63,7 +65,9 @@ const topics = [
     questions: cssQuestions,
     icon: SiCss3,
     color: 'text-blue-500',
-    slug: 'css'
+    slug: 'css',
+    playlistUrl: 'https://www.youtube.com/playlist?list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI',
+    backupPlaylistUrl: 'https://www.youtube.com/playlist?list=PL0b6OzIxLPbz1cgxiH5KCBsyQij1HsPtG'
   },
   {
     name: 'JavaScript',
@@ -71,7 +75,9 @@ const topics = [
     questions: jsQuestions,
     icon: SiJavascript,
     color: 'text-yellow-500',
-    slug: 'js'
+    slug: 'js',
+    playlistUrl: 'https://www.youtube.com/playlist?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
+    backupPlaylistUrl: 'https://www.youtube.com/playlist?list=PLu0W_9lII9ahR1blWXxgSlL4y9iQBnLpR'
   },
   {
     name: 'TypeScript',
@@ -79,7 +85,9 @@ const topics = [
     questions: tsQuestions,
     icon: SiTypescript,
     color: 'text-blue-600',
-    slug: 'ts'
+    slug: 'ts',
+    playlistUrl: 'https://www.youtube.com/watch?v=30LWjhZzg50',
+    backupPlaylistUrl: 'https://www.youtube.com/playlist?list=PLu0W_9lII9agwhy658ZPA0MTStKUJTWPi'
   },
   {
     name: 'React',
@@ -87,7 +95,9 @@ const topics = [
     questions: reactQuestions,
     icon: SiReact,
     color: 'text-cyan-500',
-    slug: 'react'
+    slug: 'react',
+    playlistUrl: 'https://www.youtube.com/watch?v=vz1RlUyrc3w&list=PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige',
+    backupPlaylistUrl: 'https://www.youtube.com/playlist?list=PLu0W_9lII9agx66oZnT6IyhcMIbUMNMdt'
   },
   {
     name: 'Next.js',
@@ -95,7 +105,9 @@ const topics = [
     questions: nextjsQuestions,
     icon: SiNextdotjs,
     color: 'text-foreground',
-    slug: 'nextjs'
+    slug: 'nextjs',
+    playlistUrl: 'https://www.youtube.com/watch?v=AR6eQCi_Me4&list=PLu71SKxNbfoDWGIwaEwhTUR40AbH8qsTo',
+    backupPlaylistUrl: 'https://www.youtube.com/playlist?list=PLu0W_9lII9agtWvR_TZdb_r0dNI8-lDwG'
   },
   {
     name: 'Node.js',
@@ -103,7 +115,9 @@ const topics = [
     questions: backendQuestions,
     icon: SiNodedotjs,
     color: 'text-green-500',
-    slug: 'nodejs'
+    slug: 'nodejs',
+    playlistUrl: 'https://www.youtube.com/playlist?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW',
+    backupPlaylistUrl: 'https://www.youtube.com/playlist?list=PLu0W_9lII9agiCUZYRsvtGTXdxkzPyItg'
   },
   {
     name: 'Express',
@@ -111,7 +125,9 @@ const topics = [
     questions: expressQuestions,
     icon: SiExpress,
     color: 'text-foreground',
-    slug: 'express'
+    slug: 'express',
+    playlistUrl: 'https://www.youtube.com/playlist?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW',
+    backupPlaylistUrl: 'https://www.youtube.com/playlist?list=PLu0W_9lII9aiQehcKXYgkRcpfXA39GqfA'
   },
   {
     name: 'MongoDB',
@@ -119,7 +135,9 @@ const topics = [
     questions: mongoQuestions,
     icon: SiMongodb,
     color: 'text-green-600',
-    slug: 'mongo'
+    slug: 'mongo',
+    playlistUrl: 'https://www.youtube.com/playlist?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW',
+    backupPlaylistUrl: 'https://www.youtube.com/playlist?list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA'
   },
   {
     name: 'PostgreSQL',
@@ -127,7 +145,9 @@ const topics = [
     questions: postgresQuestions,
     icon: SiPostgresql,
     color: 'text-blue-500',
-    slug: 'postgres'
+    slug: 'postgres',
+    playlistUrl: 'https://www.youtube.com/watch?v=cnzka7kF5Zk',
+    backupPlaylistUrl: 'https://www.youtube.com/playlist?list=PLVlQHNRLflP8IGz5OwhsqPFw3SX3EN16v'
   },
   {
     name: 'Prisma',
@@ -135,7 +155,9 @@ const topics = [
     questions: prismaQuestions,
     icon: SiPrisma,
     color: 'text-indigo-600',
-    slug: 'prisma'
+    slug: 'prisma',
+    playlistUrl: 'https://www.youtube.com/watch?v=-_nz4q_Cyr4',
+    backupPlaylistUrl: 'https://www.youtube.com/watch?v=RebA5J-rlwg'
   },
 ];
 
@@ -362,9 +384,7 @@ export default function TopicsPage() {
                               rel="noopener noreferrer"
                               className="flex items-center justify-center gap-2 py-2 text-sm font-medium text-foreground border border-border rounded-md hover:bg-accent transition-colors"
                             >
-                              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                              </svg>
+                              <FaYoutube className="h-4 w-4 text-red-600" />
                               <span>Watch Lectures</span>
                             </a>
                           )}
@@ -406,7 +426,7 @@ export default function TopicsPage() {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="flex-1 border-border bg-transparent hover:bg-accent hover:text-accent-foreground tr"
+                            className="flex-1 border-border bg-transparent hover:bg-accent hover:text-accent-foreground "
                             onClick={() => handleTopicClick(topic.questions)}
                           >
                             Interview Questions
@@ -414,7 +434,7 @@ export default function TopicsPage() {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="flex-1 text-primary"
+                            className="flex-1 text-primary hover:text-primary/80"
                             onClick={() => router.push(`/practice/${topic.slug}`)}
                           >
                             Practice
@@ -428,9 +448,7 @@ export default function TopicsPage() {
                             rel="noopener noreferrer"
                             className="flex items-center justify-center gap-2 py-2 text-sm font-medium text-foreground  bg-accent/80 border border-border rounded-md hover:bg-accent transition-colors"
                           >
-                            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                            </svg>
+                            <FaYoutube className="h-4 w-4 text-red-600" />
                             <span>Watch Lectures</span>
                           </a>
                         )}

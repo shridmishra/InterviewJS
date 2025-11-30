@@ -10,6 +10,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     category: 'Variables',
     group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#declarations',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function assignVariable() {
   // Your code here
 }`,
@@ -24,6 +25,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     category: 'Function',
     group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function sum(a, b) {
   // Your code here
 }`,
@@ -38,6 +40,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     category: 'String',
     group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function stringLength(str) {
   // Your code here
 }`,
@@ -52,6 +55,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     category: 'Math',
     group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Remainder',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function isEven(n) {
   // Your code here
 }`,
@@ -64,6 +68,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     description: 'Write a function `isPositive` that returns `true` if a number is positive, and `false` otherwise. Consider 0 as not positive.',
     difficulty: Difficulty.Easy, category: 'Math', group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function isPositive(n) {
   // Your code here
 }`,
@@ -76,6 +81,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     description: 'Write a function `concat` that takes two strings and returns them joined together.',
     difficulty: Difficulty.Easy, category: 'String', group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/concat',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function concat(str1, str2) {
   // Your code here
 }`,
@@ -90,6 +96,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     category: 'Control Flow',
     group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function isAdult(age) {
   // Your code here
 }`,
@@ -104,6 +111,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     category: 'Math',
     group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Multiplication',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function multiply(a, b) {
   // Your code here
 }`,
@@ -118,6 +126,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     category: 'Control Flow',
     group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function canVote(age, isCitizen) {
   // Your code here
 }`,
@@ -132,6 +141,7 @@ export const learnTheBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] =
     category: 'Variables',
     group: 'Step 1: Basics I',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function getType(value) {
   // Your code here
 }`,

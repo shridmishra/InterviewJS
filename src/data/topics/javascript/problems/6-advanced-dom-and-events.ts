@@ -10,6 +10,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Selectors',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function select(selector) {
   // Your code here
 }`,
@@ -38,6 +39,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Selectors',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function selectAll(selector) {
   // Your code here
 }`,
@@ -66,6 +68,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Events',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function addClickListener(element, callback) {
   // Your code here
 }`,
@@ -102,6 +105,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Events',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function removeClickListener(element, callback) {
   // Your code here
 }`,
@@ -138,6 +142,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Events',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function createAndAppendDivWithClass(parentElement, className, textContent) {
   // Your code here
 }`,
@@ -184,6 +189,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Events',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function setHtml(element, htmlString) {
   // Your code here
 }`,
@@ -207,6 +213,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Creation',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function getBgColor(element) {
   // Your code here
 }`,
@@ -242,6 +249,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Content',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/parentElement',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function findParentWithClass(element, className) {
   // Your code here
 }`,
@@ -279,6 +287,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'Forms',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function getInputValue(inputElement) {
   // Your code here
 }`,
@@ -302,6 +311,7 @@ export const advancedDomAndEvents: Omit<Problem, 'status' | 'isStarred' | 'notes
     category: 'DOM Events',
     group: 'Step 6: Advanced DOM & Events',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Building_blocks/Events#event_delegation',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function setupListClickListener(ulElement, callback) {
   // Your code here
 }`,

@@ -13,7 +13,16 @@ import ProblemListSkeleton from '../../../components/problems/ProblemListSkeleto
 // Playlist URLs for each topic
 const PLAYLIST_URLS: Record<string, string> = {
     'html': 'https://www.youtube.com/playlist?list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI',
-    // Add more playlists for other topics here
+    'js': 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
+    'css': 'https://www.youtube.com/watch?v=ESnrn1kAD4E&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI',
+    'ts': 'https://www.youtube.com/watch?v=30LWjhZzg50',
+    'react': 'https://www.youtube.com/watch?v=vz1RlUyrc3w&list=PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige',
+    'nextjs': 'https://www.youtube.com/watch?v=AR6eQCi_Me4&list=PLu71SKxNbfoDWGIwaEwhTUR40AbH8qsTo',
+    'nodejs': 'https://www.youtube.com/playlist?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW',
+    'express': 'https://www.youtube.com/playlist?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW',
+    'mongo': 'https://www.youtube.com/playlist?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW',
+    'postgres': 'https://www.youtube.com/watch?v=cnzka7kF5Zk',
+    'prisma': 'https://www.youtube.com/watch?v=-_nz4q_Cyr4',
 };
 
 function PracticeTopicPage() {

@@ -29,6 +29,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     category: 'Selection',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function getById(id) {
   // Your code here
 }`,
@@ -70,6 +71,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     category: 'Content',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function changeText(element, newText) {
   // Your code here
 }`,
@@ -93,6 +95,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     category: 'Classes',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/classList',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function addClass(element, className) {
   // Your code here
 }`,
@@ -116,6 +119,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     category: 'Classes',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/classList',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function removeClass(element, className) {
   // Your code here
 }`,
@@ -139,6 +143,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     category: 'Attributes',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function setAttr(element, attrName, attrValue) {
   // Your code here
 }`,
@@ -162,6 +167,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     category: 'Creation',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function createAndAppendDiv(parentElement) {
   // Your code here
 }`,
@@ -201,6 +207,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     category: 'Removal',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/removeChild',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function removeElement(element) {
   // Your code here
 }`,
@@ -242,6 +249,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     category: 'Classes',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/classList',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function toggleClass(element, className) {
   // Your code here
 }`,
@@ -281,6 +289,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     category: 'Attributes',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function getAttr(element, attrName) {
   // Your code here
 }`,
@@ -312,6 +321,7 @@ export const domManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] 
     category: 'Styling',
     group: 'Step 5: DOM Manipulation',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function updateStyle(element, styles) {
   // Your code here
 }`,

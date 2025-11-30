@@ -10,6 +10,7 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Array',
     group: 'Step 2: Basics II',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function getFirst(arr) {
   // Your code here
 }`,
@@ -24,6 +25,7 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Object',
     group: 'Step 2: Basics II',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function getKeys(obj) {
   // Your code here
 }`,
@@ -38,6 +40,7 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Loop',
     group: 'Step 2: Basics II',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration#for_statement',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function countToN(n) {
   // Your code here
 }`,
@@ -52,6 +55,7 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Array',
     group: 'Step 2: Basics II',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function findMax(numbers) {
   // Your code here
 }`,
@@ -66,6 +70,7 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Array',
     group: 'Step 2: Basics II',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function filterPositive(numbers) {
   // Your code here
 }`,
@@ -80,6 +85,7 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Array',
     group: 'Step 2: Basics II',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function sumArray(arr) {
   // Your code here
 }`,
@@ -94,6 +100,7 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Object',
     group: 'Step 2: Basics II',
     docsUrl: 'https://developer.mozilla.org/en/US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function hasProperty(obj, prop) {
   // Your code here
 }`,
@@ -108,6 +115,7 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Array',
     group: 'Step 2: Basics II',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function findIndex(arr, el) {
   // Your code here
 }`,
@@ -122,6 +130,7 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Array',
     group: 'Step 2: Basics II',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function getLast(arr) {
   // Your code here
 }`,
@@ -136,6 +145,7 @@ export const arrayManipulation: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Object',
     group: 'Step 2: Basics II',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors',
+    videoUrl: 'https://www.youtube.com/watch?v=Hr5iLG7sUa0&list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37',
     starterCode: `function getValue(obj, key) {
   // Your code here
 }`,
