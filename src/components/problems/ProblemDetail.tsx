@@ -87,6 +87,20 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusCha
         });
     };
 
+    const getYouTubeEmbedUrl = (url: string): string | null => {
+        try {
+            const urlObj = new URL(url);
+            const videoId = urlObj.searchParams.get('v');
+            if (videoId) {
+                return `https://www.youtube.com/embed/${videoId}`;
+            }
+        } catch {
+            return null;
+        }
+        return null;
+    };
+
+
     return (
         <div className="flex flex-col h-screen bg-background">
             <main className="grow grid grid-cols-1 lg:grid-cols-5 gap-4 p-4">
@@ -127,9 +141,33 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusCha
                                 </div>
                             </div>
 
-                            <a href={problem.docsUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover mt-6 inline-block text-sm">
-                                Related Documentation &rarr;
-                            </a>
+
+                            {problem.videoUrl && getYouTubeEmbedUrl(problem.videoUrl) && (
+                                <div className="mt-6">
+                                    <h3 className="text-lg font-semibold text-foreground mb-3">📺 Video Tutorial</h3>
+                                    <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                                        <iframe
+                                            className="absolute top-0 left-0 w-full h-full rounded-lg"
+                                            src={getYouTubeEmbedUrl(problem.videoUrl) || ''}
+                                            title="YouTube video player"
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        ></iframe>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex flex-wrap gap-3 mt-6">
+                                <a href={problem.docsUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover inline-block text-sm">
+                                    📚 Documentation &rarr;
+                                </a>
+                                {problem.videoUrl && (
+                                    <a href={problem.videoUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover inline-block text-sm">
+                                        🎥 Open in YouTube &rarr;
+                                    </a>
+                                )}
+                            </div>
                         </div>
                     </div>
                 )}

@@ -26,6 +26,7 @@ interface ProblemListPageProps {
     onNavigate: (page: 'profile' | '' | 'list' | 'quiz') => void;
     onLogout: () => void;
     onLogin: () => void;
+    playlistUrl?: string;
 }
 
 const ProgressSummary = ({ problems }: { problems: Problem[] }) => {
@@ -118,7 +119,7 @@ const SortArrows = ({ sortOrder }: { sortOrder: 'asc' | 'desc' | 'none' }) => {
     );
 };
 
-const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem, onToggleStar, onUpdateNotes, onLogin, onNavigate: _onNavigate, onLogout: _onLogout }) => {
+const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem, onToggleStar, onUpdateNotes, onLogin, playlistUrl, onNavigate: _onNavigate, onLogout: _onLogout }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [difficultyFilter, setDifficultyFilter] = useState<Difficulty | 'all'>('all');
@@ -387,6 +388,7 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                         <TableRow className="hover:bg-transparent">
                                             <TableHead className="w-12">Status</TableHead>
                                             <TableHead>Problem</TableHead>
+                                            {playlistUrl && <TableHead className="hidden lg:table-cell w-20 text-center">Lectures</TableHead>}
                                             <TableHead className="hidden md:table-cell w-36 text-center">Category</TableHead>
                                             <TableHead onClick={handleSort} className="cursor-pointer select-none w-36 text-center">
                                                 <div className="flex items-center justify-center gap-2">
@@ -404,6 +406,19 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                                     <Checkbox checked={problem.status === ProblemStatus.Solved} className="rounded-sm" />
                                                 </TableCell>
                                                 <TableCell onClick={() => onSelectProblem(problem)} className="font-medium text-foreground cursor-pointer">{problem.title}</TableCell>
+                                                {playlistUrl && (
+                                                    <TableCell className="hidden lg:table-cell w-20 text-center">
+                                                        {problem.videoUrl ? (
+                                                            <a href={problem.videoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center p-1 rounded-full hover:bg-accent" title="Watch Video Tutorial">
+                                                                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                                                </svg>
+                                                            </a>
+                                                        ) : (
+                                                            <span className="text-muted-foreground text-xs">-</span>
+                                                        )}
+                                                    </TableCell>
+                                                )}
                                                 <TableCell className="hidden md:table-cell w-36 text-center">
                                                     <Badge variant="outline" className="w-24 justify-center">{problem.category.split(' ')[0]}</Badge>
                                                 </TableCell>
@@ -418,6 +433,13 @@ const ProblemList: React.FC<ProblemListPageProps> = ({ problems, onSelectProblem
                                                         <button onClick={() => auth.isAuthenticated ? setEditingNotesFor(problem) : onLogin()} className="p-1 rounded-full hover:bg-accent">
                                                             <FaPlus className="text-muted-foreground h-4 w-4" />
                                                         </button>
+                                                        {problem.videoUrl && (
+                                                            <a href={problem.videoUrl} target="_blank" rel="noopener noreferrer" className="p-1 rounded-full hover:bg-accent" title="Watch Video Tutorial">
+                                                                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                                                </svg>
+                                                            </a>
+                                                        )}
                                                     </div>
                                                 </TableCell>
                                             </TableRow>

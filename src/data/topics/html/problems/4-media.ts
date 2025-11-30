@@ -9,6 +9,7 @@ export const htmlMedia: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Media',
     group: 'Step 4: Media',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio',
+    videoUrl: 'https://www.youtube.com/watch?v=E_AExAmpq_o&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=14',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -29,6 +30,7 @@ export const htmlMedia: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Media',
     group: 'Step 4: Media',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video',
+    videoUrl: 'https://www.youtube.com/watch?v=E_AExAmpq_o&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=14',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -49,6 +51,7 @@ export const htmlMedia: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Media',
     group: 'Step 4: Media',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe',
+    videoUrl: 'https://www.youtube.com/watch?v=I7LrS1z_WNA&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=9',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -69,6 +72,7 @@ export const htmlMedia: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Media',
     group: 'Step 4: Media',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture',
+    videoUrl: 'https://www.youtube.com/watch?v=T_ca5aO3WN0&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=6',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -89,6 +93,7 @@ export const htmlMedia: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Media',
     group: 'Step 4: Media',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/SVG/Element/svg',
+    videoUrl: 'https://www.youtube.com/watch?v=E_AExAmpq_o&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=14',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {

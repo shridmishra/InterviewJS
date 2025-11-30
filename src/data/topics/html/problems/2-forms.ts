@@ -9,6 +9,7 @@ export const htmlForms: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Forms',
     group: 'Step 2: Forms',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Learn/Forms/Your_first_form',
+    videoUrl: 'https://www.youtube.com/watch?v=LhWQlBdqaeM&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=12',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -29,6 +30,7 @@ export const htmlForms: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Forms',
     group: 'Step 2: Forms',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label',
+    videoUrl: 'https://www.youtube.com/watch?v=LhWQlBdqaeM&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=12',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -49,6 +51,7 @@ export const htmlForms: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Forms',
     group: 'Step 2: Forms',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea',
+    videoUrl: 'https://www.youtube.com/watch?v=YR2fepUAp5c&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=13',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -69,6 +72,7 @@ export const htmlForms: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Forms',
     group: 'Step 2: Forms',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select',
+    videoUrl: 'https://www.youtube.com/watch?v=YR2fepUAp5c&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=13',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -89,6 +93,7 @@ export const htmlForms: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Forms',
     group: 'Step 2: Forms',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button',
+    videoUrl: 'https://www.youtube.com/watch?v=LhWQlBdqaeM&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=12',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {

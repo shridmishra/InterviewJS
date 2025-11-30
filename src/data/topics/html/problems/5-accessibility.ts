@@ -9,6 +9,7 @@ export const htmlAccessibility: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Accessibility',
     group: 'Step 5: Accessibility',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#accessibility_concerns',
+    videoUrl: 'https://www.youtube.com/watch?v=T_ca5aO3WN0&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=6',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -29,6 +30,7 @@ export const htmlAccessibility: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Accessibility',
     group: 'Step 5: Accessibility',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label',
+    videoUrl: 'https://www.youtube.com/watch?v=QEoU5Kaz9lQ&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=4',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -49,6 +51,7 @@ export const htmlAccessibility: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Accessibility',
     group: 'Step 5: Accessibility',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/alert_role',
+    videoUrl: 'https://www.youtube.com/watch?v=QEoU5Kaz9lQ&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=4',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -69,6 +72,7 @@ export const htmlAccessibility: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Accessibility',
     group: 'Step 5: Accessibility',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex',
+    videoUrl: 'https://www.youtube.com/watch?v=QEoU5Kaz9lQ&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=4',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -89,6 +93,7 @@ export const htmlAccessibility: Omit<Problem, 'status' | 'isStarred' | 'notes'>[
     category: 'Accessibility',
     group: 'Step 5: Accessibility',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang',
+    videoUrl: 'https://www.youtube.com/watch?v=QEoU5Kaz9lQ&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=4',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {

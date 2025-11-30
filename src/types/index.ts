@@ -31,6 +31,7 @@ export interface Problem {
   category: string;
   group: string;
   docsUrl: string;
+  videoUrl?: string;
   starterCode: string;
   testCases: TestCase[];
   solutionCheck: (userCode: string) => TestResult[] | Promise<TestResult[]>;

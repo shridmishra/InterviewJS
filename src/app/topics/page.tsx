@@ -54,7 +54,8 @@ const topics = [
     questions: htmlQuestions,
     icon: SiHtml5,
     color: 'text-orange-600',
-    slug: 'html'
+    slug: 'html',
+    playlistUrl: 'https://www.youtube.com/playlist?list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI'
   },
   {
     name: 'CSS',
@@ -279,7 +280,7 @@ export default function TopicsPage() {
                 </SelectContent>
               </Select>
 
-              <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value as 'card' | 'list')}>
+              <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value as 'card' | 'list')} className="hidden md:inline-flex">
                 <ToggleGroupItem value="card" aria-label="Card view">
                   <LayoutGrid className="h-4 w-4" />
                 </ToggleGroupItem>
@@ -312,40 +313,71 @@ export default function TopicsPage() {
                   return (
                     <Card
                       key={topic.name}
-                      className="hover:border-primary/20 transition-all hover:shadow-md group"
+                      className="hover:border-primary/20 transition-all hover:shadow-md group overflow-hidden relative"
                     >
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-6">
-                        <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                          <Icon className={`w-6 h-6 ${topic.color.replace('text-', 'text-')}`} />
+                      <div className="flex flex-col md:flex-row md:items-center gap-5 p-5 pb-6">
+                        {/* Icon */}
+                        <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                          <Icon className={`w-7 h-7 ${topic.color.replace('text-', 'text-')}`} />
                         </div>
 
+                        {/* Content */}
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-xl font-semibold mb-1">{topic.name}</h3>
-                          <p className="text-sm text-muted-foreground">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-lg font-bold text-foreground">{topic.name}</h3>
+                            <div className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium border border-primary/20">
+                              {topic.solved} / {topic.total} Solved
+                            </div>
+                          </div>
+                          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed pr-2">
                             {topic.description}
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-4 flex-shrink-0 w-full sm:w-auto">
-                          <CircularProgress value={topic.progress} />
-
-                          <div className="flex gap-2 flex-1 sm:flex-initial">
+                        {/* Actions */}
+                        <div className="flex flex-col gap-3 items-stretch justify-end flex-shrink-0 min-w-[280px] mt-4 pt-4 border-t border-border/50 md:mt-0 md:pt-0 md:border-t-0 md:pl-5 md:border-l md:border-border/50">
+                          <div className="flex gap-2 w-full">
                             <Button
                               variant="outline"
                               size="sm"
+                              className="flex-1 border-border bg-transparent hover:bg-accent hover:text-accent-foreground"
                               onClick={() => handleTopicClick(topic.questions)}
                             >
                               Interview Questions
                             </Button>
                             <Button
-                              variant="default"
+                              variant="outline"
                               size="sm"
+                              className="flex-1 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black"
                               onClick={() => router.push(`/practice/${topic.slug}`)}
                             >
                               Practice
                             </Button>
                           </div>
+
+                          {topic.playlistUrl && (
+                            <a
+                              href={topic.playlistUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center justify-center gap-2 py-2 text-sm font-medium text-foreground border border-border rounded-md hover:bg-accent transition-colors"
+                            >
+                              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                              </svg>
+                              <span>Watch Lectures</span>
+                            </a>
+                          )}
+
                         </div>
+                      </div>
+
+                      {/* Edge-to-edge Progress Bar */}
+                      <div className="absolute bottom-0 left-0 w-full h-1 bg-muted/50">
+                        <div
+                          className="h-full bg-primary transition-all duration-500 ease-out"
+                          style={{ width: `${topic.progress}%` }}
+                        />
                       </div>
                     </Card>
                   );
@@ -363,32 +395,45 @@ export default function TopicsPage() {
                       <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform duration-300">
                         <Icon className={`w-6 h-6 ${topic.color.replace('text-', 'text-')}`} />
                       </div>
-                      <CardTitle className="text-xl">{topic.name}</CardTitle>
+                      <CardTitle className="text-xl pr-16">{topic.name}</CardTitle>
                       <CardDescription className="line-clamp-2 text-sm mt-2">
                         {topic.description}
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="mt-auto pt-0">
-                      <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/50">
+                      <div className="space-y-3 mt-4 pt-4 border-t border-border/50">
                         <div className="flex gap-2 w-full">
                           <Button
                             variant="outline"
                             size="sm"
-                            className="flex-1"
+                            className="flex-1 border-border bg-transparent hover:bg-accent hover:text-accent-foreground tr"
                             onClick={() => handleTopicClick(topic.questions)}
                           >
                             Interview Questions
                           </Button>
                           <Button
-                            variant="default"
+                            variant="outline"
                             size="sm"
-                            className="flex-1"
+                            className="flex-1 text-primary"
                             onClick={() => router.push(`/practice/${topic.slug}`)}
                           >
                             Practice
                           </Button>
                         </div>
 
+                        {topic.playlistUrl && (
+                          <a
+                            href={topic.playlistUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2 py-2 text-sm font-medium text-foreground  bg-accent/80 border border-border rounded-md hover:bg-accent transition-colors"
+                          >
+                            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                            </svg>
+                            <span>Watch Lectures</span>
+                          </a>
+                        )}
                       </div>
                     </CardContent>
                   </Card>

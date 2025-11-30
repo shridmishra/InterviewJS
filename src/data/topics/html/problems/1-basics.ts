@@ -9,6 +9,7 @@ export const htmlBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Structure',
     group: 'Step 1: Basics',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started',
+    videoUrl: 'https://www.youtube.com/watch?v=v-xdY6VFcio&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=2',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -29,6 +30,7 @@ export const htmlBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Text Content',
     group: 'Step 1: Basics',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements',
+    videoUrl: 'https://www.youtube.com/watch?v=CetKwpx3t6g&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=3',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -49,6 +51,7 @@ export const htmlBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Basics',
     group: 'Step 1: Basics',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p',
+    videoUrl: 'https://www.youtube.com/watch?v=CetKwpx3t6g&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=3',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -69,6 +72,7 @@ export const htmlBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Basics',
     group: 'Step 1: Basics',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a',
+    videoUrl: 'https://www.youtube.com/watch?v=T_ca5aO3WN0&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=6',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -89,6 +93,7 @@ export const htmlBasics: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Basics',
     group: 'Step 1: Basics',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img',
+    videoUrl: 'https://www.youtube.com/watch?v=T_ca5aO3WN0&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=6',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {

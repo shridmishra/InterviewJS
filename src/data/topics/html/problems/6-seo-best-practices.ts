@@ -9,6 +9,7 @@ export const htmlSeo: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'SEO',
     group: 'Step 6: Best Practices',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta',
+    videoUrl: 'https://www.youtube.com/watch?v=-wMbf3qVNsc&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=10',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -29,6 +30,7 @@ export const htmlSeo: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'SEO',
     group: 'Step 6: Best Practices',
     docsUrl: 'https://ogp.me/',
+    videoUrl: 'https://www.youtube.com/watch?v=-wMbf3qVNsc&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=10',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -49,6 +51,7 @@ export const htmlSeo: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'SEO Best Practices',
     group: 'Step 6: SEO Best Practices',
     docsUrl: 'https://developers.google.com/search/docs/crawling-indexing/canonicalization',
+    videoUrl: 'https://www.youtube.com/watch?v=-wMbf3qVNsc&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=10',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -69,6 +72,7 @@ export const htmlSeo: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'SEO Best Practices',
     group: 'Step 6: SEO Best Practices',
     docsUrl: 'https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag',
+    videoUrl: 'https://www.youtube.com/watch?v=-wMbf3qVNsc&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=10',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -89,6 +93,7 @@ export const htmlSeo: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'SEO Best Practices',
     group: 'Step 6: SEO Best Practices',
     docsUrl: 'https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap',
+    videoUrl: 'https://www.youtube.com/watch?v=-wMbf3qVNsc&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=10',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {

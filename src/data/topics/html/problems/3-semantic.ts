@@ -9,6 +9,7 @@ export const htmlSemantic: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Semantic HTML',
     group: 'Step 3: Semantic HTML',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Glossary/Semantics#semantics_in_html',
+    videoUrl: 'https://www.youtube.com/watch?v=DSRMCZwM3YE&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=11',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -29,6 +30,7 @@ export const htmlSemantic: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Semantic HTML',
     group: 'Step 3: Semantic HTML',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure',
+    videoUrl: 'https://www.youtube.com/watch?v=DSRMCZwM3YE&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=11',
     starterCode: `<!-- Your HTML here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -49,6 +51,7 @@ export const htmlSemantic: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Semantic HTML',
     group: 'Step 3: Semantic HTML',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav',
+    videoUrl: 'https://www.youtube.com/watch?v=DSRMCZwM3YE&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=11',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -69,6 +72,7 @@ export const htmlSemantic: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Semantic HTML',
     group: 'Step 3: Semantic HTML',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main',
+    videoUrl: 'https://www.youtube.com/watch?v=DSRMCZwM3YE&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=11',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {
@@ -89,6 +93,7 @@ export const htmlSemantic: Omit<Problem, 'status' | 'isStarred' | 'notes'>[] = [
     category: 'Semantic HTML',
     group: 'Step 3: Semantic HTML',
     docsUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article',
+    videoUrl: 'https://www.youtube.com/watch?v=DSRMCZwM3YE&list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI&index=11',
     starterCode: `<!-- Your code here -->`,
     testCases: [],
     solutionCheck: (userCode: string) => {

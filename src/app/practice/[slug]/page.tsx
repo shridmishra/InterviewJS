@@ -10,6 +10,12 @@ import { useAuth } from '../../../context/AuthContext';
 
 import ProblemListSkeleton from '../../../components/problems/ProblemListSkeleton';
 
+// Playlist URLs for each topic
+const PLAYLIST_URLS: Record<string, string> = {
+    'html': 'https://www.youtube.com/playlist?list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI',
+    // Add more playlists for other topics here
+};
+
 function PracticeTopicPage() {
     const router = useRouter();
     const params = useParams();
@@ -51,6 +57,7 @@ function PracticeTopicPage() {
                     onNavigate={handleNavigate}
                     onLogout={() => { }}
                     onLogin={() => router.push('/api/auth/signin')}
+                    playlistUrl={PLAYLIST_URLS[slug]}
                 />
                 {/* Optional: Navigation to next topic */}
             </main>
