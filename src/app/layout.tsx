@@ -1,48 +1,33 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Nunito } from 'next/font/google';
 import '../styles/globals.css';
 import { Providers } from './providers';
 import { ModalProvider } from '../components/modals/ModalProvider';
 import { Toaster } from '@/components/ui/sonner';
+import { Sidebar } from '@/components/common/Sidebar';
+import { MobileHeader } from '@/components/common/MobileHeader';
 
-const satoshi = localFont({
-  src: [
-    {
-      path: '../assets/fonts/Satoshi-Regular.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../assets/fonts/Satoshi-Medium.woff2',
-      weight: '500',
-      style: 'normal',
-    },
-    {
-      path: '../assets/fonts/Satoshi-Bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
-    {
-      path: '../assets/fonts/Satoshi-Black.woff2',
-      weight: '900',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-satoshi',
+// Nunito - Duolingo's signature font
+const nunito = Nunito({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-nunito',
+  display: 'swap',
 });
 
-const title = 'Practice JS';
+const title = 'CodeLingo';
 const description =
   'The ultimate platform for developers to practice JavaScript, tackle coding challenges, and prepare for technical topics.';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://practicejs.shrid.in'),
+  metadataBase: new URL('https://codelingo.shrid.in'),
   title,
   description,
   keywords: [
     'JavaScript practice',
     'JS practice',
     'learn JavaScript',
+    'CodeLingo',
     'JavaScript challenges',
     'coding challenges',
     'JavaScript quiz',
@@ -165,7 +150,7 @@ export const metadata: Metadata = {
     title,
     description,
     url: 'https://practicejs.shrid.in',
-    siteName: 'Practice JS',
+    siteName: 'CodeLingo',
     images: [
       {
         url: 'https://practicejs.shrid.in/og-image.png',
@@ -199,9 +184,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: '#000000',
+  themeColor: '#58cc02',
   viewport: 'width=device-width, initial-scale=1',
-}
+};
 
 export default function RootLayout({
   children,
@@ -211,10 +196,23 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${satoshi.variable} bg-background text-foreground antialiased`}
+        className={`${nunito.variable} font-sans bg-background text-foreground antialiased`}
       >
         <Providers>
-          <ModalProvider>{children}</ModalProvider>
+          <ModalProvider>
+            {/* Mobile Header (visible only on mobile/tablet) */}
+            <MobileHeader />
+
+            {/* Desktop Sidebar (visible only on large screens) */}
+            <Sidebar className="hidden lg:flex" />
+
+            {/* Main Content Area */}
+            <main className="lg:pl-[256px] min-h-screen pt-[68px] lg:pt-0 pb-16 lg:pb-0">
+              <div className="mx-auto max-w-[1056px] px-4 md:px-6 py-6 lg:py-8">
+                {children}
+              </div>
+            </main>
+          </ModalProvider>
         </Providers>
         <Toaster />
       </body>
