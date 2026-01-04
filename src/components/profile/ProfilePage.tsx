@@ -17,8 +17,11 @@ import {
     Activity,
     Medal,
     Code2,
-    BookOpen
+    BookOpen,
+    ChevronDown,
+    ChevronUp
 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 interface TopicStat {
     name: string;
@@ -74,6 +77,8 @@ const ProfilePage: React.FC = () => {
     const auth = useAuth();
     const [profileData, setProfileData] = useState<ProfileData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isTopicsExpanded, setIsTopicsExpanded] = useState(false);
+    const [isHistoryExpanded, setIsHistoryExpanded] = useState(false);
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -218,7 +223,7 @@ const ProfilePage: React.FC = () => {
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
-                            {topicStats && topicStats.map((topic) => (
+                            {(isTopicsExpanded ? topicStats : topicStats.slice(0, 5)).map((topic) => (
                                 <div key={topic.slug} className="space-y-2">
                                     <div className="flex items-center justify-between text-sm">
                                         <div className="flex items-center gap-2 font-medium">
@@ -232,11 +237,113 @@ const ProfilePage: React.FC = () => {
                                     <Progress value={(topic.solved / topic.total) * 100} className="h-2" />
                                 </div>
                             ))}
+                            {topicStats.length > 5 && (
+                                <Button
+                                    variant="ghost"
+                                    className="w-full mt-4"
+                                    onClick={() => setIsTopicsExpanded(!isTopicsExpanded)}
+                                >
+                                    {isTopicsExpanded ? (
+                                        <>
+                                            See Less <ChevronUp className="ml-2 h-4 w-4" />
+                                        </>
+                                    ) : (
+                                        <>
+                                            See More <ChevronDown className="ml-2 h-4 w-4" />
+                                        </>
+                                    )}
+                                </Button>
+                            )}
+                        </CardContent>
+                    </Card>
+
+                    {/* Recent History */}
+                    <Card className="h-full">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <History className="w-5 h-5" />
+                                Recent Solves
+                            </CardTitle>
+                            <CardDescription>
+                                Your latest solved problems
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            {practiceHistory && practiceHistory.length > 0 ? (
+                                <div className="space-y-3">
+                                    {(isHistoryExpanded ? practiceHistory : practiceHistory.slice(0, 5)).map((item, index) => (
+                                        <div key={index} className="p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
+                                            <div className="flex items-start gap-3">
+                                                <div className="mt-1 text-green-500">
+                                                    <CheckCircle2 className="w-4 h-4" />
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="font-medium line-clamp-1 text-sm">{item.title}</p>
+                                                    <div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground flex-wrap">
+                                                        <Badge variant="outline" className="text-[10px] h-5 px-1.5 bg-primary/10">
+                                                            {item.topic}
+                                                        </Badge>
+                                                        <Badge
+                                                            variant={item.difficulty === 'Easy' ? 'secondary' : item.difficulty === 'Medium' ? 'default' : 'destructive'}
+                                                            className="text-[10px] h-5 px-1.5"
+                                                        >
+                                                            {item.difficulty}
+                                                        </Badge>
+                                                        <span>•</span>
+                                                        <span>{formatDateToRelativeTime(new Date(item.solvedAt).toISOString())}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    {practiceHistory.length > 5 && (
+                                        <Button
+                                            variant="ghost"
+                                            className="w-full mt-2"
+                                            onClick={() => setIsHistoryExpanded(!isHistoryExpanded)}
+                                        >
+                                            {isHistoryExpanded ? (
+                                                <>
+                                                    See Less <ChevronUp className="ml-2 h-4 w-4" />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    See More <ChevronDown className="ml-2 h-4 w-4" />
+                                                </>
+                                            )}
+                                        </Button>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center p-8 text-muted-foreground">
+                                    <History className="w-12 h-12 mb-4 opacity-20" />
+                                    <p className="text-sm">No problems solved yet.</p>
+                                    <p className="text-xs mt-2">Start practicing to see your progress!</p>
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Contribution Graph */}
+                    <Card className="lg:col-span-2 flex flex-col">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <Activity className="w-5 h-5" />
+                                Activity Map
+                            </CardTitle>
+                            <CardDescription>
+                                {totalSubmissions} submissions in the last year
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex-1 flex items-center justify-center pb-8">
+                            <ContributionGraph contributions={contributions} />
                         </CardContent>
                     </Card>
 
                     {/* Difficulty Breakdown */}
-                    <Card className="h-full">
+                    <Card className="h-full lg:col-span-1">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Target className="w-5 h-5" />
@@ -270,76 +377,6 @@ const ProfilePage: React.FC = () => {
                                     <span className="font-medium">{hardSolved}</span>
                                 </div>
                             </div>
-                        </CardContent>
-                    </Card>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Contribution Graph */}
-                    <Card className="lg:col-span-2 flex flex-col">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <Activity className="w-5 h-5" />
-                                Activity Map
-                            </CardTitle>
-                            <CardDescription>
-                                {totalSubmissions} submissions in the last year
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="flex-1 flex items-center justify-center pb-8">
-                            <ContributionGraph contributions={contributions} />
-                        </CardContent>
-                    </Card>
-
-                    {/* Recent History */}
-                    <Card className="lg:col-span-1">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <History className="w-5 h-5" />
-                                Recent Solves
-                            </CardTitle>
-                            <CardDescription>
-                                Your latest solved problems
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <ScrollArea className="h-[300px] pr-4">
-                                {practiceHistory && practiceHistory.length > 0 ? (
-                                    <div className="space-y-3">
-                                        {practiceHistory.map((item, index) => (
-                                            <div key={index} className="p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
-                                                <div className="flex items-start gap-3">
-                                                    <div className="mt-1 text-green-500">
-                                                        <CheckCircle2 className="w-4 h-4" />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="font-medium line-clamp-1 text-sm">{item.title}</p>
-                                                        <div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground flex-wrap">
-                                                            <Badge variant="outline" className="text-[10px] h-5 px-1.5 bg-primary/10">
-                                                                {item.topic}
-                                                            </Badge>
-                                                            <Badge
-                                                                variant={item.difficulty === 'Easy' ? 'secondary' : item.difficulty === 'Medium' ? 'default' : 'destructive'}
-                                                                className="text-[10px] h-5 px-1.5"
-                                                            >
-                                                                {item.difficulty}
-                                                            </Badge>
-                                                            <span>•</span>
-                                                            <span>{formatDateToRelativeTime(new Date(item.solvedAt).toISOString())}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
-                                        <History className="w-12 h-12 mb-4 opacity-20" />
-                                        <p className="text-sm">No problems solved yet.</p>
-                                        <p className="text-xs mt-2">Start practicing to see your progress!</p>
-                                    </div>
-                                )}
-                            </ScrollArea>
                         </CardContent>
                     </Card>
                 </div>

@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiMongodb, SiExpress, SiNodedotjs, SiPrisma, SiHtml5, SiPostgresql, SiCss3 } from 'react-icons/si';
 import { FaYoutube } from 'react-icons/fa';
-import { LayoutGrid, LayoutList } from 'lucide-react';
+import { LayoutGrid, LayoutList, Play, Code, MessageCircleQuestion } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -16,9 +16,9 @@ import { useChallenges } from '@/hooks/useChallenges';
 import { ProblemStatus } from '@/types';
 
 const CircularProgress = ({ value }: { value: number }) => (
-  <div className="relative w-12 h-12">
+  <div className="relative w-10 h-10 flex-shrink-0">
     <svg className="h-full w-full" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-muted/60" strokeWidth="3"></circle>
+      <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-muted/40" strokeWidth="3"></circle>
       <circle cx="18" cy="18" r="16" fill="none"
         className="stroke-current text-primary"
         strokeWidth="3"
@@ -27,7 +27,7 @@ const CircularProgress = ({ value }: { value: number }) => (
         transform="rotate(-90 18 18)"
       ></circle>
     </svg>
-    <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold">
+    <div className="absolute inset-0 flex items-center justify-center text-[11px] font-semibold text-foreground">
       {Math.round(value)}%
     </div>
   </div>
@@ -358,37 +358,42 @@ export default function TopicsPage() {
 
                         {/* Actions */}
                         <div className="flex flex-col gap-3 items-stretch justify-end flex-shrink-0 min-w-[280px] mt-4 pt-4 border-t border-border/50 md:mt-0 md:pt-0 md:border-t-0 md:pl-5 md:border-l md:border-border/50">
+                          <Button
+                            size="default"
+                            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium h-10"
+                            onClick={() => router.push(`/practice/${topic.slug}`)}
+                          >
+                            <Code className="h-4 w-4 mr-2" />
+                            Start Practice
+                          </Button>
                           <div className="flex gap-2 w-full">
                             <Button
                               variant="outline"
                               size="sm"
-                              className="flex-1 border-border bg-transparent hover:bg-accent hover:text-accent-foreground"
+                              className="flex-1 text-foreground/80 hover:text-foreground border-border/60 hover:bg-accent h-9"
                               onClick={() => handleTopicClick(topic.questions)}
                             >
-                              Interview Questions
+                              <MessageCircleQuestion className="h-4 w-4 mr-1.5" />
+                              Interview Q&A
                             </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black"
-                              onClick={() => router.push(`/practice/${topic.slug}`)}
-                            >
-                              Practice
-                            </Button>
+                            {topic.playlistUrl && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1 text-foreground/80 hover:text-foreground border-border/60 hover:bg-accent h-9"
+                                asChild
+                              >
+                                <a
+                                  href={topic.playlistUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <Play className="h-4 w-4 mr-1.5" />
+                                  Lectures
+                                </a>
+                              </Button>
+                            )}
                           </div>
-
-                          {topic.playlistUrl && (
-                            <a
-                              href={topic.playlistUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center justify-center gap-2 py-2 text-sm font-medium text-foreground border border-border rounded-md hover:bg-accent transition-colors"
-                            >
-                              <FaYoutube className="h-4 w-4 text-red-600" />
-                              <span>Watch Lectures</span>
-                            </a>
-                          )}
-
                         </div>
                       </div>
 
@@ -406,52 +411,75 @@ export default function TopicsPage() {
                 return (
                   <Card
                     key={topic.name}
-                    className="hover:border-primary/20 transition-all hover:shadow-md flex flex-col group relative"
+                    className="hover:border-primary/40 transition-all hover:shadow-lg flex flex-col group relative overflow-hidden"
                   >
-                    <div className="absolute top-4 right-4">
-                      <CircularProgress value={topic.progress} />
-                    </div>
-                    <CardHeader>
-                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary group-hover:scale-110 transition-transform duration-300">
-                        <Icon className={`w-6 h-6 ${topic.color.replace('text-', 'text-')}`} />
+
+
+                    <CardHeader className="py-2 px-4">
+                      {/* Header row: Icon + Title + Progress */}
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-12 h-12 rounded-xl bg-muted/50 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 flex-shrink-0`}>
+                            <Icon className={`w-6 h-6 ${topic.color}`} />
+                          </div>
+                          <div>
+                            <CardTitle className="text-lg font-semibold leading-tight text-foreground">{topic.name}</CardTitle>
+                            <span className="text-xs text-muted-foreground mt-0.5 block">
+                              {topic.solved}/{topic.total} completed
+                            </span>
+                          </div>
+                        </div>
+                        <CircularProgress value={topic.progress} />
                       </div>
-                      <CardTitle className="text-xl pr-16">{topic.name}</CardTitle>
-                      <CardDescription className="line-clamp-2 text-sm mt-2">
+
+                      {/* Description */}
+                      <CardDescription className="line-clamp-2 text-sm mt-4 leading-relaxed text-foreground/70">
                         {topic.description}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="mt-auto pt-0">
-                      <div className="space-y-3 mt-4 pt-4 border-t border-border/50">
-                        <div className="flex gap-2 w-full">
+
+                    <CardContent className="mt-auto py-0 px-4 ">
+                      {/* Actions with clear hierarchy */}
+                      <div className="space-y-4 pt-4 border-t border-border/50">
+                        {/* Primary CTA - Practice */}
+                        <Button
+                          size="default"
+                          className="w-full bg-primary  text-primary-foreground hover:bg-primary/90 font-m h-10"
+                          onClick={() => router.push(`/practice/${topic.slug}`)}
+                        >
+                          <Code className="h-4 w-4 mr-2" />
+                          Start Practice
+                        </Button>
+
+                        {/* Secondary actions row */}
+                        <div className="flex gap-2">
                           <Button
                             variant="outline"
                             size="sm"
-                            className="flex-1 border-border bg-transparent hover:bg-accent hover:text-accent-foreground "
+                            className="flex-1 text-foreground/80 hover:text-foreground border-border/60 hover:bg-accent h-9"
                             onClick={() => handleTopicClick(topic.questions)}
                           >
-                            Interview Questions
+                            <MessageCircleQuestion className="h-4 w-4 mr-1.5" />
+                            Interview Q&A
                           </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="flex-1 text-primary hover:text-primary/80"
-                            onClick={() => router.push(`/practice/${topic.slug}`)}
-                          >
-                            Practice
-                          </Button>
+                          {topic.playlistUrl && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="flex-1 text-foreground/80 hover:text-foreground border-border/60 hover:bg-accent h-9"
+                              asChild
+                            >
+                              <a
+                                href={topic.playlistUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <Play className="h-4 w-4 mr-1.5" />
+                                Lectures
+                              </a>
+                            </Button>
+                          )}
                         </div>
-
-                        {topic.playlistUrl && (
-                          <a
-                            href={topic.playlistUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2 py-2 text-sm font-medium text-foreground  bg-accent/80 border border-border rounded-md hover:bg-accent transition-colors"
-                          >
-                            <FaYoutube className="h-4 w-4 text-red-600" />
-                            <span>Watch Lectures</span>
-                          </a>
-                        )}
                       </div>
                     </CardContent>
                   </Card>
