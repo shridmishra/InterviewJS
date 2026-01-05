@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const userFromDb = await User.findOne({ email: user.email }).select('_id username createdAt xp level streak');
+    const userFromDb = await User.findOne({ email: user.email }).select('_id username createdAt');
     if (!userFromDb) {
         return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
@@ -150,17 +150,8 @@ export async function GET(req: NextRequest) {
         highestStreak,
         joinDate: userFromDb.createdAt,
         practiceHistory,
-        topicStats,
-        xp: userFromDb.xp || 0,
-        level: userFromDb.level || 1,
-        // Prefer calculated streak if it's more accurate, or use DB streak. 
-        // For now, let's stick to the calculated streak from submissions as it was before, 
-        // but passing the DB one is good for consistency if we switch logic. 
-        // Let's pass the DB one as 'currentStreak' if needed, but the UI uses 'streak'.
-        // The existing code calculated 'streak' variable. I'll rely on that for now to avoid breaking existing logic,
-        // but ideally we should sync them.
+        topicStats
     });
-
 
   } catch (_error) {
     console.error(_error);

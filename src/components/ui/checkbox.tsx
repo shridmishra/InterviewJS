@@ -14,23 +14,16 @@ function Checkbox({
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "peer size-6 shrink-0 rounded-lg border-2 border-[#e5e5e5] bg-white shadow-[0_2px_0_#e5e5e5] transition-all duration-200 outline-none",
-        "hover:border-[#afafaf]",
-        "focus-visible:ring-4 focus-visible:ring-[#1cb0f6]/20",
-        "data-[state=checked]:bg-[#58cc02] data-[state=checked]:border-[#58cc02] data-[state=checked]:shadow-[0_2px_0_#58a700] data-[state=checked]:text-white",
-        "dark:bg-[#1a2c35] dark:border-[#37464f] dark:shadow-[0_2px_0_#131f24]",
-        "dark:data-[state=checked]:bg-[#58cc02] dark:data-[state=checked]:border-[#58cc02] dark:data-[state=checked]:shadow-[0_2px_0_#58a700]",
-        "disabled:cursor-not-allowed disabled:opacity-50",
-        "aria-invalid:border-[#ff4b4b] aria-invalid:ring-[#ff4b4b]/20",
+        "peer border-input dark:bg-input/30 data-[state=checked]:bg-green-100 data-[state=checked]:text-green-500 data-[state=checked]:border-green-300 dark:data-[state=checked]:bg-green-900/50 dark:data-[state=checked]:border-green-700/50 focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}
     >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"
-        className="flex items-center justify-center text-current"
+        className="grid place-content-center text-current transition-none"
       >
-        <CheckIcon className="size-4 stroke-[3]" />
+        <CheckIcon className="size-3.5" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   )

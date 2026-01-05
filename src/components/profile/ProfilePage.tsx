@@ -8,9 +8,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Progress } from "@/components/ui/Progress";
 import ContributionGraph from '../progress/ContributionGraph';
 import DifficultyProgressBar from '../progress/DifficultyProgressBar';
-import { XpCounter } from '@/components/gamification/XpBadge';
-import { StreakFlame } from '@/components/gamification/StreakFlame';
-import { AchievementsGrid } from '@/components/achievements';
 import {
     CalendarDays,
     Flame,
@@ -54,8 +51,6 @@ interface ProfileData {
     joinDate: string;
     practiceHistory: PracticeHistoryItem[];
     topicStats: TopicStat[];
-    xp: number;
-    level: number;
 }
 
 const formatDateToRelativeTime = (dateString: string): string => {
@@ -128,7 +123,7 @@ const ProfilePage: React.FC = () => {
         );
     }
 
-    const { solvedCount, totalCount, easySolved, mediumSolved, hardSolved, contributions, streak, highestStreak, joinDate, practiceHistory, topicStats, xp, level } = profileData;
+    const { solvedCount, totalCount, easySolved, mediumSolved, hardSolved, contributions, streak, highestStreak, joinDate, practiceHistory, topicStats } = profileData;
     const totalSubmissions = Object.values(contributions).reduce((a, b) => a + b, 0);
 
     return (
@@ -168,19 +163,7 @@ const ProfilePage: React.FC = () => {
                 </Card>
 
                 {/* Main Stats Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                    {/* XP & Level Card */}
-                    <Card className="col-span-2 md:col-span-1">
-                        <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-3">
-                            <div className="p-3 bg-xp/10 rounded-full">
-                                <span className="text-2xl">⚡</span>
-                            </div>
-                            <div className="w-full">
-                                <XpCounter current={xp} total={level * 1000} level={level} showLevel={false} />
-                            </div>
-                            <div className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Level {level}</div>
-                        </CardContent>
-                    </Card>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <Card>
                         <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-4">
                             <div className="p-3 bg-primary/10 rounded-full">
@@ -194,10 +177,11 @@ const ProfilePage: React.FC = () => {
                     </Card>
                     <Card>
                         <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-4">
-                            <div className="p-3 bg-streak/10 rounded-full">
-                                <StreakFlame count={streak} size="lg" showTooltip={false} />
+                            <div className="p-3 bg-orange-500/10 rounded-full">
+                                <Flame className="w-6 h-6 text-orange-500" />
                             </div>
                             <div>
+                                <div className="text-2xl font-bold mb-4">{streak}</div>
                                 <div className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Day Streak</div>
                             </div>
                         </CardContent>
@@ -396,22 +380,6 @@ const ProfilePage: React.FC = () => {
                         </CardContent>
                     </Card>
                 </div>
-
-                {/* Achievements Section */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <Medal className="w-5 h-5" />
-                            Achievements
-                        </CardTitle>
-                        <CardDescription>
-                            Your badges and accomplishments
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <AchievementsGrid />
-                    </CardContent>
-                </Card>
             </div>
         </div>
     );

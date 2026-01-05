@@ -2,6 +2,7 @@
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Header from '../../components/common/Header';
 import ProfilePage from '../../components/profile/ProfilePage';
 
 import ProfileSkeleton from '../../components/profile/ProfileSkeleton';
@@ -25,7 +26,7 @@ export default function Profile() {
   if (isLoading || !isAuthenticated) {
     return (
       <div className="bg-background min-h-screen">
-
+        <Header onNavigate={handleNavigate} />
         <main className="container mx-auto px-4 md:px-6 lg:px-8 bg-background">
           <ProfileSkeleton />
         </main>
@@ -35,6 +36,7 @@ export default function Profile() {
 
   return (
     <div className="bg-background min-h-screen">
+      <Header onNavigate={handleNavigate} />
       <main className="container mx-auto px-4 md:px-6 lg:px-8 bg-background">
         <ProfilePage />
       </main>

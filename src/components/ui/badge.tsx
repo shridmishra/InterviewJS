@@ -5,40 +5,20 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-full border-2 px-3 py-1 text-xs font-bold whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none transition-all overflow-hidden",
+  "inline-flex items-center justify-center rounded-full border px-2 py-0.5 text-xs font-medium w-16 whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
   {
     variants: {
       variant: {
-        // Success/Easy - Duolingo Green
         default:
-          "border-[#58cc02] bg-[#58cc02]/10 text-[#58cc02] dark:bg-[#58cc02]/20",
-        // Warning/Medium - Duolingo Orange
+          "border-green-300 dark:border-green-700/50 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300",
         secondary:
-          "border-[#ff9600] bg-[#ff9600]/10 text-[#ff9600] dark:bg-[#ff9600]/20",
-        // Error/Hard - Duolingo Red
+          "border-yellow-300 dark:border-yellow-700/50 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300",
         destructive:
-          "border-[#ff4b4b] bg-[#ff4b4b]/10 text-[#ff4b4b] dark:bg-[#ff4b4b]/20",
-        // Completed - Duolingo Blue
+          "border-red-300 dark:border-red-700/50 bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300",
         completed:
-          "border-[#1cb0f6] bg-[#1cb0f6]/10 text-[#1cb0f6] dark:bg-[#1cb0f6]/20",
-        // XP Badge - Duolingo Gold
-        xp:
-          "border-[#ffc800] bg-[#ffc800]/10 text-[#cd9e00] dark:text-[#ffc800] dark:bg-[#ffc800]/20",
-        // Streak Badge - Duolingo Orange (solid)
-        streak:
-          "border-transparent bg-[#ff9600] text-white",
-        // Gem Badge - Duolingo Blue (solid)
-        gem:
-          "border-transparent bg-[#1cb0f6] text-white",
-        // Heart Badge - Duolingo Red (solid)
-        heart:
-          "border-transparent bg-[#ff4b4b] text-white",
-        // Crown Badge - Duolingo Gold (solid)
-        crown:
-          "border-transparent bg-[#ffc800] text-[#3c3c3c]",
-        // Outline
+          "border-transparent bg-difficulty-completed text-primary-foreground [a&]:hover:bg-blue-500/90",
         outline:
-          "border-[#e5e5e5] text-foreground dark:border-[#4a5b65]",
+          "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
       },
     },
     defaultVariants: {

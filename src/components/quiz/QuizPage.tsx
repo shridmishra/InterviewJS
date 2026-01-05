@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Button } from '@/components/ui/button';
 import QuizModal from './QuizModal';
 import { QuizQuestion } from '@/data/quizzes/types';
+import Header from '@/components/common/Header';
 import {
     FaCode,
     FaBrain,
@@ -49,7 +50,10 @@ export default function QuizPage() {
 
     return (
         <div className="min-h-screen bg-background">
-
+            <Header
+                onBack={() => router.push('/practice/js')}
+                problemTitle="JavaScript Quizzes"
+            />
 
             <div className="container mx-auto px-4 py-8 max-w-7xl">
                 <div className="mb-8 space-y-2">

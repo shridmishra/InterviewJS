@@ -7,18 +7,18 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const toggleVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-xl text-sm font-bold transition-[color,box-shadow,transform] hover:bg-[#e5e5e5] dark:hover:bg-[#37464f] hover:text-[#3c3c3c] dark:hover:text-white disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-[#58cc02] data-[state=on]:text-white dark:data-[state=on]:bg-[#58cc02] dark:data-[state=on]:text-white [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-[#1cb0f6] focus-visible:ring-[#1cb0f6]/50 focus-visible:ring-[3px] outline-none active:scale-95",
+  "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none transition-[color,box-shadow] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive whitespace-nowrap",
   {
     variants: {
       variant: {
         default: "bg-transparent",
         outline:
-          "border-2 border-[#e5e5e5] dark:border-[#37464f] bg-transparent shadow-[0_2px_0_#e5e5e5] dark:shadow-[0_2px_0_#37464f] hover:bg-[#e5e5e5] dark:hover:bg-[#37464f]",
+          "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground",
       },
       size: {
-        default: "h-11 px-4 min-w-11",
-        sm: "h-9 px-2.5 min-w-9 text-xs",
-        lg: "h-12 px-6 min-w-12 text-base",
+        default: "h-9 px-2 min-w-9",
+        sm: "h-8 px-1.5 min-w-8",
+        lg: "h-10 px-2.5 min-w-10",
       },
     },
     defaultVariants: {

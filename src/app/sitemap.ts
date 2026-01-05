@@ -1,14 +1,14 @@
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = 'https://codelingo.shrid.in';
+  const siteUrl = 'https://practicejs.shrid.in';
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified: new Date() },
-    { url: `${siteUrl}/learn/js`, lastModified: new Date() },
-    { url: `${siteUrl}/learn/ts`, lastModified: new Date() },
+    { url: `${siteUrl}/practice/js`, lastModified: new Date() },
+    { url: `${siteUrl}/practice/ts`, lastModified: new Date() },
     { url: `${siteUrl}/quiz`, lastModified: new Date() },
-    { url: `${siteUrl}/learn`, lastModified: new Date() },
+    { url: `${siteUrl}/topics`, lastModified: new Date() },
     { url: `${siteUrl}/profile`, lastModified: new Date() },
   ];
 
@@ -52,12 +52,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ];
 
     const jsProblemRoutes: MetadataRoute.Sitemap = jsProblems.map((p: { id: string }) => ({
-      url: `${siteUrl}/learn/js/${p.id}`,
+      url: `${siteUrl}/practice/js/${p.id}`,
       lastModified: new Date(),
     }));
 
     const tsProblemRoutes: MetadataRoute.Sitemap = tsProblems.map((p: { id: string }) => ({
-      url: `${siteUrl}/learn/ts/${p.id}`,
+      url: `${siteUrl}/practice/ts/${p.id}`,
       lastModified: new Date(),
     }));
 

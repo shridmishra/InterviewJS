@@ -1,29 +1,83 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* ============================================
-   DUOLINGO-STYLE GLOBALS CSS
-   Using official Duolingo color palette
-   Font: Nunito (Duolingo's signature font)
-   ============================================ */
-
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ============================================
-   BASE STYLES
-   ============================================ */
 body {
   overscroll-behavior: none;
-  font-family: 'Nunito', var(--font-nunito), sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-satoshi), sans-serif;
 }
-
-/* ============================================
-   SCROLLBAR STYLES
-   ============================================ */
 ::-webkit-scrollbar-button {
   display: none;
+}
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out forwards;
+}
+
+a,
+button,
+[role="button"],
+[role="link"],
+[type="button"],
+[type="submit"],
+[type="reset"] {
+  cursor: pointer;
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium inline-flex items-center justify-center  tracking-tight;
+  }
+  .btn-primary {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  .btn-text {
+    @apply bg-transparent text-black dark:text-white;
+  }
+  .tag {
+    @apply text-sm border border-border inline-flex px-3 py-1 rounded-lg tracking-tight;
+  }
+
+  .heading {
+    @apply text-3xl lg:text-7xl font-bold tracking-tighter bg-linear-to-b from-primary to-primary/70 dark:from-primary-foreground dark:to-primary-foreground/70 text-transparent bg-clip-text mt-6 leading-tight pb-1;
+  }
+
+  .sub-heading {
+    @apply text-lg lg:text-xl text-muted-foreground tracking-tight mt-6 leading-relaxed;
+  }
+  .card {
+    @apply p-10 rounded-3xl border border-border shadow-sm max-w-xs w-full text-foreground;
+  }
+
+  .logo-ticker-image {
+    @apply h-8 w-auto;
+  }
+
+  .gradient-text {
+    @apply font-bold tracking-tighter bg-linear-to-b from-primary to-primary/70 dark:from-primary-foreground dark:to-primary-foreground/70 text-transparent bg-clip-text leading-tight pb-1;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -33,7 +87,6 @@ body {
 
 ::-webkit-scrollbar-track {
   background: var(--color-muted);
-  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -46,392 +99,11 @@ body {
   opacity: 0.8;
 }
 
-/* ============================================
-   ANIMATIONS - General
-   ============================================ */
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-spin-slow {
-  animation: spin-slow 20s linear infinite;
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.3s ease-out forwards;
-}
-
-/* ============================================
-   ANIMATIONS - Duolingo Style
-   ============================================ */
-@keyframes duo-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-@keyframes duo-pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.9; }
-}
-
-@keyframes duo-shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
-  20%, 40%, 60%, 80% { transform: translateX(4px); }
-}
-
-@keyframes duo-pop {
-  0% { transform: scale(0.8); opacity: 0; }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes duo-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(88, 204, 2, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(88, 204, 2, 0); }
-}
-
-@keyframes duo-wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-5deg); }
-  75% { transform: rotate(5deg); }
-}
-
-/* ============================================
-   ANIMATIONS - Gamification
-   ============================================ */
-@keyframes heart-beat {
-  0%, 100% { transform: scale(1); }
-  25% { transform: scale(1.1); }
-  50% { transform: scale(1); }
-  75% { transform: scale(1.1); }
-}
-
-@keyframes heart-break {
-  0% { transform: scale(1) rotate(0); opacity: 1; }
-  50% { transform: scale(0.8) rotate(-10deg); }
-  100% { transform: scale(0) rotate(-20deg); opacity: 0; }
-}
-
-@keyframes xp-float {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  100% { transform: translateY(-30px) scale(1.2); opacity: 0; }
-}
-
-@keyframes streak-flame {
-  0%, 100% { transform: scaleY(1) rotate(-2deg); }
-  50% { transform: scaleY(1.1) rotate(2deg); }
-}
-
-@keyframes confetti-fall {
-  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
-
-@keyframes progress-fill {
-  from { width: 0%; }
-}
-
-@keyframes correct-flash {
-  0% { background-color: transparent; }
-  50% { background-color: rgba(88, 204, 2, 0.2); }
-  100% { background-color: transparent; }
-}
-
-@keyframes incorrect-flash {
-  0% { background-color: transparent; }
-  50% { background-color: rgba(255, 75, 75, 0.2); }
-  100% { background-color: transparent; }
-}
-
-@keyframes gem-sparkle {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.05); }
-}
-
-@keyframes crown-glow {
-  0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 200, 0, 0.6)); }
-  50% { filter: drop-shadow(0 0 12px rgba(255, 200, 0, 0.9)); }
-}
-
-/* ============================================
-   ANIMATION UTILITY CLASSES
-   ============================================ */
-.animate-duo-bounce { animation: duo-bounce 0.6s ease-in-out; }
-.animate-duo-pulse { animation: duo-pulse 2s ease-in-out infinite; }
-.animate-duo-shake { animation: duo-shake 0.5s ease-in-out; }
-.animate-duo-pop { animation: duo-pop 0.3s ease-out forwards; }
-.animate-duo-glow { animation: duo-glow 2s ease-in-out infinite; }
-.animate-duo-wiggle { animation: duo-wiggle 0.5s ease-in-out; }
-.animate-heart-beat { animation: heart-beat 1s ease-in-out infinite; }
-.animate-heart-break { animation: heart-break 0.4s ease-out forwards; }
-.animate-xp-float { animation: xp-float 0.8s ease-out forwards; }
-.animate-streak-flame { animation: streak-flame 0.5s ease-in-out infinite; }
-.animate-confetti { animation: confetti-fall 3s linear forwards; }
-.animate-progress-fill { animation: progress-fill 0.5s ease-out forwards; }
-.animate-correct { animation: correct-flash 0.5s ease-out; }
-.animate-incorrect { animation: incorrect-flash 0.5s ease-out; }
-.animate-gem-sparkle { animation: gem-sparkle 1.5s ease-in-out infinite; }
-.animate-crown-glow { animation: crown-glow 2s ease-in-out infinite; }
-
-/* ============================================
-   INTERACTIVE ELEMENTS BASE
-   ============================================ */
-a,
-button,
-[role="button"],
-[role="link"],
-[type="button"],
-[type="submit"],
-[type="reset"] {
-  cursor: pointer;
-}
-
-/* ============================================
-   COMPONENT LAYER - Buttons & UI Elements
-   ============================================ */
-@layer components {
-  /* Base Button */
-  .btn {
-    @apply px-4 py-2 rounded-xl font-bold inline-flex items-center justify-center tracking-tight;
-    font-family: 'Nunito', sans-serif;
-  }
-  
-  .btn-primary {
-    @apply bg-primary text-primary-foreground;
-  }
-
-  .btn-text {
-    @apply bg-transparent text-black dark:text-white;
-  }
-
-  /* Duolingo 3D Button Base */
-  .btn-duo {
-    @apply relative font-extrabold rounded-2xl transition-all duration-150 ease-out uppercase tracking-wide;
-    font-family: 'Nunito', sans-serif;
-    transform: translateY(0);
-    box-shadow: 0 4px 0 var(--duo-green-shadow);
-  }
-  
-  .btn-duo:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 var(--duo-green-shadow);
-  }
-  
-  .btn-duo:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 var(--duo-green-shadow);
-  }
-
-  /* Duolingo Green Button (Primary CTA) */
-  .btn-duo-green {
-    @apply bg-[var(--duo-green)] text-white;
-    box-shadow: 0 4px 0 var(--duo-green-shadow);
-  }
-  
-  .btn-duo-green:hover {
-    @apply bg-[var(--duo-green-hover)];
-    box-shadow: 0 6px 0 var(--duo-green-shadow);
-  }
-
-  /* Duolingo Blue Button */
-  .btn-duo-blue {
-    @apply bg-[var(--duo-blue)] text-white;
-    box-shadow: 0 4px 0 var(--duo-blue-shadow);
-  }
-  
-  .btn-duo-blue:hover {
-    box-shadow: 0 6px 0 var(--duo-blue-shadow);
-  }
-
-  /* Duolingo Orange Button */
-  .btn-duo-orange {
-    @apply bg-[var(--duo-orange)] text-white;
-    box-shadow: 0 4px 0 var(--duo-orange-shadow);
-  }
-
-  /* Duolingo Purple Button */
-  .btn-duo-purple {
-    @apply bg-[var(--duo-purple)] text-white;
-    box-shadow: 0 4px 0 var(--duo-purple-shadow);
-  }
-
-  /* Duolingo Red Button (Destructive) */
-  .btn-duo-red {
-    @apply bg-[var(--duo-red)] text-white;
-    box-shadow: 0 4px 0 var(--duo-red-shadow);
-  }
-
-  /* Outline Button */
-  .btn-duo-outline {
-    @apply bg-transparent border-2 border-[var(--duo-gray)] text-[var(--duo-gray-dark)];
-    box-shadow: 0 4px 0 var(--duo-gray);
-  }
-
-  /* ============================================
-     TAGS & BADGES
-     ============================================ */
-  .tag {
-    @apply text-sm border border-border inline-flex px-3 py-1 rounded-lg tracking-tight font-semibold;
-    font-family: 'Nunito', sans-serif;
-  }
-
-  .xp-badge {
-    @apply bg-[var(--duo-gold)] text-[var(--duo-gold-dark)] font-extrabold px-3 py-1 rounded-full text-sm;
-    font-family: 'Nunito', sans-serif;
-  }
-
-  .gem-badge {
-    @apply bg-[var(--duo-blue)] text-white font-extrabold px-3 py-1 rounded-full text-sm;
-    font-family: 'Nunito', sans-serif;
-  }
-
-  .streak-badge {
-    @apply bg-[var(--duo-orange)] text-white font-extrabold px-3 py-1 rounded-full text-sm;
-    font-family: 'Nunito', sans-serif;
-  }
-
-  /* ============================================
-     TYPOGRAPHY
-     ============================================ */
-  .heading {
-    @apply text-3xl lg:text-7xl font-extrabold tracking-tighter bg-linear-to-b from-[var(--duo-green)] to-[var(--duo-green-shadow)] dark:from-white dark:to-gray-300 text-transparent bg-clip-text mt-6 leading-tight pb-1;
-    font-family: 'Nunito', sans-serif;
-  }
-
-  .sub-heading {
-    @apply text-lg lg:text-xl text-muted-foreground tracking-tight mt-6 leading-relaxed font-semibold;
-    font-family: 'Nunito', sans-serif;
-  }
-
-  .gradient-text {
-    @apply font-extrabold tracking-tighter bg-linear-to-b from-[var(--duo-green)] to-[var(--duo-green-shadow)] dark:from-[var(--duo-green-light)] dark:to-[var(--duo-green)] text-transparent bg-clip-text leading-tight pb-1;
-    font-family: 'Nunito', sans-serif;
-  }
-
-  /* ============================================
-     CARDS
-     ============================================ */
-  .card {
-    @apply p-6 rounded-2xl border-2 border-[var(--duo-gray-light)] bg-white dark:bg-[var(--duo-dark-card)] shadow-sm max-w-xs w-full text-foreground;
-  }
-
-  .card-duo {
-    @apply p-6 rounded-2xl border-2 border-[var(--duo-gray-light)] bg-white dark:bg-[var(--duo-dark-card)] transition-all duration-200;
-    box-shadow: 0 4px 0 var(--duo-gray-light);
-  }
-  
-  .card-duo:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 var(--duo-gray-light);
-  }
-
-  /* ============================================
-     PATH NODE STYLES (Learning Path)
-     ============================================ */
-  .path-node {
-    @apply relative w-16 h-16 rounded-full flex items-center justify-center font-extrabold text-white transition-all duration-200;
-    font-family: 'Nunito', sans-serif;
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
-  }
-  
-  .path-node:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
-  }
-  
-  .path-node:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  .path-node-locked {
-    @apply bg-[var(--duo-gray)] cursor-not-allowed opacity-60;
-  }
-  
-  .path-node-available {
-    @apply bg-[var(--duo-green)] cursor-pointer;
-    box-shadow: 0 4px 0 var(--duo-green-shadow);
-  }
-  
-  .path-node-completed {
-    @apply bg-[var(--duo-gold)];
-    box-shadow: 0 4px 0 var(--duo-gold-dark);
-  }
-  
-  .path-node-current {
-    @apply bg-[var(--duo-blue)];
-    box-shadow: 0 4px 0 var(--duo-blue-shadow);
-  }
-
-  /* ============================================
-     GAMIFICATION ICONS
-     ============================================ */
-  .heart-icon {
-    @apply text-[var(--duo-red)];
-  }
-  
-  .streak-flame {
-    @apply text-[var(--duo-orange)];
-  }
-  
-  .gem-icon {
-    @apply text-[var(--duo-blue)];
-  }
-  
-  .crown-icon {
-    @apply text-[var(--duo-gold)];
-  }
-
-  /* ============================================
-     PROGRESS BARS
-     ============================================ */
-  .progress-duo {
-    @apply h-4 bg-[var(--duo-gray-light)] rounded-full overflow-hidden;
-  }
-  
-  .progress-duo-fill {
-    @apply h-full bg-[var(--duo-green)] rounded-full transition-all duration-300;
-  }
-
-  .progress-duo-xp {
-    @apply h-3 bg-[var(--duo-gray-light)] rounded-full overflow-hidden;
-  }
-  
-  .progress-duo-xp-fill {
-    @apply h-full bg-[var(--duo-gold)] rounded-full transition-all duration-300;
-  }
-
-  /* ============================================
-     LOGO TICKER
-     ============================================ */
-  .logo-ticker-image {
-    @apply h-8 w-auto;
-  }
-}
-
-/* ============================================
-   THEME CONFIGURATION
-   ============================================ */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  
-  /* Base Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -450,21 +122,15 @@ button,
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  
-  /* Chart Colors */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  
-  /* Difficulty Colors */
   --color-difficulty-easy: var(--difficulty-easy);
   --color-difficulty-medium: var(--difficulty-medium);
   --color-difficulty-hard: var(--difficulty-hard);
   --color-success: var(--success);
-  
-  /* Sidebar Colors */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -473,279 +139,103 @@ button,
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  
-  /* Duolingo Official Colors */
-  --color-duo-green: var(--duo-green);
-  --color-duo-green-light: var(--duo-green-light);
-  --color-duo-green-shadow: var(--duo-green-shadow);
-  --color-duo-blue: var(--duo-blue);
-  --color-duo-blue-light: var(--duo-blue-light);
-  --color-duo-blue-shadow: var(--duo-blue-shadow);
-  --color-duo-orange: var(--duo-orange);
-  --color-duo-orange-shadow: var(--duo-orange-shadow);
-  --color-duo-red: var(--duo-red);
-  --color-duo-red-shadow: var(--duo-red-shadow);
-  --color-duo-purple: var(--duo-purple);
-  --color-duo-purple-shadow: var(--duo-purple-shadow);
-  --color-duo-gold: var(--duo-gold);
-  --color-duo-gold-dark: var(--duo-gold-dark);
-  --color-duo-gray: var(--duo-gray);
-  --color-duo-gray-light: var(--duo-gray-light);
-  --color-duo-gray-dark: var(--duo-gray-dark);
-  
-  /* Gamification Colors */
-  --color-heart: var(--duo-red);
-  --color-xp: var(--duo-gold);
-  --color-streak: var(--duo-orange);
-  --color-gem: var(--duo-blue);
-  --color-crown: var(--duo-gold);
-  
-  /* Node States */
-  --color-node-locked: var(--duo-gray);
-  --color-node-available: var(--duo-green);
-  --color-node-completed: var(--duo-gold);
-  --color-node-current: var(--duo-blue);
 }
 
-/* ============================================
-   LIGHT MODE (ROOT)
-   Official Duolingo Color Palette
-   ============================================ */
 :root {
-  --radius: 0.75rem;
-  
-  /* Base Theme Colors */
-  --background: #ffffff;
-  --foreground: #3c3c3c;
-  --card: #ffffff;
-  --card-foreground: #3c3c3c;
-  --popover: #ffffff;
-  --popover-foreground: #3c3c3c;
-  
-  /* Primary - Duolingo Green */
-  --primary: #58cc02;
-  --primary-foreground: #ffffff;
-  --primary-hover: #4caf00;
-  
-  /* Secondary - Duolingo Light Gray */
-  --secondary: #e5e5e5;
-  --secondary-foreground: #3c3c3c;
-  --secondary-hover: #d4d4d4;
-  
-  /* Muted */
-  --muted: #f7f7f7;
-  --muted-foreground: #777777;
-  
-  /* Accent */
-  --accent: #ddf4ff;
-  --accent-foreground: #1cb0f6;
-  
-  /* Destructive - Duolingo Red */
-  --destructive: #ff4b4b;
-  
-  /* Utility Colors */
-  --success: #58cc02;
-  --warning: #ff9600;
-  
-  /* Difficulty Colors */
-  --difficulty-easy: #58cc02;
-  --difficulty-medium: #ff9600;
-  --difficulty-hard: #ff4b4b;
-  --difficulty-completed: #1cb0f6;
-  
-  /* Border & Input */
-  --border: #e5e5e5;
-  --input: #e5e5e5;
-  --ring: #1cb0f6;
-  
-  /* Chart Colors - Duolingo Palette */
-  --chart-1: #58cc02;
-  --chart-2: #1cb0f6;
-  --chart-3: #ff9600;
-  --chart-4: #ce82ff;
-  --chart-5: #ff4b4b;
-  
-  /* Sidebar */
-  --sidebar: #ffffff;
-  --sidebar-foreground: #3c3c3c;
-  --sidebar-primary: #58cc02;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f7f7f7;
-  --sidebar-accent-foreground: #3c3c3c;
-  --sidebar-border: #e5e5e5;
-  --sidebar-ring: #1cb0f6;
-  
-  /* ============================================
-     DUOLINGO OFFICIAL COLOR PALETTE
-     ============================================ */
-  
-  /* Feather Green - Primary Brand Color */
-  --duo-green: #58cc02;
-  --duo-green-light: #7ed321;
-  --duo-green-hover: #4caf00;
-  --duo-green-shadow: #58a700;
-  
-  /* Macaw Blue - Secondary Accent */
-  --duo-blue: #1cb0f6;
-  --duo-blue-light: #84d8ff;
-  --duo-blue-shadow: #1899d6;
-  
-  /* Fox Orange - Streaks & Warnings */
-  --duo-orange: #ff9600;
-  --duo-orange-light: #ffc800;
-  --duo-orange-shadow: #cd7900;
-  
-  /* Cardinal Red - Hearts & Errors */
-  --duo-red: #ff4b4b;
-  --duo-red-light: #ff6b6b;
-  --duo-red-shadow: #ea2b2b;
-  
-  /* Beetle Purple - Premium & Special */
-  --duo-purple: #ce82ff;
-  --duo-purple-light: #e5b8ff;
-  --duo-purple-shadow: #9b4dca;
-  
-  /* Bee Gold - XP & Crowns */
-  --duo-gold: #ffc800;
-  --duo-gold-light: #ffdd4b;
-  --duo-gold-dark: #cd9e00;
-  
-  /* Eel Gray - Neutral & Disabled */
-  --duo-gray: #afafaf;
-  --duo-gray-light: #e5e5e5;
-  --duo-gray-dark: #777777;
-  
-  /* Background Colors */
-  --duo-bg: #235390;
-  --duo-bg-light: #ffffff;
-  
-  /* Dark Mode Card */
-  --duo-dark-card: #1a1a2e;
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --primary: oklch(85% 0.184 86.047);
+  --primary-foreground: oklch(20% 0 0);
+  --primary-hover: oklch(0.1 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-hover: oklch(0.95 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --success: oklch(0.7 0.15 140);
+  --warning: oklch(0.7 0.15 80);
+   --difficulty-easy: oklch(60% 0.15 140);
+  --difficulty-medium: oklch(90% 0.15 90);
+  --difficulty-hard: oklch(60% 0.2 20);
+  --difficulty-completed: oklch(50% 0.15 230);
+
+  --secondary-hover: oklch(from var(--secondary) l calc(l * 1.15) h);
+  --secondary-active: oklch(from var(--secondary) l calc(l * 1.2) h);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
-/* ============================================
-   DARK MODE
-   Duolingo Dark Theme Adaptation
-   ============================================ */
 .dark {
-  --background: #131f24;
-  --foreground: #ffffff;
-  --card: #1a2c35;
-  --card-foreground: #ffffff;
-  --popover: #1a2c35;
-  --popover-foreground: #ffffff;
-  
-  /* Primary - Duolingo Green (slightly adjusted for dark) */
-  --primary: #58cc02;
-  --primary-foreground: #ffffff;
-  --primary-hover: #6ed31a;
-  
-  /* Secondary */
-  --secondary: #37464f;
-  --secondary-foreground: #ffffff;
-  --secondary-hover: #4a5b65;
-  
-  /* Muted */
-  --muted: #37464f;
-  --muted-foreground: #afafaf;
-  
-  /* Accent */
-  --accent: #1a3a4a;
-  --accent-foreground: #84d8ff;
-  
-  /* Destructive */
-  --destructive: #ff4b4b;
-  
-  /* Utility Colors */
-  --success: #58cc02;
-  --warning: #ff9600;
-  
-  /* Difficulty Colors */
-  --difficulty-easy: #58cc02;
-  --difficulty-medium: #ff9600;
-  --difficulty-hard: #ff4b4b;
-  
-  /* Border & Input */
-  --border: #37464f;
-  --input: #37464f;
-  --ring: #1cb0f6;
-  
-  /* Chart Colors */
-  --chart-1: #58cc02;
-  --chart-2: #1cb0f6;
-  --chart-3: #ff9600;
-  --chart-4: #ce82ff;
-  --chart-5: #ff4b4b;
-  
-  /* Sidebar */
-  --sidebar: #1a2c35;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #58cc02;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #37464f;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #37464f;
-  --sidebar-ring: #1cb0f6;
-  
-  /* Duolingo Colors - Dark Mode Adjustments */
-  --duo-green: #58cc02;
-  --duo-green-light: #7ed321;
-  --duo-green-hover: #6ed31a;
-  --duo-green-shadow: #458f00;
-  
-  --duo-blue: #1cb0f6;
-  --duo-blue-light: #84d8ff;
-  --duo-blue-shadow: #0d8bc4;
-  
-  --duo-orange: #ff9600;
-  --duo-orange-light: #ffc800;
-  --duo-orange-shadow: #b36a00;
-  
-  --duo-red: #ff4b4b;
-  --duo-red-light: #ff6b6b;
-  --duo-red-shadow: #c43535;
-  
-  --duo-purple: #ce82ff;
-  --duo-purple-light: #e5b8ff;
-  --duo-purple-shadow: #8e4ab8;
-  
-  --duo-gold: #ffc800;
-  --duo-gold-light: #ffdd4b;
-  --duo-gold-dark: #a08000;
-  
-  --duo-gray: #777777;
-  --duo-gray-light: #4a5b65;
-  --duo-gray-dark: #afafaf;
-  
-  --duo-dark-card: #1a2c35;
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(85% 0.184 86.047);
+  --primary-foreground: oklch(20% 0 0);
+  --primary-hover: oklch(0.9 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --secondary-hover: oklch(0.3 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --success: oklch(0.7 0.15 140);
+  --warning: oklch(0.8 0.15 80);
+  --difficulty-easy: oklch(60% 0.15 140);
+  --difficulty-medium: oklch(90% 0.15 90);
+  --difficulty-hard: oklch(60% 0.2 20);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* ============================================
-   BASE LAYER STYLES
-   ============================================ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  
   body {
     @apply bg-background text-foreground;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-  }
-  
-  p, span, a, li {
-    font-family: 'Nunito', sans-serif;
-  }
 }
 
-/* ============================================
-   GRADIENT TEXT OVERRIDE
-   ============================================ */
 .gradient-text {
-  @apply font-extrabold tracking-tighter bg-linear-to-b from-[#58cc02] to-[#58a700] dark:from-[#7ed321] dark:to-[#58cc02] text-transparent bg-clip-text leading-tight pb-1;
-  font-family: 'Nunito', sans-serif;
-}
+    @apply font-bold tracking-tighter bg-linear-to-b from-yellow-500 to-[#ecc94b] dark:from-white dark:to-[#fff085] text-transparent bg-clip-text leading-tight pb-1;
+  }

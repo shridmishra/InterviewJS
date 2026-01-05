@@ -11,9 +11,9 @@ export const Footer = () => {
     <div className="container">
       <div className="flex flex-col justify-center items-center text-center">
         <h1 className="text-2xl font-bold text-white tracking-tight">
-          Code<span className="gradient-text">Lingo</span>
-        </h1>
-
+            practice<span className="gradient-text">JS</span>
+          </h1>
+        
 
         <div className="flex mt-6 gap-6 justify-center">
           <a href="https://x.com/shridmishra" target="_blank" rel="noopener noreferrer">

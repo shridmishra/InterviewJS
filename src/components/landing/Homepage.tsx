@@ -30,7 +30,7 @@ export const HomePage = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <header className="flex justify-between items-center py-4">
           <div className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
-            Code<span className="gradient-text">Lingo</span>
+            practice<span className="gradient-text">JS</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="flex items-center gap-2">
@@ -97,8 +97,8 @@ export const HomePage = () => {
               <p className="text-lg lg:text-xl text-[#010D3E] dark:text-gray-300 tracking-tight mt-6 ">An interactive platform to practice coding, tackle challenges across various topics, and prepare for technical interviews. Track your progress and master your skills.</p>
             </div>
             <div className="mt-7 flex flex-col gap-4 items-start md:flex-row md:items-center md:gap-1">
-              <button onClick={() => handleNavigate('learn')} className="btn btn-primary bg-black text-white dark:bg-white dark:text-black whitespace-nowrap">Explore Topics</button>
-              <button onClick={() => handleNavigate('learn/js')} className="btn btn-text gap-1 inline-flex"><span>Practice</span><ArrowIcon className="h-5 w-5" /></button>
+              <button onClick={() => handleNavigate('topics')} className="btn btn-primary bg-black text-white dark:bg-white dark:text-black whitespace-nowrap">Explore Topics</button>
+              <button onClick={() => handleNavigate('practice/js')} className="btn btn-text gap-1 inline-flex"><span>Practice</span><ArrowIcon className="h-5 w-5" /></button>
             </div>
           </div>
 
