@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 
 interface ProblemSolvingPageProps {
     problem: Problem;
+    topicSlug?: string;
     onStatusChange: (id: string, status: ProblemStatus) => void;
     onBack: () => void;
     onToggleStar: (id: string) => void;
@@ -24,7 +25,7 @@ interface ProblemSolvingPageProps {
 
 
 
-const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusChange, onToggleStar, onUpdateNotes, onLogin, onBack, onNavigate: _onNavigate, onLogout: _onLogout }) => {
+const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, topicSlug, onStatusChange, onToggleStar, onUpdateNotes, onLogin, onBack, onNavigate: _onNavigate, onLogout: _onLogout }) => {
     const [code, setCode] = useState(problem.starterCode);
     const [testResults, setTestResults] = useState<TestResult[]>([]);
     const [isRunning, setIsRunning] = useState(false);
@@ -100,6 +101,42 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusCha
         return null;
     };
 
+    /**
+     * Maps topic slugs to Monaco Editor languages.
+     * Supported topics: js, ts, react, nextjs, mongo, express, nodejs, prisma, postgres, html, css
+     */
+    const getLanguageFromSlug = (slug?: string): string => {
+        const languageMap: Record<string, string> = {
+            // JavaScript-based topics
+            'js': 'javascript',
+            'javascript': 'javascript',
+            'react': 'javascript',      // React uses JSX which Monaco handles in JS mode
+            'nextjs': 'javascript',     // Next.js uses JSX
+            'mongo': 'javascript',      // MongoDB shell uses JS syntax
+            'express': 'javascript',    // Express.js
+            'nodejs': 'javascript',     // Node.js
+
+            // TypeScript-based topics
+            'ts': 'typescript',
+            'typescript': 'typescript',
+            'prisma': 'typescript',     // Prisma Client uses TypeScript
+
+            // SQL-based topics
+            'postgres': 'pgsql',        // PostgreSQL dialect
+            'postgresql': 'pgsql',
+            'sql': 'sql',
+
+            // Markup languages
+            'html': 'html',
+            'css': 'css',
+        };
+
+        if (!slug) return 'javascript'; // Default fallback
+        return languageMap[slug.toLowerCase()] || 'javascript';
+    };
+
+    const editorLanguage = getLanguageFromSlug(topicSlug);
+
 
     return (
         <div className="flex flex-col h-screen bg-background">
@@ -160,7 +197,7 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusCha
 
                             <div className="flex flex-wrap gap-3 mt-6">
                                 <a href={problem.docsUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover inline-block text-sm">
-                                     Documentation &rarr;
+                                    Documentation &rarr;
                                 </a>
                                 {problem.videoUrl && (
                                     <a href={problem.videoUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover inline-block text-sm">
@@ -187,7 +224,12 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, onStatusCha
                             </div>
                         </div>
                         <div className="grow relative min-h-[400px]">
-                            <CodeEditor value={code} onChange={setCode} />
+                            <CodeEditor
+                                value={code}
+                                onChange={setCode}
+                                language={editorLanguage}
+                                isFullScreen={isFullScreen}
+                            />
                         </div>
                     </div>
 
