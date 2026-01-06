@@ -665,16 +665,16 @@ delegate(document, 'submit', '.ajax-form', function(e) {
 \`\`\`
 
 **When to Use:**
-✅ Lists with many items
-✅ Dynamically generated content
-✅ Tables with clickable rows
-✅ Toolbar buttons
-✅ Navigation menus
+ Lists with many items
+ Dynamically generated content
+ Tables with clickable rows
+ Toolbar buttons
+ Navigation menus
 
 **When NOT to Use:**
-❌ Focus/blur events (don't bubble)
-❌ Mouse enter/leave (use mouseover/mouseout instead)
-❌ Events on document/window (already at top)`,
+ Focus/blur events (don't bubble)
+ Mouse enter/leave (use mouseover/mouseout instead)
+ Events on document/window (already at top)`,
     difficulty: 'Medium'
   },
   {
@@ -912,11 +912,11 @@ element.innerHTML = 'text';   // Slower (HTML parsing)
 \`\`\`javascript
 // DANGEROUS - XSS vulnerability
 const userInput = '<img src=x onerror="alert(XSS)">';
-div.innerHTML = userInput; // Script executes! ❌
+div.innerHTML = userInput; // Script executes! 
 
 // SAFE - treats as text
-div.textContent = userInput; // Shows as text ✓
-div.innerText = userInput;   // Shows as text ✓
+div.textContent = userInput; // Shows as text 
+div.innerText = userInput;   // Shows as text 
 
 // If you need HTML, sanitize first
 import DOMPurify from 'dompurify';
@@ -963,16 +963,16 @@ console.log(div.innerText);
 
 **Best Practice:**
 \`\`\`javascript
-// ✓ Good - safe and fast
+//  Good - safe and fast
 element.textContent = userInput;
 
-// ✓ Good - when you need HTML
+//  Good - when you need HTML
 element.innerHTML = sanitizedHTML;
 
-// ❌ Bad - security risk
+//  Bad - security risk
 element.innerHTML = userInput;
 
-// ❌ Bad - slower than textContent
+//  Bad - slower than textContent
 element.innerText = simpleText;
 \`\`\``,
     difficulty: 'Medium'
@@ -1760,14 +1760,14 @@ class Database {
 \`\`\`
 
 **When to Use:**
-✅ Utility functions that don't need instance data
-✅ Factory methods to create instances
-✅ Constants and configuration
-✅ Tracking class-level state (counters, caches)
+ Utility functions that don't need instance data
+ Factory methods to create instances
+ Constants and configuration
+ Tracking class-level state (counters, caches)
 
 **When NOT to Use:**
-❌ When method needs access to instance properties
-❌ When behavior should be polymorphic (overridden in subclasses)`,
+ When method needs access to instance properties
+ When behavior should be polymorphic (overridden in subclasses)`,
     difficulty: 'Medium'
   },
   // Modules
@@ -1940,10 +1940,10 @@ const { default: User, helper } = await import('./user.js');
 \`\`\`
 
 **Benefits:**
-✅ Smaller initial bundle size
-✅ Faster page load
-✅ Load code only when needed
-✅ Better performance for large apps`,
+ Smaller initial bundle size
+ Faster page load
+ Load code only when needed
+ Better performance for large apps`,
     difficulty: 'Medium'
   },
   // Regular Expressions
@@ -2304,6 +2304,1400 @@ const date2 = new Date('2024-01-15');
 date1 < date2;  // true
 date1 > date2;  // false
 date1.getTime() === date2.getTime(); // Compare equality
+\`\`\``,
+    difficulty: 'Medium'
+  },
+  // ES6+ Features
+  {
+    id: 'spread-rest-operators',
+    topic: 'ES6+ Features',
+    question: 'Explain the spread operator and rest parameters in JavaScript.',
+    answer: `**Spread operator (...)** expands iterables into individual elements.
+
+**Rest parameters (...)** collects multiple elements into an array.
+
+**Spread Examples:**
+\`\`\`javascript
+// Array spreading
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5]; // [1, 2, 3, 4, 5]
+
+// Object spreading
+const obj1 = { a: 1, b: 2 };
+const obj2 = { ...obj1, c: 3 }; // { a: 1, b: 2, c: 3 }
+
+// Function arguments
+Math.max(...[1, 5, 3]); // 5
+
+// Clone array/object (shallow)
+const clone = [...arr1];
+const cloneObj = { ...obj1 };
+\`\`\`
+
+**Rest Parameters:**
+\`\`\`javascript
+// Function parameters
+function sum(...numbers) {
+  return numbers.reduce((a, b) => a + b, 0);
+}
+sum(1, 2, 3, 4); // 10
+
+// Destructuring rest
+const [first, ...rest] = [1, 2, 3, 4];
+// first = 1, rest = [2, 3, 4]
+
+const { a, ...others } = { a: 1, b: 2, c: 3 };
+// a = 1, others = { b: 2, c: 3 }
+\`\`\``,
+    difficulty: 'Easy'
+  },
+  {
+    id: 'destructuring',
+    topic: 'ES6+ Features',
+    question: 'Explain destructuring in JavaScript with examples.',
+    answer: `Destructuring extracts values from arrays or objects into variables.
+
+**Array Destructuring:**
+\`\`\`javascript
+const [a, b, c] = [1, 2, 3];
+// a = 1, b = 2, c = 3
+
+// Skip elements
+const [first, , third] = [1, 2, 3];
+
+// Default values
+const [x = 10, y = 20] = [5];
+// x = 5, y = 20
+
+// Swap variables
+let m = 1, n = 2;
+[m, n] = [n, m];
+\`\`\`
+
+**Object Destructuring:**
+\`\`\`javascript
+const { name, age } = { name: 'John', age: 30, city: 'NYC' };
+
+// Rename variables
+const { name: userName } = { name: 'John' };
+
+// Default values
+const { name, country = 'Unknown' } = { name: 'John' };
+
+// Nested destructuring
+const { address: { city } } = { address: { city: 'NYC' } };
+
+// Function parameters
+function greet({ name, age = 18 }) {
+  console.log(\`Hello \${name}, age \${age}\`);
+}
+\`\`\``,
+    difficulty: 'Easy'
+  },
+  {
+    id: 'es-modules',
+    topic: 'ES6+ Features',
+    question: 'What are ES Modules? How do import/export work?',
+    answer: `ES Modules are JavaScript's native module system for code organization.
+
+**Named Exports/Imports:**
+\`\`\`javascript
+// utils.js
+export const PI = 3.14159;
+export function add(a, b) { return a + b; }
+export class Calculator { }
+
+// main.js
+import { PI, add, Calculator } from './utils.js';
+import { add as sum } from './utils.js'; // Rename
+import * as utils from './utils.js'; // Import all
+\`\`\`
+
+**Default Export/Import:**
+\`\`\`javascript
+// Component.js
+export default function Component() { }
+
+// main.js
+import Component from './Component.js';
+import MyComponent from './Component.js'; // Any name
+\`\`\`
+
+**Mixed:**
+\`\`\`javascript
+// module.js
+export default class Main { }
+export const helper = () => {};
+
+// main.js
+import Main, { helper } from './module.js';
+\`\`\`
+
+**Dynamic Import:**
+\`\`\`javascript
+const module = await import('./heavy-module.js');
+\`\`\``,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'template-literals',
+    topic: 'ES6+ Features',
+    question: 'What are template literals and tagged templates?',
+    answer: `**Template Literals:**
+\`\`\`javascript
+const name = 'World';
+const greeting = \`Hello, \${name}!\`; // "Hello, World!"
+
+// Multi-line strings
+const html = \`
+  <div>
+    <h1>Title</h1>
+    <p>Content</p>
+  </div>
+\`;
+
+// Expressions
+\`Total: \${price * quantity}\`;
+\`Status: \${isActive ? 'Active' : 'Inactive'}\`;
+\`\`\`
+
+**Tagged Templates:**
+\`\`\`javascript
+function highlight(strings, ...values) {
+  return strings.reduce((result, str, i) => {
+    const value = values[i] || '';
+    return result + str + \`<mark>\${value}</mark>\`;
+  }, '');
+}
+
+const name = 'John';
+const age = 30;
+highlight\`Name: \${name}, Age: \${age}\`;
+// "Name: <mark>John</mark>, Age: <mark>30</mark>"
+
+// Common use cases
+// - HTML escaping
+// - Internationalization
+// - CSS-in-JS (styled-components)
+\`\`\``,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'optional-chaining-nullish',
+    topic: 'ES6+ Features',
+    question: 'Explain optional chaining (?.) and nullish coalescing (??)',
+    answer: `**Optional Chaining (?.):**
+Safely access nested properties that might not exist.
+
+\`\`\`javascript
+const user = { profile: { name: 'John' } };
+
+// Without optional chaining
+const city = user && user.address && user.address.city;
+
+// With optional chaining
+const city = user?.address?.city; // undefined (no error)
+
+// With method calls
+user.greet?.(); // Calls if exists
+
+// With arrays
+const first = arr?.[0];
+
+// With nullish coalescing
+const displayName = user?.name ?? 'Anonymous';
+\`\`\`
+
+**Nullish Coalescing (??):**
+Returns right side only for null/undefined (not falsy values).
+
+\`\`\`javascript
+// || returns right side for any falsy value
+0 || 'default';     // 'default'
+'' || 'default';    // 'default'
+false || 'default'; // 'default'
+
+// ?? returns right side only for null/undefined
+0 ?? 'default';     // 0
+'' ?? 'default';    // ''
+null ?? 'default';  // 'default'
+undefined ?? 'default'; // 'default'
+\`\`\``,
+    difficulty: 'Easy'
+  },
+  {
+    id: 'symbol-type',
+    topic: 'JavaScript Basics',
+    question: 'What is the Symbol type in JavaScript?',
+    answer: `Symbol is a primitive type for creating unique identifiers.
+
+\`\`\`javascript
+// Creating symbols
+const sym1 = Symbol('description');
+const sym2 = Symbol('description');
+sym1 === sym2; // false (always unique)
+
+// As object keys (hidden from iteration)
+const id = Symbol('id');
+const user = {
+  name: 'John',
+  [id]: 123
+};
+
+Object.keys(user); // ['name']
+user[id]; // 123
+
+// Well-known symbols
+Symbol.iterator;   // Make objects iterable
+Symbol.toStringTag; // Custom [object X] names
+Symbol.hasInstance; // Custom instanceof behavior
+
+// Global symbol registry
+const globalSym = Symbol.for('shared');
+Symbol.for('shared') === globalSym; // true
+Symbol.keyFor(globalSym); // 'shared'
+\`\`\`
+
+**Use cases:** Private properties, defining protocols, avoiding name collisions.`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'iterators-generators',
+    topic: 'ES6+ Features',
+    question: 'What are Iterators and Generators in JavaScript?',
+    answer: `**Iterators:** Objects with a next() method returning {value, done}.
+
+\`\`\`javascript
+// Custom iterator
+const range = {
+  from: 1,
+  to: 3,
+  [Symbol.iterator]() {
+    return {
+      current: this.from,
+      last: this.to,
+      next() {
+        if (this.current <= this.last) {
+          return { value: this.current++, done: false };
+        }
+        return { done: true };
+      }
+    };
+  }
+};
+
+for (const n of range) console.log(n); // 1, 2, 3
+\`\`\`
+
+**Generators:** Functions that can pause and resume.
+
+\`\`\`javascript
+function* numberGenerator() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+const gen = numberGenerator();
+gen.next(); // { value: 1, done: false }
+gen.next(); // { value: 2, done: false }
+gen.next(); // { value: 3, done: false }
+gen.next(); // { value: undefined, done: true }
+
+// Infinite sequence
+function* fibonacci() {
+  let [a, b] = [0, 1];
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b];
+  }
+}
+\`\`\``,
+    difficulty: 'Hard'
+  },
+  {
+    id: 'proxy-reflect',
+    topic: 'Advanced JavaScript',
+    question: 'What are Proxy and Reflect in JavaScript?',
+    answer: `**Proxy:** Creates a wrapper that intercepts operations on an object.
+
+\`\`\`javascript
+const target = { name: 'John', age: 30 };
+
+const proxy = new Proxy(target, {
+  get(obj, prop) {
+    console.log(\`Getting \${prop}\`);
+    return obj[prop];
+  },
+  set(obj, prop, value) {
+    console.log(\`Setting \${prop} to \${value}\`);
+    if (prop === 'age' && typeof value !== 'number') {
+      throw new TypeError('Age must be a number');
+    }
+    obj[prop] = value;
+    return true;
+  }
+});
+
+proxy.name; // Logs: "Getting name", returns "John"
+proxy.age = 31; // Logs: "Setting age to 31"
+\`\`\`
+
+**Reflect:** Provides methods for interceptable operations.
+
+\`\`\`javascript
+const obj = { x: 1 };
+
+Reflect.get(obj, 'x'); // 1
+Reflect.set(obj, 'y', 2); // true
+Reflect.has(obj, 'x'); // true
+Reflect.deleteProperty(obj, 'x'); // true
+Reflect.ownKeys(obj); // ['y']
+\`\`\`
+
+**Use cases:** Validation, logging, reactive systems, access control.`,
+    difficulty: 'Hard'
+  },
+  {
+    id: 'garbage-collection',
+    topic: 'Memory Management',
+    question: 'How does garbage collection work in JavaScript?',
+    answer: `JavaScript uses automatic memory management with garbage collection.
+
+**Mark-and-Sweep Algorithm:**
+1. Start from "roots" (global variables, call stack)
+2. Mark all reachable objects
+3. Sweep (delete) unmarked objects
+
+**Memory Leaks:**
+\`\`\`javascript
+// 1. Forgotten event listeners
+element.addEventListener('click', handler);
+// Must remove: element.removeEventListener('click', handler);
+
+// 2. Closures holding references
+function outer() {
+  const largeData = new Array(1000000);
+  return function inner() {
+    console.log(largeData.length);
+  };
+}
+
+// 3. Detached DOM nodes
+const elements = [];
+elements.push(document.createElement('div'));
+// element removed from DOM but still in array
+
+// 4. Global variables
+window.largeData = new Array(1000000);
+\`\`\`
+
+**WeakMap/WeakSet for weak references:**
+\`\`\`javascript
+const cache = new WeakMap();
+let obj = { data: 'large' };
+cache.set(obj, 'value');
+obj = null; // Object can be garbage collected
+\`\`\``,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'design-patterns-module',
+    topic: 'Design Patterns',
+    question: 'Explain the Module Pattern in JavaScript.',
+    answer: `The Module Pattern encapsulates private state and exposes a public API.
+
+**IIFE Module Pattern:**
+\`\`\`javascript
+const Counter = (function() {
+  // Private
+  let count = 0;
+  
+  function log() {
+    console.log(\`Count: \${count}\`);
+  }
+  
+  // Public API
+  return {
+    increment() {
+      count++;
+      log();
+    },
+    decrement() {
+      count--;
+      log();
+    },
+    getCount() {
+      return count;
+    }
+  };
+})();
+
+Counter.increment(); // Count: 1
+Counter.getCount();  // 1
+Counter.count;       // undefined (private)
+\`\`\`
+
+**Revealing Module Pattern:**
+\`\`\`javascript
+const Calculator = (function() {
+  function add(a, b) { return a + b; }
+  function subtract(a, b) { return a - b; }
+  
+  return { add, subtract };
+})();
+\`\`\`
+
+Modern alternative: ES Modules with export/import.`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'design-patterns-observer',
+    topic: 'Design Patterns',
+    question: 'Explain the Observer Pattern (Pub/Sub) in JavaScript.',
+    answer: `The Observer Pattern defines a subscription mechanism for events.
+
+\`\`\`javascript
+class EventEmitter {
+  constructor() {
+    this.events = {};
+  }
+  
+  subscribe(event, callback) {
+    if (!this.events[event]) {
+      this.events[event] = [];
+    }
+    this.events[event].push(callback);
+    
+    // Return unsubscribe function
+    return () => {
+      this.events[event] = this.events[event]
+        .filter(cb => cb !== callback);
+    };
+  }
+  
+  emit(event, data) {
+    if (this.events[event]) {
+      this.events[event].forEach(cb => cb(data));
+    }
+  }
+}
+
+// Usage
+const emitter = new EventEmitter();
+
+const unsubscribe = emitter.subscribe('message', (data) => {
+  console.log('Received:', data);
+});
+
+emitter.emit('message', 'Hello!'); // Received: Hello!
+unsubscribe();
+emitter.emit('message', 'World'); // Nothing (unsubscribed)
+\`\`\`
+
+**Use cases:** Event systems, state management, real-time updates.`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'design-patterns-singleton',
+    topic: 'Design Patterns',
+    question: 'Explain the Singleton Pattern in JavaScript.',
+    answer: `The Singleton Pattern ensures only one instance of a class exists.
+
+\`\`\`javascript
+// Class-based Singleton
+class Database {
+  constructor() {
+    if (Database.instance) {
+      return Database.instance;
+    }
+    Database.instance = this;
+    this.connection = 'Connected';
+  }
+  
+  query(sql) {
+    console.log(\`Executing: \${sql}\`);
+  }
+}
+
+const db1 = new Database();
+const db2 = new Database();
+db1 === db2; // true
+
+// Module Singleton (simpler)
+// database.js
+let instance = null;
+
+export function getDatabase() {
+  if (!instance) {
+    instance = {
+      connection: 'Connected',
+      query(sql) { console.log(sql); }
+    };
+  }
+  return instance;
+}
+
+// Or just export an object (ES modules are singletons)
+export const database = {
+  connection: 'Connected',
+  query(sql) { console.log(sql); }
+};
+\`\`\`
+
+**Use cases:** Database connections, configuration, logging.`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'design-patterns-factory',
+    topic: 'Design Patterns',
+    question: 'Explain the Factory Pattern in JavaScript.',
+    answer: `The Factory Pattern creates objects without specifying exact classes.
+
+\`\`\`javascript
+// Simple Factory
+function createUser(type) {
+  if (type === 'admin') {
+    return { role: 'admin', permissions: ['read', 'write', 'delete'] };
+  }
+  if (type === 'guest') {
+    return { role: 'guest', permissions: ['read'] };
+  }
+  return { role: 'user', permissions: ['read', 'write'] };
+}
+
+// Factory with classes
+class Car {
+  constructor(model) { this.model = model; }
+}
+
+class Truck {
+  constructor(model) { this.model = model; }
+}
+
+class VehicleFactory {
+  create(type, model) {
+    switch (type) {
+      case 'car': return new Car(model);
+      case 'truck': return new Truck(model);
+      default: throw new Error(\`Unknown type: \${type}\`);
+    }
+  }
+}
+
+const factory = new VehicleFactory();
+const car = factory.create('car', 'Tesla');
+const truck = factory.create('truck', 'Ford');
+\`\`\`
+
+**Use cases:** Object creation abstraction, dependency injection.`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'security-xss',
+    topic: 'Security',
+    question: 'What is XSS and how do you prevent it in JavaScript?',
+    answer: `**XSS (Cross-Site Scripting):** Injecting malicious scripts into web pages.
+
+**Types:**
+1. **Stored XSS:** Script stored in database
+2. **Reflected XSS:** Script in URL parameters
+3. **DOM XSS:** Script manipulates DOM directly
+
+**Prevention:**
+
+**1. Escape HTML output:**
+\`\`\`javascript
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Or use DOMPurify library
+const clean = DOMPurify.sanitize(userInput);
+\`\`\`
+
+**2. Use textContent instead of innerHTML:**
+\`\`\`javascript
+// Vulnerable
+element.innerHTML = userInput;
+
+// Safe
+element.textContent = userInput;
+\`\`\`
+
+**3. Set Content-Security-Policy headers:**
+\`\`\`
+Content-Security-Policy: default-src 'self'; script-src 'self'
+\`\`\`
+
+**4. Use HttpOnly cookies for sensitive data**
+
+**5. Validate and sanitize all inputs**`,
+    difficulty: 'Hard'
+  },
+  {
+    id: 'security-csrf',
+    topic: 'Security',
+    question: 'What is CSRF and how do you prevent it?',
+    answer: `**CSRF (Cross-Site Request Forgery):** Attacker tricks user into performing unwanted actions on an authenticated site.
+
+**Example Attack:**
+\`\`\`html
+<!-- On malicious site -->
+<img src="https://bank.com/transfer?to=attacker&amount=10000">
+\`\`\`
+
+**Prevention:**
+
+**1. CSRF Tokens:**
+\`\`\`javascript
+// Server generates token
+const csrfToken = generateSecureToken();
+
+// Include in forms
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+// Include in AJAX
+fetch('/api/data', {
+  headers: {
+    'X-CSRF-Token': csrfToken
+  }
+});
+\`\`\`
+
+**2. SameSite Cookies:**
+\`\`\`javascript
+Set-Cookie: session=abc; SameSite=Strict; Secure; HttpOnly
+\`\`\`
+
+**3. Check Origin/Referer headers:**
+\`\`\`javascript
+if (request.headers.origin !== 'https://mysite.com') {
+  throw new Error('Invalid origin');
+}
+\`\`\`
+
+**4. Require re-authentication for sensitive actions**`,
+    difficulty: 'Hard'
+  },
+  {
+    id: 'web-workers',
+    topic: 'Web APIs',
+    question: 'What are Web Workers and how do you use them?',
+    answer: `Web Workers run JavaScript in background threads, without blocking the UI.
+
+**Main Thread (main.js):**
+\`\`\`javascript
+// Create worker
+const worker = new Worker('worker.js');
+
+// Send data to worker
+worker.postMessage({ data: [1, 2, 3, 4, 5] });
+
+// Receive result from worker
+worker.onmessage = (event) => {
+  console.log('Result:', event.data);
+};
+
+// Handle errors
+worker.onerror = (error) => {
+  console.error('Worker error:', error);
+};
+
+// Terminate worker
+worker.terminate();
+\`\`\`
+
+**Worker (worker.js):**
+\`\`\`javascript
+// Receive message
+self.onmessage = (event) => {
+  const { data } = event.data;
+  
+  // Heavy computation
+  const result = data.map(n => n * n);
+  
+  // Send result back
+  self.postMessage(result);
+};
+\`\`\`
+
+**Limitations:**
+- No DOM access
+- No window object
+- Different global scope (self)
+- Can use importScripts() for libraries
+
+**Use cases:** Image processing, data parsing, complex calculations.`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'intersection-observer',
+    topic: 'Web APIs',
+    question: 'What is the Intersection Observer API?',
+    answer: `Intersection Observer detects when elements enter/exit the viewport.
+
+\`\`\`javascript
+// Create observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      console.log('Element visible:', entry.target);
+      entry.target.classList.add('visible');
+    }
+  });
+}, {
+  root: null,           // viewport
+  rootMargin: '0px',    // margin around root
+  threshold: 0.5        // 50% visible triggers callback
+});
+
+// Observe elements
+document.querySelectorAll('.lazy-section').forEach(el => {
+  observer.observe(el);
+});
+
+// Stop observing
+observer.unobserve(element);
+observer.disconnect(); // Stop all
+\`\`\`
+
+**Common Use Cases:**
+\`\`\`javascript
+// Lazy loading images
+const imageObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      img.src = img.dataset.src;
+      imageObserver.unobserve(img);
+    }
+  });
+});
+
+// Infinite scroll
+// Animate on scroll
+// Ad viewability tracking
+\`\`\``,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'mutation-observer',
+    topic: 'Web APIs',
+    question: 'What is the MutationObserver API?',
+    answer: `MutationObserver watches for changes to the DOM tree.
+
+\`\`\`javascript
+// Create observer
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach(mutation => {
+    console.log('Mutation type:', mutation.type);
+    
+    if (mutation.type === 'childList') {
+      console.log('Added nodes:', mutation.addedNodes);
+      console.log('Removed nodes:', mutation.removedNodes);
+    }
+    
+    if (mutation.type === 'attributes') {
+      console.log('Changed attribute:', mutation.attributeName);
+    }
+  });
+});
+
+// Start observing
+observer.observe(targetElement, {
+  childList: true,     // Watch children add/remove
+  attributes: true,    // Watch attribute changes
+  characterData: true, // Watch text content changes
+  subtree: true,       // Watch all descendants
+  attributeOldValue: true,    // Record old attribute value
+  characterDataOldValue: true // Record old text value
+});
+
+// Stop observing
+observer.disconnect();
+
+// Take pending records
+const records = observer.takeRecords();
+\`\`\`
+
+**Use cases:** Framework reactivity, DOM change tracking, dynamic content.`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'fetch-api',
+    topic: 'Web APIs',
+    question: 'Explain the Fetch API and how to handle errors.',
+    answer: `Fetch is a modern API for making HTTP requests.
+
+\`\`\`javascript
+// Basic GET
+const response = await fetch('/api/users');
+const data = await response.json();
+
+// POST with options
+const response = await fetch('/api/users', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer token'
+  },
+  body: JSON.stringify({ name: 'John' })
+});
+
+// Error handling (fetch only rejects on network errors)
+async function fetchData(url) {
+  try {
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(\`HTTP error: \${response.status}\`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    if (error.name === 'TypeError') {
+      console.error('Network error:', error);
+    } else {
+      console.error('Request failed:', error);
+    }
+    throw error;
+  }
+}
+
+// AbortController for cancellation
+const controller = new AbortController();
+setTimeout(() => controller.abort(), 5000);
+
+fetch(url, { signal: controller.signal })
+  .catch(err => {
+    if (err.name === 'AbortError') {
+      console.log('Request cancelled');
+    }
+  });
+\`\`\``,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'structuredclone',
+    topic: 'JavaScript Basics',
+    question: 'What is structuredClone() and how is it different from JSON methods?',
+    answer: `\`structuredClone()\` creates a deep clone of objects, handling more types than JSON.
+
+\`\`\`javascript
+const original = {
+  date: new Date(),
+  regex: /test/gi,
+  map: new Map([['a', 1]]),
+  set: new Set([1, 2, 3]),
+  arrayBuffer: new ArrayBuffer(8),
+  nested: { deep: { value: 42 } }
+};
+
+// structuredClone handles all these types
+const clone = structuredClone(original);
+clone.nested.deep.value = 100;
+original.nested.deep.value; // Still 42
+
+// JSON loses type information
+const jsonClone = JSON.parse(JSON.stringify(original));
+// date becomes string, regex becomes {}, map/set become {}
+\`\`\`
+
+**structuredClone advantages:**
+- Handles circular references
+- Preserves Date, RegExp, Map, Set, ArrayBuffer, etc.
+- Native and fast
+
+**Limitations:**
+\`\`\`javascript
+// Cannot clone:
+// - Functions
+// - DOM nodes
+// - Symbol properties
+// - Property descriptors (getters/setters)
+// - Prototype chain
+
+const obj = {
+  fn: () => {},  // Will throw error
+};
+structuredClone(obj); // DataCloneError
+\`\`\``,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'bigint',
+    topic: 'JavaScript Basics',
+    question: 'What is BigInt and when would you use it?',
+    answer: `BigInt handles integers larger than Number.MAX_SAFE_INTEGER (2^53 - 1).
+
+\`\`\`javascript
+// Creating BigInt
+const big1 = 9007199254740991n; // n suffix
+const big2 = BigInt('9007199254740991');
+const big3 = BigInt(123);
+
+// Problem with regular numbers
+Number.MAX_SAFE_INTEGER; // 9007199254740991
+9007199254740992 === 9007199254740993; // true! 
+
+// BigInt handles it correctly
+9007199254740992n === 9007199254740993n; // false
+
+// Operations
+const a = 10n;
+const b = 3n;
+a + b;  // 13n
+a - b;  // 7n
+a * b;  // 30n
+a / b;  // 3n (truncates, no decimals)
+a % b;  // 1n
+
+// Cannot mix with Number
+10n + 5;  // TypeError
+10n + BigInt(5); // 15n
+Number(10n) + 5; // 15
+
+// Comparison works with mixed types
+10n > 5;  // true
+10n === 10;  // false (different types)
+10n == 10;   // true (loose equality)
+\`\`\`
+
+**Use cases:** Cryptography, high-precision timestamps, large IDs.`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'polyfill-transpile',
+    topic: 'JavaScript Basics',
+    question: 'What is the difference between a polyfill and transpiling?',
+    answer: `**Polyfill:** Adds missing functionality at runtime.
+
+\`\`\`javascript
+// Polyfill for Array.includes
+if (!Array.prototype.includes) {
+  Array.prototype.includes = function(element) {
+    return this.indexOf(element) !== -1;
+  };
+}
+
+// Polyfill for Promise.allSettled
+if (!Promise.allSettled) {
+  Promise.allSettled = function(promises) {
+    return Promise.all(promises.map(p =>
+      p.then(value => ({ status: 'fulfilled', value }))
+       .catch(reason => ({ status: 'rejected', reason }))
+    ));
+  };
+}
+
+// Common: core-js, polyfill.io
+\`\`\`
+
+**Transpiling:** Converts modern syntax to older syntax at build time.
+
+\`\`\`javascript
+// ES6 Input (Babel processes this)
+const add = (a, b) => a + b;
+class Person { }
+const { name } = obj;
+
+// ES5 Output
+var add = function(a, b) { return a + b; };
+function Person() { }
+var name = obj.name;
+\`\`\`
+
+**Key difference:**
+- **Polyfills** add new APIs (methods, objects)
+- **Transpilers** convert new syntax to old syntax
+
+Both are often used together (Babel + core-js).`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'error-handling-patterns',
+    topic: 'Error Handling',
+    question: 'What are best practices for error handling in JavaScript?',
+    answer: `**1. Use try/catch for expected errors:**
+\`\`\`javascript
+async function fetchUser(id) {
+  try {
+    const response = await fetch(\`/api/users/\${id}\`);
+    if (!response.ok) throw new Error('User not found');
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    return null;
+  }
+}
+\`\`\`
+
+**2. Create custom error classes:**
+\`\`\`javascript
+class ValidationError extends Error {
+  constructor(field, message) {
+    super(message);
+    this.name = 'ValidationError';
+    this.field = field;
+  }
+}
+
+throw new ValidationError('email', 'Invalid email format');
+\`\`\`
+
+**3. Global error handlers:**
+\`\`\`javascript
+// Browser
+window.onerror = (message, source, line, col, error) => {
+  logError({ message, source, line, col, error });
+};
+
+window.onunhandledrejection = (event) => {
+  logError({ reason: event.reason });
+};
+\`\`\`
+
+**4. Fail fast, recover gracefully:**
+\`\`\`javascript
+function processData(data) {
+  if (!data) throw new Error('Data is required');
+  // Process...
+}
+\`\`\`
+
+**5. Don't swallow errors silently:**
+\`\`\`javascript
+// Bad
+try { riskyOperation(); } catch (e) { }
+
+// Good
+try { riskyOperation(); } catch (e) { 
+  logger.error(e);
+}
+\`\`\``,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'call-apply-bind',
+    topic: 'JavaScript Basics',
+    question: 'Explain call(), apply(), and bind() methods.',
+    answer: `These methods explicitly set the \`this\` value for functions.
+
+**call():** Invokes function with given this + individual arguments.
+\`\`\`javascript
+function greet(greeting, punctuation) {
+  console.log(\`\${greeting}, \${this.name}\${punctuation}\`);
+}
+
+const person = { name: 'John' };
+greet.call(person, 'Hello', '!'); // "Hello, John!"
+\`\`\`
+
+**apply():** Same as call, but arguments as array.
+\`\`\`javascript
+greet.apply(person, ['Hi', '?']); // "Hi, John?"
+
+// Useful for spreading array as arguments
+Math.max.apply(null, [1, 5, 3]); // 5
+// Modern: Math.max(...[1, 5, 3])
+\`\`\`
+
+**bind():** Returns new function with bound this (doesn't invoke).
+\`\`\`javascript
+const boundGreet = greet.bind(person);
+boundGreet('Hey', '.'); // "Hey, John."
+
+// Partial application
+const sayHello = greet.bind(person, 'Hello');
+sayHello('!!!'); // "Hello, John!!!"
+
+// Common use: event handlers
+class Button {
+  constructor() {
+    this.clicked = 0;
+    // Without bind, 'this' would be the DOM element
+    this.handleClick = this.handleClick.bind(this);
+  }
+}
+\`\`\`
+
+**Summary:**
+- call/apply: invoke immediately
+- bind: returns bound function`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'settimeout-setinterval',
+    topic: 'Asynchronous JavaScript',
+    question: 'Explain setTimeout and setInterval with their gotchas.',
+    answer: `**setTimeout:** Executes function once after delay.
+\`\`\`javascript
+const timerId = setTimeout(() => {
+  console.log('Delayed');
+}, 1000);
+
+clearTimeout(timerId); // Cancel
+\`\`\`
+
+**setInterval:** Executes repeatedly at interval.
+\`\`\`javascript
+const intervalId = setInterval(() => {
+  console.log('Repeating');
+}, 1000);
+
+clearInterval(intervalId); // Cancel
+\`\`\`
+
+**Gotcha 1: Minimum delay is ~4ms**
+\`\`\`javascript
+setTimeout(() => {}, 0); // Not instant, goes to queue
+\`\`\`
+
+**Gotcha 2: setInterval can stack**
+\`\`\`javascript
+// If callback takes longer than interval:
+setInterval(() => {
+  heavyOperation(); // Takes 1500ms
+}, 1000);
+// Calls will stack up!
+
+// Better: recursive setTimeout
+function repeat() {
+  heavyOperation();
+  setTimeout(repeat, 1000); // Waits AFTER completion
+}
+\`\`\`
+
+**Gotcha 3: 'this' in callbacks**
+\`\`\`javascript
+class Timer {
+  start() {
+    setTimeout(function() {
+      console.log(this); // window, not Timer!
+    }, 100);
+    
+    setTimeout(() => {
+      console.log(this); // Timer (arrow function)
+    }, 100);
+  }
+}
+\`\`\``,
+    difficulty: 'Easy'
+  },
+  {
+    id: 'debounce-throttle',
+    topic: 'Performance',
+    question: 'Explain debouncing and throttling with implementations.',
+    answer: `**Debounce:** Delays execution until activity stops.
+\`\`\`javascript
+function debounce(fn, delay) {
+  let timeoutId;
+  return function(...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
+// Usage: Search input
+const debouncedSearch = debounce((query) => {
+  fetchResults(query);
+}, 300);
+
+input.addEventListener('input', (e) => {
+  debouncedSearch(e.target.value);
+});
+\`\`\`
+
+**Throttle:** Limits execution to once per time period.
+\`\`\`javascript
+function throttle(fn, limit) {
+  let inThrottle;
+  return function(...args) {
+    if (!inThrottle) {
+      fn.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
+}
+
+// Usage: Scroll handler
+const throttledScroll = throttle(() => {
+  updateScrollPosition();
+}, 100);
+
+window.addEventListener('scroll', throttledScroll);
+\`\`\`
+
+**When to use:**
+- **Debounce:** Search inputs, form validation, resize handlers
+- **Throttle:** Scroll events, mouse move, API rate limiting`,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'promise-methods',
+    topic: 'Asynchronous JavaScript',
+    question: 'Explain Promise.all, Promise.allSettled, Promise.race, and Promise.any.',
+    answer: `**Promise.all:** Waits for ALL to fulfill, rejects on first rejection.
+\`\`\`javascript
+const results = await Promise.all([
+  fetch('/api/users'),
+  fetch('/api/posts'),
+  fetch('/api/comments')
+]);
+// If any rejects, entire Promise.all rejects
+\`\`\`
+
+**Promise.allSettled:** Waits for ALL to settle (fulfill or reject).
+\`\`\`javascript
+const results = await Promise.allSettled([
+  Promise.resolve(1),
+  Promise.reject('error'),
+  Promise.resolve(3)
+]);
+// [
+//   { status: 'fulfilled', value: 1 },
+//   { status: 'rejected', reason: 'error' },
+//   { status: 'fulfilled', value: 3 }
+// ]
+\`\`\`
+
+**Promise.race:** Returns first to settle (fulfill or reject).
+\`\`\`javascript
+const result = await Promise.race([
+  fetch('/api/data'),
+  new Promise((_, reject) => 
+    setTimeout(() => reject('Timeout'), 5000)
+  )
+]);
+\`\`\`
+
+**Promise.any:** Returns first to fulfill, rejects only if ALL reject.
+\`\`\`javascript
+const result = await Promise.any([
+  fetch('/server1/data'),
+  fetch('/server2/data'),
+  fetch('/server3/data')
+]);
+// First successful response wins
+\`\`\``,
+    difficulty: 'Medium'
+  },
+  {
+    id: 'currying',
+    topic: 'Functional Programming',
+    question: 'What is currying in JavaScript?',
+    answer: `Currying transforms a function with multiple arguments into a sequence of functions with single arguments.
+
+\`\`\`javascript
+// Regular function
+function add(a, b, c) {
+  return a + b + c;
+}
+add(1, 2, 3); // 6
+
+// Curried version
+function curriedAdd(a) {
+  return function(b) {
+    return function(c) {
+      return a + b + c;
+    };
+  };
+}
+curriedAdd(1)(2)(3); // 6
+
+// Arrow function syntax
+const curriedAdd = a => b => c => a + b + c;
+
+// Generic curry function
+function curry(fn) {
+  return function curried(...args) {
+    if (args.length >= fn.length) {
+      return fn.apply(this, args);
+    }
+    return function(...nextArgs) {
+      return curried.apply(this, args.concat(nextArgs));
+    };
+  };
+}
+
+const curriedSum = curry((a, b, c) => a + b + c);
+curriedSum(1)(2)(3); // 6
+curriedSum(1, 2)(3); // 6
+curriedSum(1)(2, 3); // 6
+\`\`\`
+
+**Use cases:** Partial application, event handlers, configuration.`,
+    difficulty: 'Hard'
+  },
+  {
+    id: 'memoization',
+    topic: 'Performance',
+    question: 'What is memoization and how do you implement it?',
+    answer: `Memoization caches function results to avoid repeated calculations.
+
+\`\`\`javascript
+// Simple memoize
+function memoize(fn) {
+  const cache = new Map();
+  
+  return function(...args) {
+    const key = JSON.stringify(args);
+    
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    
+    const result = fn.apply(this, args);
+    cache.set(key, result);
+    return result;
+  };
+}
+
+// Usage
+const expensiveCalc = memoize((n) => {
+  console.log('Calculating...');
+  return n * n;
+});
+
+expensiveCalc(5); // "Calculating...", 25
+expensiveCalc(5); // 25 (cached, no log)
+
+// Fibonacci with memoization
+const fibonacci = memoize((n) => {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+});
+
+fibonacci(50); // Instant (without memo would be extremely slow)
+\`\`\`
+
+**With cache limit:**
+\`\`\`javascript
+function memoizeWithLimit(fn, limit = 100) {
+  const cache = new Map();
+  
+  return function(...args) {
+    const key = JSON.stringify(args);
+    
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    
+    const result = fn.apply(this, args);
+    
+    if (cache.size >= limit) {
+      const firstKey = cache.keys().next().value;
+      cache.delete(firstKey);
+    }
+    
+    cache.set(key, result);
+    return result;
+  };
+}
 \`\`\``,
     difficulty: 'Medium'
   }

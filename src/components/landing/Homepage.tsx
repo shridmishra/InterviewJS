@@ -30,14 +30,14 @@ export const HomePage = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <header className="flex justify-between items-center py-4">
           <div className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
-            practice<span className="gradient-text">JS</span>
+            interview<span className="gradient-text">JS</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="flex items-center gap-2">
               <button
 
                 className="hidden lg:flex items-center gap-2 text-foreground hover:text-muted-foreground"
-                onClick={() => window.open("https://github.com/shridmishra/practicejs", "_blank")}
+                onClick={() => window.open("https://github.com/shridmishra/interviewjs", "_blank")}
               >
                 Give a star <VscGithubInverted className="w-5 h-5" />
               </button>

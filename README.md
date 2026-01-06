@@ -1,6 +1,6 @@
 <div align="center">
 
-# PracticeJS
+# InterviewJS
 
 ### *Master JavaScript & TypeScript Through Interactive Challenges*
 
@@ -13,10 +13,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/shridmishra/practicejs?style=social" alt="Stars" />
-  <img src="https://img.shields.io/github/forks/shridmishra/practicejs?style=social" alt="Forks" />
-  <img src="https://img.shields.io/github/issues/shridmishra/practicejs" alt="Issues" />
-  <img src="https://img.shields.io/github/license/shridmishra/practicejs" alt="License" />
+  <img src="https://img.shields.io/github/stars/shridmishra/interviewjs?style=social" alt="Stars" />
+  <img src="https://img.shields.io/github/forks/shridmishra/interviewjs?style=social" alt="Forks" />
+  <img src="https://img.shields.io/github/issues/shridmishra/interviewjs" alt="Issues" />
+  <img src="https://img.shields.io/github/license/shridmishra/interviewjs" alt="License" />
 </p>
 
 </div>
@@ -152,7 +152,7 @@
 
 ## 🚀 Getting Started
 
-> **Quick Start Guide** - Get PracticeJS running locally in under 5 minutes!
+> **Quick Start Guide** - Get InterviewJS running locally in under 5 minutes!
 
 ### 📋 Prerequisites
 
@@ -167,8 +167,8 @@ Google OAuth credentials (optional)
 **1️⃣ Clone the repository**
 
 ```bash
-git clone https://github.com/shridmishra/practicejs.git
-cd practicejs
+git clone https://github.com/shridmishra/interviewjs.git
+cd interviewjs
 ```
 
 **2️⃣ Install dependencies**
@@ -183,9 +183,9 @@ Create a `.env.local` file in the root directory:
 
 ```env
 # MongoDB Connection
-MONGO_URI=mongodb://localhost:27017/practicejs
+MONGO_URI=mongodb://localhost:27017/interviewjs
 # or use MongoDB Atlas:
-# MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/practicejs
+# MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/interviewjs
 
 # NextAuth Configuration
 NEXTAUTH_SECRET=your-secret-key-here-generate-with-openssl
@@ -220,7 +220,7 @@ Navigate to [http://localhost:3000](http://localhost:3000) 🎉
 
 ---
 
-## � Project Structure
+## 📁 Project Structure
 
 ```text
 src/
@@ -248,7 +248,7 @@ src/
 
 ---
 
-## �️ Architecture Highlights
+## 🏗️ Architecture Highlights
 
 <table>
 <tr>
@@ -471,7 +471,7 @@ Special thanks to these amazing projects and communities:
 - 🎭 [**Framer Motion**](https://www.framer.com/motion/) - Animation library
 - 🌈 [**Tailwind CSS**](https://tailwindcss.com/) - Utility-first CSS framework
 
-And all the **contributors** who help make PracticeJS better! 🎉
+And all the **contributors** who help make InterviewJS better! 🎉
 
 ---
 
@@ -481,7 +481,7 @@ And all the **contributors** who help make PracticeJS better! 🎉
 
 <br/>
 
-![Star History](https://img.shields.io/github/stars/shridmishra/practicejs?style=social)
+![Star History](https://img.shields.io/github/stars/shridmishra/interviewjs?style=social)
 
 <br/>
 <br/>
@@ -490,6 +490,6 @@ And all the **contributors** who help make PracticeJS better! 🎉
 
 <br/>
 
-<sub>© 2025 PracticeJS. All rights reserved.</sub>
+<sub>© 2025 InterviewJS. All rights reserved.</sub>
 
 </div>

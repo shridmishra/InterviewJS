@@ -567,7 +567,7 @@ Your implementation should:
 }
 
 // Example usage
-const symbols = ['🍎', '🍋', '🍇', '🍊', '🍓', '🍑'];`,
+const symbols = ['A', 'B', 'C', 'D', 'E', 'F'];`,
     testCases: [],
     solutionCheck: (userCode: string) => {
       const hasShuffle = userCode.includes('shuffle') || userCode.includes('random');

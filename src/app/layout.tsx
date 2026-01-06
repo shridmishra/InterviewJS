@@ -31,12 +31,12 @@ const satoshi = localFont({
   variable: '--font-satoshi',
 });
 
-const title = 'Practice JS';
+const title = 'InterviewJS';
 const description =
   'The ultimate platform for developers to practice JavaScript, tackle coding challenges, and prepare for technical topics.';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://practicejs.shrid.in'),
+  metadataBase: new URL('https://interviewjs.shrid.in'),
   title,
   description,
   keywords: [
@@ -164,11 +164,11 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: 'https://practicejs.shrid.in',
-    siteName: 'Practice JS',
+    url: 'https://interviewjs.shrid.in',
+    siteName: 'InterviewJS',
     images: [
       {
-        url: 'https://practicejs.shrid.in/og-image.png',
+        url: 'https://interviewjs.shrid.in/og-image.png',
         width: 1200,
         height: 630,
       },
@@ -181,7 +181,7 @@ export const metadata: Metadata = {
     title,
     description,
     creator: '@shridmishra',
-    images: ['https://practicejs.shrid.in/twitter-image.png'],
+    images: ['https://interviewjs.shrid.in/twitter-image.png'],
   },
   icons: {
     icon: [

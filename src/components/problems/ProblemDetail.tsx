@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Problem, ProblemStatus, TestResult } from '../../types';
 import { Button } from '@/components/ui/button';
 import CodeEditor from '../common/CodeEditor';
@@ -37,6 +41,28 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, topicSlug, 
         setCode(problem.starterCode);
         toast.info('Code has been reset.');
     };
+
+    // Handle fullscreen toggle
+    const toggleFullscreen = () => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+            });
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    };
+
+    // Sync fullscreen state with browser
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullScreen(!!document.fullscreenElement);
+        };
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    }, []);
 
     const handleRunTests = async () => {
         setIsRunning(true);
@@ -78,15 +104,8 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, topicSlug, 
         setIsRunning(false);
     }
 
-    const renderDescription = (description: string) => {
-        const parts = description.split('`');
-        return parts.map((part, index) => {
-            if (index % 2 === 1) {
-                return <span key={index} className="text-primary px-1 py-0.5 rounded-md font-mono text-sm">{part}</span>;
-            }
-            return part;
-        });
-    };
+    // renderDescription function removed
+
 
     const getYouTubeEmbedUrl = (url: string): string | null => {
         try {
@@ -163,7 +182,49 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, topicSlug, 
                                 <Badge variant={problem.difficulty === 'Easy' ? 'default' : problem.difficulty === 'Medium' ? 'secondary' : 'destructive'}>{problem.difficulty}</Badge>
                                 <span className="text-sm text-muted-foreground">{problem.category}</span>
                             </div>
-                            <p className="text-foreground leading-relaxed whitespace-pre-wrap mb-6">{renderDescription(problem.description)}</p>
+                            <div className="text-foreground leading-relaxed mb-6 prose dark:prose-invert max-w-none">
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    components={{
+                                        code({ inline, className, children, ...props }: { inline?: boolean; className?: string; children?: React.ReactNode;[key: string]: any }) {
+                                            const match = /language-(\w+)/.exec(className || '');
+                                            if (match) {
+                                                return (
+                                                    <SyntaxHighlighter
+                                                        style={vscDarkPlus}
+                                                        language={match[1]}
+                                                        PreTag="div"
+                                                        className="rounded-lg !bg-background/20 !p-4 text-sm border border-border/50 my-4 shadow-sm"
+                                                        {...props}
+                                                    >
+                                                        {String(children).replace(/\n$/, '')}
+                                                    </SyntaxHighlighter>
+                                                );
+                                            }
+                                            return (
+                                                <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-primary font-medium" {...props}>{children}</code>
+                                            );
+                                            return (
+                                                <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-primary font-medium" {...props}>{children}</code>
+                                            );
+                                        },
+                                        h1: ({ children, ...props }) => <h1 className="text-2xl font-bold mt-6 mb-3 text-foreground" {...props}>{children}</h1>,
+                                        h2: ({ children, ...props }) => <h2 className="text-xl font-bold mt-6 mb-3 text-foreground" {...props}>{children}</h2>,
+                                        h3: ({ children, ...props }) => <h3 className="text-lg font-semibold mt-4 mb-2 text-foreground" {...props}>{children}</h3>,
+                                        p: (props) => <p className="mb-4 leading-relaxed text-foreground" {...props} />,
+                                        ul: (props) => <ul className="mb-4 space-y-2 list-disc pl-6 text-foreground" {...props} />,
+                                        ol: (props) => <ol className="mb-4 space-y-2 list-decimal pl-6 text-foreground" {...props} />,
+                                        li: (props) => <li className="leading-relaxed pl-1" {...props} />,
+                                        strong: (props) => <strong className="font-bold text-foreground" {...props} />,
+                                        blockquote: (props) => <blockquote className="border-l-4 border-primary/40 pl-4 italic my-4 text-muted-foreground bg-muted/20 py-2 pr-2 rounded-r" {...props} />,
+                                        table: (props) => <div className="overflow-x-auto my-4 rounded-lg border border-border"><table className="min-w-full divide-y divide-border" {...props} /></div>,
+                                        th: (props) => <th className="bg-muted/50 px-4 py-3 text-left font-semibold text-foreground" {...props} />,
+                                        td: (props) => <td className="px-4 py-3 border-t border-border/50 text-foreground" {...props} />,
+                                    }}
+                                >
+                                    {problem.description}
+                                </ReactMarkdown>
+                            </div>
 
                             <div>
                                 <h3 className="text-lg font-semibold text-foreground mb-3">Examples</h3>
@@ -218,7 +279,7 @@ const ProblemDetail: React.FC<ProblemSolvingPageProps> = ({ problem, topicSlug, 
                                 <Button variant="ghost" size="sm" onClick={handleClearCode} className="text-muted-foreground hover:text-destructive flex items-center gap-2">
                                     <FiTrash2 /> Clear
                                 </Button>
-                                <Button variant="ghost" size="sm" onClick={() => setIsFullScreen(!isFullScreen)} className="text-muted-foreground hover:text-foreground">
+                                <Button variant="ghost" size="sm" onClick={toggleFullscreen} className="text-muted-foreground hover:text-foreground">
                                     {isFullScreen ? <FiMinimize /> : <FiMaximize />}
                                 </Button>
                             </div>

@@ -11,9 +11,9 @@ export const Footer = () => {
     <div className="container">
       <div className="flex flex-col justify-center items-center text-center">
         <h1 className="text-2xl font-bold text-white tracking-tight">
-            practice<span className="gradient-text">JS</span>
-          </h1>
-        
+          interview<span className="gradient-text">JS</span>
+        </h1>
+
 
         <div className="flex mt-6 gap-6 justify-center">
           <a href="https://x.com/shridmishra" target="_blank" rel="noopener noreferrer">
@@ -22,7 +22,7 @@ export const Footer = () => {
           <a href="https://linkedin.com/in/shridmishra" target="_blank" rel="noopener noreferrer">
             <Linkedin />
           </a>
-          <a href="https://github.com/shridmishra/practicejs" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/shridmishra/interviewjs" target="_blank" rel="noopener noreferrer">
             <FaGithub className="w-6 h-6" />
           </a>
         </div>
