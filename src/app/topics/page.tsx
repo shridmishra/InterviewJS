@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiMongodb, SiExpress, SiNodedotjs, SiPrisma, SiHtml5, SiPostgresql, SiCss3 } from 'react-icons/si';
 import { FaYoutube } from 'react-icons/fa';
-import { LayoutGrid, LayoutList, Play, Code, MessageCircleQuestion } from 'lucide-react';
+import { LayoutGrid, LayoutList, Play, Code, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -302,7 +302,7 @@ export default function TopicsPage() {
                 </SelectContent>
               </Select>
 
-              <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value as 'card' | 'list')} className="hidden md:inline-flex">
+              <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value as 'card' | 'list')} className="hidden  md:inline-flex border-border">
                 <ToggleGroupItem value="card" aria-label="Card view">
                   <LayoutGrid className="h-4 w-4" />
                 </ToggleGroupItem>
@@ -373,8 +373,8 @@ export default function TopicsPage() {
                               className="flex-1 text-foreground/80 hover:text-foreground border-border/60 hover:bg-accent h-9"
                               onClick={() => handleTopicClick(topic.questions)}
                             >
-                              <MessageCircleQuestion className="h-4 w-4 mr-1.5" />
-                              Interview Q&A
+                              <BookOpen className="h-4 w-4 mr-1.5" />
+                              Interview Theory
                             </Button>
                             {topic.playlistUrl && (
                               <Button
@@ -459,8 +459,8 @@ export default function TopicsPage() {
                             className="flex-1 text-foreground/80 hover:text-foreground border-border/60 hover:bg-accent h-9"
                             onClick={() => handleTopicClick(topic.questions)}
                           >
-                            <MessageCircleQuestion className="h-4 w-4 mr-1.5" />
-                            Interview Q&A
+                            <BookOpen className="h-4 w-4 mr-1.5" />
+                            Interview Theory
                           </Button>
                           {topic.playlistUrl && (
                             <Button

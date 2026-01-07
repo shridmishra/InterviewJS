@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, X, Maximize2, Minimize2, Trophy } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Maximize2, Minimize2, Trophy, RefreshCw, ArrowRight, Minus, Plus } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { TopicQuestion } from '@/data/topics/types';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { HelpCircle } from 'lucide-react';
 
 interface TopicModalProps {
     isOpen: boolean;
@@ -22,9 +24,8 @@ export function TopicModal({ isOpen, onClose, questions, startIndex, onSelectTop
     const [currentIndex, setCurrentIndex] = useState(startIndex);
     const [showCompletion, setShowCompletion] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [showFooter, setShowFooter] = useState(true);
+    const [fontSize, setFontSize] = useState(16); // Default font size
     const scrollRef = useRef<HTMLDivElement>(null);
-    const lastScrollTop = useRef(0);
     const [suggestedTopics, setSuggestedTopics] = useState<string[]>([]);
 
     // Touch/swipe handling refs
@@ -150,6 +151,8 @@ export function TopicModal({ isOpen, onClose, questions, startIndex, onSelectTop
         }
     };
 
+
+
     // Sync fullscreen state with browser
     useEffect(() => {
         const handleFullscreenChange = () => {
@@ -165,7 +168,6 @@ export function TopicModal({ isOpen, onClose, questions, startIndex, onSelectTop
         setPrevQuestions(questions);
         setCurrentIndex(startIndex);
         setShowCompletion(false);
-        setShowFooter(true);
     }
 
 
@@ -192,31 +194,80 @@ export function TopicModal({ isOpen, onClose, questions, startIndex, onSelectTop
     };
 
 
+    if (!currentQuestion) return null;
+
+
     return (
         <Dialog
             open={isOpen}
             onOpenChange={(open) => !open && onClose()}
         >
-            <DialogContent className={`w-full flex flex-col p-0 gap-0 overflow-hidden bg-background border-border shadow-2xl focus:outline-none transition-all duration-300 ${isFullscreen ? 'h-[100dvh] min-w-full rounded-none sm:rounded-none' : 'h-[100dvh] sm:h-[85vh] sm:max-w-3xl sm:rounded-xl'}`} showCloseButton={false}>
+            <DialogContent
+                overlayClassName={!isFullscreen ? "backdrop-blur-md" : ""}
+                className={`w-full flex flex-col p-0 gap-0 overflow-hidden bg-background border-border shadow-2xl focus:outline-none transition-all duration-300 ${isFullscreen ? 'h-[100dvh] min-w-full rounded-none sm:rounded-none' : 'h-[100dvh] sm:h-[85vh] sm:max-w-3xl sm:rounded-xl'}`} showCloseButton={false}>
                 {showCompletion ? (
                     <div className="flex-1 flex flex-col items-center justify-center p-6 md:p-12 text-center space-y-8 animate-in fade-in duration-300 overflow-y-auto">
-                        <div className="space-y-4">
-                            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                                <Trophy className="w-10 h-10 text-primary" />
+                        <div className="space-y-4 max-w-lg mx-auto">
+                            <div className="relative">
+                                <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+                                    <Trophy className="w-12 h-12 text-primary" />
+                                </div>
+                                <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-400 rounded-full animate-ping opacity-20" />
                             </div>
-                            <DialogTitle className="text-3xl font-bold text-foreground">Topic Completed!</DialogTitle>
-                            <p className="text-muted-foreground max-w-md mx-auto text-lg">
-                                You&apos;ve mastered {questions.length} questions in {currentQuestion.topic}. Keep the momentum going!
+
+                            <h2 className="text-4xl font-extrabold tracking-tight text-foreground">
+                                Topic Mastered!
+                            </h2>
+                            <p className="text-muted-foreground text-lg px-4 leading-relaxed">
+                                You&apos;ve successfully completed all <span className="text-foreground font-semibold">{questions.length}</span> questions in <span className="text-primary font-semibold">{currentQuestion.topic}</span>.
                             </p>
                         </div>
 
-                        <Button
-                            variant="ghost"
-                            onClick={onClose}
-                            className="text-muted-foreground hover:text-foreground"
-                        >
-                            Close
-                        </Button>
+                        {suggestedTopics.length > 0 && (
+                            <div className="w-full max-w-md space-y-4 pt-4 border-t border-border/50">
+                                <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">
+                                    Suggested Next Topics
+                                </p>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {suggestedTopics.map((topic) => (
+                                        <Button
+                                            key={topic}
+                                            variant="outline"
+                                            className="h-auto py-3 px-4 flex flex-col items-start gap-1 hover:border-primary hover:bg-primary/5 transition-all text-left group"
+                                            onClick={() => {
+                                                onSelectTopic(topic);
+                                                setShowCompletion(false);
+                                            }}
+                                        >
+                                            <span className="font-semibold text-foreground group-hover:text-primary transition-colors">{topic}</span>
+                                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                                                Practice <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+                                            </span>
+                                        </Button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="flex items-center gap-3 w-full max-w-xs pt-4">
+                            <Button
+                                variant="outline"
+                                onClick={() => {
+                                    setCurrentIndex(0);
+                                    setShowCompletion(false);
+                                }}
+                                className="flex-1 gap-2"
+                            >
+                                <RefreshCw className="w-4 h-4" />
+                                Restart
+                            </Button>
+                            <Button
+                                onClick={onClose}
+                                className="flex-1 bg-foreground text-background hover:bg-foreground/90"
+                            >
+                                Done
+                            </Button>
+                        </div>
                     </div>
                 ) : (
                     <>
@@ -235,53 +286,112 @@ export function TopicModal({ isOpen, onClose, questions, startIndex, onSelectTop
                                     </span>
                                 </div>
                             </div>
-                            <div className="absolute top-4 right-4 flex items-center gap-1">
-                                <button
-                                    onClick={toggleFullscreen}
-                                    className="rounded-full p-2 hover:bg-muted transition-colors focus:outline-none focus-visible:ring-0 focus-visible:bg-muted"
-                                    aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-                                >
-                                    {isFullscreen ? (
-                                        <Minimize2 className="w-5 h-5 text-muted-foreground" />
-                                    ) : (
-                                        <Maximize2 className="w-5 h-5 text-muted-foreground" />
-                                    )}
-                                </button>
-                                <button
-                                    onClick={onClose}
-                                    className="rounded-full p-2 hover:bg-muted transition-colors focus:outline-none focus-visible:ring-0 focus-visible:bg-muted"
-                                    aria-label="Close"
-                                >
-                                    <X className="w-5 h-5 text-muted-foreground" />
-                                </button>
-                            </div>
-                            {/* Progress Bar */}
-                            <div className="absolute bottom-0 left-0 h-[2px] bg-muted w-full">
-                                <div className="h-full bg-primary transition-all duration-300 ease-out" style={{ width: `${progress}%` }} />
-                            </div>
+
                         </div>
+                        {/* Progress Bar */}
+                        <div className="h-[2px] bg-muted w-full shrink-0">
+                            <div className="h-full bg-primary/50 transition-all duration-300 ease-out" style={{ width: `${progress}%` }} />
+                        </div>
+
+                        {isFullscreen && (
+                            <div className="fixed top-20 right-8 z-50 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                                <div className="flex items-center gap-1 bg-muted backdrop-blur-md  shadow-2xl rounded-full p-1.5 px-2">
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-8 w-8 rounded-full bg-muted"
+                                                    onClick={() => setFontSize(prev => Math.max(12, prev - 2))}
+                                                    disabled={fontSize <= 12}
+                                                >
+                                                    <Minus className="h-4 w-4" />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>Decrease font size</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-8 w-8 rounded-full bg-muted"
+                                                    onClick={() => setFontSize(prev => Math.min(32, prev + 2))}
+                                                    disabled={fontSize >= 32}
+                                                >
+                                                    <Plus className="h-4 w-4" />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>Increase font size</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="absolute top-4 right-4 flex items-center gap-1 z-50">
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <button
+                                            className="rounded-full p-2 hover:bg-muted transition-colors focus:outline-none focus-visible:ring-0 focus-visible:bg-muted hidden sm:block"
+                                            aria-label="Navigation Help"
+                                        >
+                                            <HelpCircle className="w-5 h-5 text-muted-foreground" />
+                                        </button>
+                                    </TooltipTrigger>
+                                    <TooltipContent >
+                                        <p>Use <span className="font-semibold text-background px-1 rounded-full">arrow keys</span> or <span className="font-semibold text-background px-1 rounded-full">swipe</span> to navigate</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <button
+                                            onClick={toggleFullscreen}
+                                            className="rounded-full p-2 hover:bg-muted transition-colors focus:outline-none focus-visible:ring-0 focus-visible:bg-muted"
+                                            aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+                                        >
+                                            {isFullscreen ? (
+                                                <Minimize2 className="w-5 h-5 text-muted-foreground" />
+                                            ) : (
+                                                <Maximize2 className="w-5 h-5 text-muted-foreground" />
+                                            )}
+                                        </button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>{isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+
+                            <button
+                                onClick={onClose}
+                                className="rounded-full p-2 hover:bg-muted transition-colors focus:outline-none focus-visible:ring-0 focus-visible:bg-muted"
+                                aria-label="Close"
+                            >
+                                <X className="w-5 h-5 text-muted-foreground" />
+                            </button>
+                        </div>
+
 
                         {/* Content - Single Column */}
                         <div
                             ref={scrollRef}
-                            className="flex-1 overflow-y-auto p-6 md:p-10 space-y-8 bg-muted/50 scroll-smooth"
+                            className={`flex-1 overflow-y-auto p-6 space-y-8 bg-muted/50 scroll-smooth relative ${isFullscreen ? 'md:p-10' : 'md:px-24 md:py-10'}`}
                             onTouchStart={handleTouchStart}
                             onTouchMove={handleTouchMove}
                             onTouchEnd={handleTouchEnd}
                             onWheel={handleWheel}
-                            onScroll={(e) => {
-                                const target = e.target as HTMLDivElement;
-                                const scrollTop = target.scrollTop;
-                                const scrollDelta = scrollTop - lastScrollTop.current;
-
-                                // Only update if scroll delta exceeds threshold (prevents flicker)
-                                if (scrollDelta > 15) {
-                                    setShowFooter(false);
-                                } else if (scrollDelta < -15) {
-                                    setShowFooter(true);
-                                }
-                                lastScrollTop.current = scrollTop;
-                            }}
                         >
                             {/* Question Section */}
                             <div className="space-y-4 max-w-4xl mx-auto">
@@ -291,7 +401,10 @@ export function TopicModal({ isOpen, onClose, questions, startIndex, onSelectTop
                             </div>
 
                             {/* Answer Section */}
-                            <div className="prose prose-lg prose-neutral bg-muted/50 p-8 rounded-md dark:prose-invert max-w-4xl mx-auto prose-headings:scroll-mt-20 prose-pre:bg-muted/50 prose-pre:border prose-pre:border-border/50 prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-li:text-gray-600 dark:prose-li:text-gray-300">
+                            <div
+                                className="prose prose-neutral bg-muted/50 p-8 rounded-md dark:prose-invert max-w-4xl mx-auto prose-headings:scroll-mt-20 prose-pre:bg-muted/50 prose-pre:border prose-pre:border-border/50 prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-li:text-gray-600 dark:prose-li:text-gray-300"
+                                style={{ fontSize: `${fontSize}px` }}
+                            >
                                 <ReactMarkdown
                                     remarkPlugins={[remarkGfm]}
                                     components={{
@@ -304,7 +417,9 @@ export function TopicModal({ isOpen, onClose, questions, startIndex, onSelectTop
                                                         style={vscDarkPlus}
                                                         language={match[1]}
                                                         PreTag="div"
-                                                        className="rounded-lg !bg-background/20 !p-6 text-sm md:text-base border border-border/50 my-6 shadow-sm"
+                                                        className="rounded-lg !bg-background/20 !p-6 border border-border/50 my-6 shadow-sm"
+                                                        customStyle={{ fontSize: `${fontSize}px`, lineHeight: '1.6' }}
+                                                        codeTagProps={{ style: { fontSize: `${fontSize}px`, lineHeight: '1.6' } }}
                                                         {...props}
                                                     >
                                                         {String(children).replace(/\n$/, '')}
@@ -314,9 +429,7 @@ export function TopicModal({ isOpen, onClose, questions, startIndex, onSelectTop
                                             return (
                                                 <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-primary font-medium" {...props}>{children}</code>
                                             );
-                                            return (
-                                                <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-primary font-medium" {...props}>{children}</code>
-                                            );
+                                            // Duplicate return removed
                                         },
                                         h1: ({ children, ...props }) => <h1 className="text-2xl font-bold mt-8 mb-4 text-gray-800 dark:text-gray-100" {...props}>{children}</h1>,
                                         h2: ({ children, ...props }) => <h2 className="text-xl font-bold mt-8 mb-4 text-gray-800 dark:text-gray-100" {...props}>{children}</h2>,
@@ -337,33 +450,43 @@ export function TopicModal({ isOpen, onClose, questions, startIndex, onSelectTop
                             </div>
                         </div>
 
-                        {/* Footer - hides on scroll down, shows on scroll up */}
-                        <div
-                            className={`border-t p-4 md:p-6 flex justify-between items-center bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shrink-0 transition-all duration-300 ${showFooter ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 absolute bottom-0 left-0 right-0'}`}
-                            onMouseEnter={() => setShowFooter(true)}
-                        >
+                        {/* Floating Navigation Buttons - Visible on hover or always? Always for better UX */}
+                        {currentIndex > 0 && (
                             <Button
-                                variant="ghost"
+                                variant="outline"
+                                size="icon"
                                 onClick={handlePrev}
-                                disabled={currentIndex === 0}
-                                className="gap-2 text-muted-foreground hover:text-foreground focus-visible:ring-0 focus-visible:bg-muted"
+                                className="fixed left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full shadow-lg bg-background/80 backdrop-blur-sm border-border hover:bg-background hover:scale-105 transition-all z-50 hidden md:flex"
+                                aria-label="Previous Question"
                             >
-                                <ChevronLeft className="w-5 h-5" /> Previous
+                                <ChevronLeft className="w-6 h-6" />
                             </Button>
-                            <div className="text-sm text-muted-foreground hidden sm:block font-medium">
-                                Use <kbd className="px-2 py-1 bg-muted rounded text-xs mx-1">←</kbd> <kbd className="px-2 py-1 bg-muted rounded text-xs mx-1">→</kbd> to navigate or <span className="px-2 py-1 bg-primary/10 rounded text-xs mx-1 text-primary/80">Swipe</span>
-                            </div>
+                        )}
+
+                        {currentIndex < questions.length - 1 && (
                             <Button
-                                variant="default"
+                                variant="outline"
+                                size="icon"
                                 onClick={handleNext}
-                                className="gap-2 px-6 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+                                className="fixed right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full shadow-lg bg-background/80 backdrop-blur-sm border-border hover:bg-background hover:scale-105 transition-all z-50 hidden md:flex"
+                                aria-label="Next Question"
                             >
-                                {currentIndex === questions.length - 1 ? 'Finish' : 'Next'} <ChevronRight className="w-4 h-4" />
+                                <ChevronRight className="w-6 h-6" />
                             </Button>
-                        </div>
+                        )}
+
+                        {/* Mobile Navigation Hint (since we hid buttons on mobile) */}
+                        {/* Or maybe we should keep small buttons on mobile? 
+                                 Swipe is good but sometimes users miss it.
+                                 The original footer had "Use arrow keys or swipe".
+                                 Let's trust the toast and swipe for mobile to keep UI clean, 
+                                 or maybe add small indicators? 
+                                 For now, just the buttons for desktop. 
+                             */}
+
                     </>
                 )}
             </DialogContent>
-        </Dialog>
+        </Dialog >
     );
 }

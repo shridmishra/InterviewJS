@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ problemTitle, onBack, onNavigate }) => 
           ) : (
             <div className="flex items-center gap-8">
               <button onClick={() => onNavigate && onNavigate('')} className="text-xl font-bold text-foreground tracking-tight cursor-pointer">
-                practice<span className="text-primary">JS</span>
+                interview<span className="text-primary">JS</span>
               </button>
               <nav className="hidden md:flex items-center gap-6">
                 <a href="/practice/js" className={getLinkClass('/practice')}>

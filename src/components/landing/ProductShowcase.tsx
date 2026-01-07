@@ -39,7 +39,7 @@ export const ProductShowcase = () => {
         </div>
 
         <div className="relative mt-10 sm:mt-20">
-          <Image src={src} alt="Practice JS Product Showcase" className="mx-auto w-full max-w-7xl rounded-lg " />
+          <Image src={src} alt="Interview JS Product Showcase" className="mx-auto w-full max-w-7xl rounded-lg " />
           <motion.img src={pyramidImage.src} alt="Pyramid Shape" height={200} width={200} className=" hidden md:block md:absolute -top-24 -right-10" style={{ translateY }} />
           <motion.img src={tubeImage.src} alt="Tube Shape" height={180} width={180} className="hidden md:block md:absolute bottom-40 left-0" style={{ translateY }} />
         </div>
