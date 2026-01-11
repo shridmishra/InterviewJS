@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '../../context/AuthContext';
-import { SunIcon, MoonIcon, ChevronLeftIcon, UserIcon, LogOutIcon } from './Icons';
+import { useAuth } from '../../../context/AuthContext';
+import { SunIcon, MoonIcon, ChevronLeftIcon, UserIcon, LogOutIcon } from '../icons';
 import { useTheme } from 'next-themes';
-import Dropdown from '../ui/Dropdown';
+import Dropdown from '../../ui/Dropdown';
 import { usePathname } from 'next/navigation';
 
 interface HeaderProps {

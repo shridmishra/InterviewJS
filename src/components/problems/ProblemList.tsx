@@ -11,7 +11,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@
 
 import { FaPlus, FaRandom, FaChevronUp, FaChevronDown, FaYoutube } from 'react-icons/fa';
 import Dropdown from '../ui/Dropdown';
-import { BookmarkIcon, SearchIcon } from '../common/Icons';
+import { BookmarkIcon, SearchIcon } from '../common/icons';
 import NotesModal from '../modals/NotesModal';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';

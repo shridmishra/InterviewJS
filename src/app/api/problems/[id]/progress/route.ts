@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/dbConnect';
+import dbConnect from '@/lib/db/connect';
 import UserProblemData from '@/models/UserProblemData';
-import { authMiddleware } from '@/lib/auth';
+import { authMiddleware } from '@/lib/auth/auth';
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await dbConnect();

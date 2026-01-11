@@ -1,8 +1,8 @@
 
 import { FaGithub } from "react-icons/fa";
-import Linkedin from "@/assets/social-linkedin.svg";
+import Linkedin from "@/assets/icons/social/social-linkedin.svg";
 
-import Xlogo from "@/assets/social-x.svg";
+import Xlogo from "@/assets/icons/social/social-x.svg";
 export const Footer = () => {
 
 

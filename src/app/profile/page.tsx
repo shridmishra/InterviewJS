@@ -2,7 +2,7 @@
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import Header from '../../components/common/Header';
+import Header from '../../components/common/header/Header';
 import ProfilePage from '../../components/profile/ProfilePage';
 
 import ProfileSkeleton from '../../components/profile/ProfileSkeleton';

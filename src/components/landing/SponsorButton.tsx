@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { HeartIcon } from '@/components/common/Icons';
+import { HeartIcon } from '@/components/common/icons';
 import Image from 'next/image';
 import upiImage from '@/assets/upi.jpg';
 

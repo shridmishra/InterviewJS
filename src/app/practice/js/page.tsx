@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ProblemListPage from '../../../components/problems/ProblemList';
-import Header from '../../../components/common/Header';
+import Header from '../../../components/common/header/Header';
 import { useRouter } from 'next/navigation';
 import { useChallenges } from '../../../hooks/useChallenges';
 import { Problem } from '../../../types';

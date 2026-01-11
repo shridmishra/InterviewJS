@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/dbConnect';
+import dbConnect from '@/lib/db/connect';
 import UserProblemData from '@/models/UserProblemData';
-import { authMiddleware } from '@/lib/auth';
+import { authMiddleware } from '@/lib/auth/auth';
 import { ProblemStatus } from '@/types';
-import { getAllProblems } from '@/lib/problemUtils';
+import { getAllProblems } from '@/lib/utils/problem-utils';
 
 export const dynamic = 'force-dynamic';
 

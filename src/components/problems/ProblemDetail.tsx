@@ -5,7 +5,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Problem, ProblemStatus, TestResult } from '../../types';
 import { Button } from '@/components/ui/button';
-import CodeEditor from '../common/CodeEditor';
+import CodeEditor from '../editor/CodeEditor';
 import TestResultsDisplay from '../quiz/TestResultsDisplay';
 import { FiMaximize, FiMinimize, FiTrash2 } from 'react-icons/fi';
 import { FaPlus, FaBookmark } from 'react-icons/fa';

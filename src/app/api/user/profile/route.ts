@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/dbConnect';
+import dbConnect from '@/lib/db/connect';
 import User from '@/models/User';
 import UserProblemData from '@/models/UserProblemData';
-import { authMiddleware } from '@/lib/auth';
-import { getAllProblems } from '@/lib/problemUtils';
+import { authMiddleware } from '@/lib/auth/auth';
+import { getAllProblems } from '@/lib/utils/problem-utils';
 
 export async function GET(req: NextRequest) {
   await dbConnect();

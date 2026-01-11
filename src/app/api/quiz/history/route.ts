@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/dbConnect';
+import dbConnect from '@/lib/db/connect';
 import UserAnsweredQuestion from '@/models/UserAnsweredQuestion'; // Import the new model
-import { authMiddleware } from '@/lib/auth';
+import { authMiddleware } from '@/lib/auth/auth';
 
 export async function GET(req: NextRequest) {
   await dbConnect();

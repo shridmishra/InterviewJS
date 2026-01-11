@@ -1,11 +1,11 @@
 'use client';
 import Image from "next/image";
-import pyramidImage from "@/assets/pyramid.png";
-import tubeImage from "@/assets/tube.png";
+import pyramidImage from "@/assets/images/illustrations/pyramid.png";
+import tubeImage from "@/assets/images/illustrations/tube.png";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import ProductImage from '@/assets/product-image.png';
-import ProductImageDark from '@/assets/product-image-dark.png';
+import ProductImage from '@/assets/images/product/product-image.png';
+import ProductImageDark from '@/assets/images/product/product-image-dark.png';
 import { useTheme } from "next-themes";
 
 export const ProductShowcase = () => {

@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { TopicModal } from '@/components/topics/TopicModal';
 import type { TopicQuestion } from '@/data/topics/types';
-import Header from '@/components/common/Header';
+import Header from '@/components/common/header/Header';
 import { useChallenges } from '@/hooks/useChallenges';
 import { ProblemStatus } from '@/types';
 

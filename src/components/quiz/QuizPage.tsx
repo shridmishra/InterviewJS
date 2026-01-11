@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Button } from '@/components/ui/button';
 import QuizModal from './QuizModal';
 import { QuizQuestion } from '@/data/quizzes/types';
-import Header from '@/components/common/Header';
+import Header from '@/components/common/header/Header';
 import {
     FaCode,
     FaBrain,

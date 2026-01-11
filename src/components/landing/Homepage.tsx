@@ -8,9 +8,9 @@ import { useAuth } from '../../context/AuthContext';
 
 import { easeInOut, motion, } from "framer-motion";
 import { useRef } from "react";
-import ArrowIcon from "@/assets/arrow-right.svg";
+import ArrowIcon from "@/assets/icons/arrow-right.svg";
 import jsImage from '@/assets/javascript.png';
-import { LogOutIcon, UserIcon, MoonIcon, SunIcon } from '../common/Icons';
+import { LogOutIcon, UserIcon, MoonIcon, SunIcon } from '../common/icons';
 import { VscGithubInverted } from "react-icons/vsc";
 import { useTheme } from 'next-themes';
 

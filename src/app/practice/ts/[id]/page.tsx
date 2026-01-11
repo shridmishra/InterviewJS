@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import ProblemSolvingPage from '@/components/problems/ProblemDetail';
-import Header from '@/components/common/Header';
+import Header from '@/components/common/header/Header';
 import { useRouter, useParams } from 'next/navigation';
 import { useChallenges } from '@/hooks/useChallenges';
 import { useAuth } from '@/context/AuthContext';
